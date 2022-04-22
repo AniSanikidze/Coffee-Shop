@@ -2,9 +2,10 @@
   "name": "coffee-shop",
   "version": "1.0.0",
   "description": "E-commerce website for a coffee shop using MERN stack",
-  "main": "server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": " nodemon backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,13 @@
   },
   "homepage": "https://github.com/AniSanikidze/Coffee-Shop#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.3.0",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
