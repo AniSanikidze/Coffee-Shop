@@ -34,10 +34,11 @@ const logIn = async (req, res) => {
     }
 
     try{
+        const {password,... others} = user._doc
         if (await bcrypt.compare(req.body.password, user.password)) {
             res.status(201).json({
             success: true,
-            message: "The user was logged in"})
+            others})
         }
         else{
             res.status(404).json({
