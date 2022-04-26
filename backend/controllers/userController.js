@@ -1,9 +1,11 @@
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
 
 //@desc GET response - Getting all users
 //@route GET localhost:8080/api/users
 const getAllUsers = async (req, res) => {
-    const users = await User.find()
+    const query = req.query.new
+    const users = query ? await User.find().sort({_id: -1}).limit(1) : await User.find()
     res.status(200).json({
         success:true,
         users})
@@ -19,36 +21,24 @@ const getUser = async (req, res) => {
         specificUser})
 }
 
-// //@desc POST response - Registering a user
-// //@route POST localhost:8080/register
-// const registerUser = (req, res) => {
-//     const user = new User(req.body)
-
-//     try{
-//         user.save()
-//         res.status(201).json({
-//             success: true,
-//             message: "New user was created"})
-//     }
-//     catch (err) {
-//         console.log(err)
-//         res.status(404).json(err)
-//     }
-// }
-
-//@desc PUT response - Updating a green coffee product
-//@route PUT localhost:8080/api/greencoffee/:id
-const updateGreenCoffeeProduct = async (req, res) => {
+//@desc PUT response - Updating a user
+//@route PUT localhost:8080/api/users/:id
+const updateUser = async (req, res) => {
     const id = req.params.id
 
+    if (req.body.password) {
+        const salt = await bcrypt.genSalt()
+        req.body.password = await bcrypt.hash(req.body.password, salt)
+    }
+
     try{
-        const updatedGreenCoffee = await greenCoffee.findByIdAndUpdate(id,req.body,
+        const updatedUser = await User.findByIdAndUpdate(id,req.body,
         {new: true,
         runValidators: true,
         useFindAndModify:false})
         res.status(201).json({
             success: true,
-            updatedGreenCoffee})
+            updatedUser})
     }
     catch (err) {
         console.log(err)
@@ -56,16 +46,16 @@ const updateGreenCoffeeProduct = async (req, res) => {
     }
 }
 
-//@desc DELETE response - Deleting a specific green coffee product by id
-//@route DELETE localhost:8080/api/greencoffee/:id
-const deleteGreenCoffeeProduct = async (req, res) => {
+//@desc DELETE response - Deleting a specific user by id
+//@route DELETE localhost:8080/api/users/:id
+const deleteUser = async (req, res) => {
     const id = req.params.id
 
     try{
-        await greenCoffee.findByIdAndDelete(id)
+        await User.findByIdAndDelete(id)
         res.status(200).json({
             success: true,
-            message: "Product was deleted"})
+            message: "User has been deleted"})
     }
     catch (err) {
         console.log(err)
@@ -75,8 +65,7 @@ const deleteGreenCoffeeProduct = async (req, res) => {
 
 module.exports = {
     getAllUsers,
-    getGreenCoffeeProducts,
-    getGreenCoffeeProduct,
-    updateGreenCoffeeProduct,
-    deleteGreenCoffeeProduct
+    getUser,
+    updateUser,
+    deleteUser
 }

@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 //@desc POST response - Registering a user
 //@route POST localhost:8080/api/register
@@ -11,12 +12,14 @@ const registerUser = async (req, res) => {
         email: req.body.email,
         password: hashedPassword
     })
-
+    const {password,... others} = user._doc
     try{
         user.save()
         res.status(201).json({
             success: true,
-            message: "New user was created"})
+            ...others,
+            token: generateToken(user.id_,user.role)
+        })
     }
     catch (err) {
         console.log(err)
@@ -38,7 +41,8 @@ const logIn = async (req, res) => {
         if (await bcrypt.compare(req.body.password, user.password)) {
             res.status(201).json({
             success: true,
-            others})
+            ...others,
+            token: generateToken(user.id,user.role)})
         }
         else{
             res.status(404).json({
@@ -51,6 +55,16 @@ const logIn = async (req, res) => {
         console.log(err)
         res.status(500).json(err)
     }
+}
+
+const generateToken = (id,role) => {
+    const accessToken = jwt.sign({
+        id: id,
+        role: role
+    }, 
+    process.env.JWT_SECRET,
+    {expiresIn: process.env.JWT_EXPIRE_TIME})
+    return accessToken
 }
 
 module.exports = {registerUser, logIn}

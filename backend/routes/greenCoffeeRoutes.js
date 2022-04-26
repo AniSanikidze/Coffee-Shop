@@ -7,10 +7,11 @@ const {createGreenCoffeeProduct,
        deleteGreenCoffeeProduct,
        getGreenCoffeeMiddleware
 } = require('../controllers/greenCoffeeControllers')
+const { verifyTokenAndAdmin } = require('../middleware/authMiddleware')
 
-router.post('/green-coffee/new', createGreenCoffeeProduct)
+router.post('/green-coffee/new', verifyTokenAndAdmin, createGreenCoffeeProduct)
 router.get('/green-coffee', getGreenCoffeeProducts)
-router.route('/green-coffee/:id').get(getGreenCoffeeMiddleware,getGreenCoffeeProduct).put(getGreenCoffeeMiddleware,updateGreenCoffeeProduct)
-.delete(getGreenCoffeeMiddleware,deleteGreenCoffeeProduct)
+router.route('/green-coffee/:id').get(getGreenCoffeeMiddleware,getGreenCoffeeProduct).put(verifyTokenAndAdmin,getGreenCoffeeMiddleware,updateGreenCoffeeProduct)
+.delete(verifyTokenAndAdmin,getGreenCoffeeMiddleware,deleteGreenCoffeeProduct)
 
 module.exports = router
