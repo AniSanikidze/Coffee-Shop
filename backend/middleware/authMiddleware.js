@@ -1,44 +1,33 @@
 const jwt = require('jsonwebtoken')
+const user = require('../models/user')
 
-const verifyToken = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    if (authHeader) {
-      const token = authHeader.split(" ")[1];
-      jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json("Token is not valid!");
-        }
-        
-        req.user = user;
+const verifyToken = async (req, res, next) => {
+    const  {token}  = req.cookies;
+    if (token) {
+       const decodedUserData = jwt.verify(token, process.env.JWT_SECRET)
+        req.user = await user.findById(decodedUserData.id);
         next();
-      });
     } else {
       return res.status(401).json("Not Authorized!");
     }
 };
 
-const verifyTokenAndUserRole = (req,res,next) => {
-    verifyToken(req, res, () => {
-        if (req.user.id == req.params.id || req.user.role == 'admin'){
-            next()
-        } else {
-            res.status(403).json('Forbidden action')
-        }
-    })
-}
-
-const verifyTokenAndAdmin = (req, res,next) => {
+const isAuthenticatedAdmin = (req, res,next) => {
     verifyToken(req, res, () =>  {
-        if (req.user.role == 'admin'){
+        try{
+           if (req.user.role === 'admin'){
             next()
         } else {
-            res.status(403).json('Forbidden action')
+            return res.status(403).json('Forbidden action')
+        } 
+        } catch (err){
+            res.status(400).json({message: err.message})
         }
+        
     })
 }
 
 module.exports = {
-    verifyTokenAndUserRole,
-    verifyTokenAndAdmin,
+    isAuthenticatedAdmin,
     verifyToken
 }
