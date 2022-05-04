@@ -1,71 +1,162 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 
-//@desc GET response - Getting all users
-//@route GET localhost:8080/api/users
 const getAllUsers = async (req, res) => {
     const query = req.query.new
     const users = query ? await User.find().sort({_id: -1}).limit(1) : await User.find()
+    const usersArray = []
+    users.forEach((user) => {
+      const {password, ...others} = user._doc
+      usersArray.push(others)
+    })
     res.status(200).json({
         success:true,
-        users})
+        usersArray})
 }
 
-//@desc GET response - Getting specific user by id
-//@route GET localhost:8080/api/users/:id
 const getUser = async (req, res) => {
-    const id = req.params.id
-    const specificUser = await User.findById(id)
-    res.status(200).json({
-        success:true,
-        specificUser})
+  retrievedUser = res.foundItem
+  res.status(200).json({
+    success:true,
+    retrievedUser
+  })
 }
 
-//@desc PUT response - Updating a user
-//@route PUT localhost:8080/api/users/:id
-const updateUser = async (req, res) => {
-    const id = req.params.id
+const updateUserDetails = async (req, res) => {
+  try{
+      retrievedUser = req.user
+      const updatedUser = await retrievedUser.updateOne(req.body,
+      {new: true,
+      runValidators: true,
+      useFindAndModify:false})
+      res.status(201).json({
+          success: true,
+          updatedUser})
+  }
+  catch (err) {
+      res.status(500).json({message: err.message})
+  }
+}
 
-    if (req.body.password) {
-        const salt = await bcrypt.genSalt()
-        req.body.password = await bcrypt.hash(req.body.password, salt)
+const updateUserPassword = async (req, res) => {
+    const oldPassword = req.body.oldPassword
+    const newPassword = req.body.newPassword
+    const confirmPassword = req.body.confirmPassword
+
+    if(newPassword !== confirmPassword) {
+      return res.status(400).json({message: "Passwords do not match"})
     }
-
-    try{
-        const updatedUser = await User.findByIdAndUpdate(id,req.body,
-        {new: true,
-        runValidators: true,
-        useFindAndModify:false})
+    try {
+      if (await bcrypt.compare(oldPassword, req.user.password)){
+        const salt = await bcrypt.genSalt()
+        hashedPassword = await bcrypt.hash(newPassword, salt)
+        const user = req.user
+        const {password, ...others} = user._doc
+        user.password = hashedPassword
+        await user.save()
         res.status(201).json({
             success: true,
-            updatedUser})
+            others})
+      }
     }
     catch (err) {
-        console.log(err)
-        res.status(404).json(err)
+        res.status(500).json({message: err.message})
     }
 }
 
-//@desc DELETE response - Deleting a specific user by id
-//@route DELETE localhost:8080/api/users/:id
-const deleteUser = async (req, res) => {
-    const id = req.params.id
+const updateUserRole = async(req, res) => {
+  retrievedUser = res.foundItem
+  const role = req.body.role
+  if (!role) {
+    res.status(400).json({message: "Role was not provided in the request body"})
+  }
+  try{
+    const updatedUser = await retrievedUser.updateOne(role,
+    {new: true,
+    runValidators: true,
+    useFindAndModify:false})
+    res.status(201).json({
+        success: true,
+        updatedUser})
+  } catch (err) {
+      res.status(500).json({message: err.message})
+  }
+}
 
-    try{
-        await User.findByIdAndDelete(id)
-        res.status(200).json({
-            success: true,
-            message: "User has been deleted"})
-    }
-    catch (err) {
-        console.log(err)
-        res.status(404).json(err)
+const deleteUserByAdmin = async (req, res) => {
+  const retrievedUser = res.foundItem
+  try{
+    await retrievedUser.remove()
+    res.status(200).json({
+        success: true,
+        message: "User was deleted"})
+  }
+  catch (err) {
+      res.status(500).json({message: err.message})
+  }
+}
+
+const deleteUser = async (req, res) => {
+  try{
+      const retrievedUser = req.user
+      await retrievedUser.remove()
+      res.status(200).cookie("token", null, {expires: new Date(
+        Date.now()
+      ),
+      httpOnly: true}).json({
+          success: true,
+          message: "User has been deleted"})
+  }
+  catch (err) {
+      res.status(500).json({message: err.message})
+  }
+}
+
+const getUserStats = async (req, res) => {
+  const date = new Date();
+  const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
+  try {
+    const data = await User.aggregate([
+      { $match: { createdAt: { $gte: lastYear } } },
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+        },
+      },
+      {
+        $group: {
+          _id: "$month",
+          total: { $sum: 1 },
+        },
+      },
+    ]);
+    res.status(200).json(data)
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+const getProfileDetails = async(req, res) => {
+  try {
+    const specificUser = req.user
+    res.status(200).json({
+        success:true,
+        specificUser
+      })
+    } catch (err) {
+      res.status(500).json({message: err.message})
     }
 }
 
 module.exports = {
     getAllUsers,
     getUser,
-    updateUser,
-    deleteUser
+    updateUserPassword,
+    updateUserDetails,
+    deleteUser,
+    getUserStats,
+    getProfileDetails,
+    updateUserRole,
+    deleteUserByAdmin
 }
