@@ -1,0 +1,17 @@
+import React from 'react';
+import Footer from '../components/footer/Footer';
+import Navbar from '../components/navbar/Navbar';
+import UserProfile from '../components/user/UserProfile';
+import ForgotPasswordForm from '../components/userForms/forgotPasswordForm';
+
+function ForgotPassword({user}) {
+  return (
+    <>
+    <Navbar/>
+        <ForgotPasswordForm/>
+        <Footer/>
+    </>
+  );
+}
+
+export default ForgotPassword;

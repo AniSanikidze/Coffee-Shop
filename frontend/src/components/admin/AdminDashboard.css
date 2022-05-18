@@ -1,0 +1,6 @@
+.side-bar-container{
+    display: flex;
+}
+.dashboard-pages{
+    flex: 4;
+}

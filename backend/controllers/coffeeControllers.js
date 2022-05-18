@@ -4,10 +4,10 @@ const ApiFeatures = require('../utils/apiFeatures')
 const getCoffeeProducts = async (req, res) => {
     try{
         const apiFeatures = new ApiFeatures(coffee.find(),req.query).search().filter()
-        const coffeeProducts = await apiFeatures.query
+        const products = await apiFeatures.query
         res.status(200).json({
             success:true,
-            coffeeProducts})
+            products})
     }
     catch (err){
         res.status(500).json({message: err.message})
@@ -25,10 +25,11 @@ const getCoffeeProduct = async (req, res) => {
 const createCoffeeProduct = async (req, res) => {
     try{
         const newcoffee = new coffee(req.body)
+        console.log(newcoffee)
         await newcoffee.save()
         res.status(201).json({
             success: true,
-            newcoffee
+            product: newcoffee
         })
     }
     catch (err) {
@@ -38,6 +39,7 @@ const createCoffeeProduct = async (req, res) => {
 
 const updateCoffeeProduct = async (req, res) => {
     try{
+        console.log(req.body)
         const updatedcoffee = await res.foundItem.updateOne(req.body, 
             {
                 new: true,
@@ -75,6 +77,7 @@ const createCoffeeReview = async (req, res) => {
         rating: rating,
         comment: comment
     }
+
     try {
         const coffeeProduct = await coffee.findById(coffeeId)
         coffeeProduct.reviews.push(review)
@@ -92,7 +95,7 @@ const createCoffeeReview = async (req, res) => {
         
         await coffeeProduct.save()
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: "Review was successfully added"
         })
@@ -106,7 +109,7 @@ const getCoffeeReviews = async (req, res) => {
         const coffeeProduct = res.foundItem
         res.status(200).json({
             success: true,
-            coffeeProductReviews: coffeeProduct.reviews
+            reviews: coffeeProduct.reviews
         })
     } catch (err) {
         res.status(500).json(err.message)
@@ -128,10 +131,7 @@ const deleteCoffeeReview = async (req,res) => {
         })
         retrievedcoffee.rating = sumOfRatings/retrievedcoffee.numOfReviews
         await retrievedcoffee.save()
-        res.status(200).json({
-            success: true,
-            coffeeProductReviews: coffeeProductReviews
-        })
+        res.status(200).json({success: true})
     } catch (err) {
         res.status(500).json(err.message)
     }

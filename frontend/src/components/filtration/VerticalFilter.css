@@ -1,0 +1,54 @@
+.vertical-filter-container {
+    margin: 2rem;
+    width: 180px;
+    margin-left: 3rem;
+    position: relative;
+}
+
+.MuiSlider-root {
+    color:#717171 !important;
+}
+.MuiSlider-thumb {
+    width: 10px !important;
+    height: 10px !important
+}
+
+.filter-content {
+    padding-top: 1rem;
+    position: sticky;
+}
+
+.filter-content p {
+    margin-bottom: 0.8rem;
+    color: #555555;
+    font-family: 'firago' !important;
+    text-transform: uppercase;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.5rem;
+}
+
+.filter-options li{
+    list-style: none;
+    color: #717171;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'firago' !important;
+}
+
+.filter-options li:hover{
+    text-decoration: underline;
+    color: #555555;
+}
+
+.filter-div {
+    border-top: 1px solid rgb(190, 190, 190);
+}
+
+.filter-inner-div {
+    margin-top:1rem;
+    margin-bottom: 1rem;
+}

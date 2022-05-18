@@ -56,7 +56,8 @@ const updateCart = async (req, res) => {
                 runValidators: true,
                 useFindAndModify:false
             })
-        res.status(201).json({success: true,updatedCart})
+        res.status(201).json({success: true,
+            cart: updatedCart})
     }
     catch (err) {
         res.status(500).json({message: err.message})

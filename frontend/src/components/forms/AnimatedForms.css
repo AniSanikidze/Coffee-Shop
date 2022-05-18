@@ -1,0 +1,89 @@
+.form-content {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.62);
+}
+
+.login-signup-wrapper {
+  max-height: 575px !important;
+  min-height: 70px;
+  /* height: 575px; */
+  width: 450px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  /* border-radius: 5px; */
+  box-shadow: 0px 2px 7px rgba(0,0,0,1.2);
+  overflow: hidden;
+  background: rgb(255, 255, 255);
+}
+
+.form-buttons {
+  width: 100%;
+  opacity: 1;
+  margin-bottom: 1em;
+  margin-top: 2em;
+  /* margin: 0 2em; */
+  text-align: center;
+  justify-content: center;
+}
+/* .form-buttons h1 {
+  width: 100%;
+  text-align: center !important;
+} */
+
+#loginBtn, #signupBtn {
+  font-size: 1.2em;
+  border:0px;
+  cursor: pointer;
+  height: 50px;
+  width: 50%;
+  transition: all .2s ease;
+}
+
+button:focus {
+  outline: 0px;
+}
+
+button.active {
+  padding-bottom: 10px;
+}
+
+/*Form positioning and animation */
+
+.form-group {
+  margin: 0 2em;
+}
+
+form {
+  position: relative;
+  transition: all .3s ease;
+  top: - 100px;
+}
+
+form#signupform {
+  left:500px;
+  top:-280px;
+  position:relative;
+}
+
+@media screen and (max-width: 720px) {
+  .login-signup-wrapper {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .login-signup-wrapper {
+    width: 300px;
+    margin-top: 15%;
+    height: 570px;
+  }
+}

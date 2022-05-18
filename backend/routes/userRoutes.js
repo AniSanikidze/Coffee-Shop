@@ -87,7 +87,7 @@ router.route('/users/:id').get(isAuthenticatedAdmin,findMiddleware(User),getUser
  * @swagger
  * /api/users/{id}:
  *  put:
- *    summary: Updates user's role - Admin Accessibility only
+ *    summary: Updates user - Admin Accessibility only
  *    tags: [Admin]
  *    parameters:
  *      - in: path
@@ -215,6 +215,9 @@ router.put('/my-profile/update/password', verifyToken, updateUserPassword)
  *                 username:
  *                  type: string
  *                  example: newtestusername
+ *                 email:
+ *                  type: string
+ *                  example: newtestemail
  *    responses:
  *      201:
  *        description: Successfully updated user

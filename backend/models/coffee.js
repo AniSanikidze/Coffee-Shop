@@ -92,10 +92,6 @@ const coffeeSchema = new mongoose.Schema({
     origin: {
         type:String
     },
-    category: {
-        type:String,
-        required: [true, "Please enter whether the coffee is green or roasted"]
-    },
     desc: {
         type:String,
         required: [true, "Please enter coffee description"],
@@ -114,7 +110,6 @@ const coffeeSchema = new mongoose.Schema({
         type:Number,
         required: [true, "Please enter the price of the coffee"]
     },
-    bitterness: {type:Number},
     roastLevel: {type:String},
     imgs: [{
         url: {type:String}
