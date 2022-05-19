@@ -1,14 +1,9 @@
 import { useState } from 'react'
 
 const SelectLogic = () => {
-    const [searchResult, setSearchResult] = useState(false);
+    const [searchResult] = useState(false);
     const [sortResult, setSortResult] = useState(false);
     const [coffeeType, setCoffeeType] = useState("Whole Beans")
-
-    // const searchOptions = [
-    //     { value: 'name', label: 'Search by Name' },
-    //     { value: 'location', label: 'Search by Location' }
-    // ];
 
     const sortOptions = (sortResult !== false ?
         [
@@ -34,12 +29,6 @@ const SelectLogic = () => {
             { value: "Filter Machine",label: 'Filter Machine' }
         ])
 
-
-
-    // const setSearchResultHandler = e => {
-    //     setSearchResult(e.value);
-    // }
-
     const selectCoffeeTypeHandler = e => {
         setCoffeeType(e.value)
     }
@@ -51,8 +40,6 @@ const SelectLogic = () => {
     return {
         sortResult,searchResult,sortOptions,
         coffeeType,selectCoffeeTypeHandler,selectCoffeeTypeOptions,
-        //  searchOptions, sortOptions,
-        // setSearchResultHandler, 
         setSortResultHandler
     }
 }

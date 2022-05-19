@@ -12,6 +12,13 @@ import { UPDATE_PRODUCT_RESET } from "../../../constants/productConstants";
 import { useHistory } from "react-router-dom";
 import Loader from "../../loading/Loader";
 import './UpdateProductForm.css'
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import app from "../../firebase";
 
 const UpdateProduct = ({ match }) => {
   const dispatch = useDispatch();
@@ -26,7 +33,7 @@ const UpdateProduct = ({ match }) => {
   } = useSelector((state) => state.adminProduct);
 
   const [productName, setProductName] = useState("");
-  const [singleOrigin, setSingleOrigin] = useState(true)
+  const [singleOrigin, setSingleOrigin] = useState(null)
   const [origin, setOrigin] = useState("")
   const [price, setPrice] = useState(0);
   const [aroma,setAroma] = useState("");
@@ -36,10 +43,7 @@ const UpdateProduct = ({ match }) => {
   const [bagSize, setBagSize] = useState(0)
   const [roastLevel, setRoastLevel] = useState("");
   const [stock, setStock] = useState(0);
-  const [images, setImages] = useState([]);
-  const [oldImages, setOldImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
-
+  const [img,setImg] = useState(null)
 
   const productId = match.params.id;
 
@@ -73,77 +77,74 @@ const UpdateProduct = ({ match }) => {
 
   useEffect(() => {
       dispatch(getProductInfo(productId))
-    //   if ()
-    // if (product && product._id !== productId) {
-    //     dispatch(getProductInfo(productId));
-    //   } else
     if(!loading){
              if (product){
           console.log(product)
         setProductName(product.productName);
         setDesc(product.desc);
         setPrice(product.price);
-      //   setFlavor(product.flavor)
         setSingleOrigin(product.singleOrigin)
         setOrigin(product.origin);
         setRoastLevel(product.roastLevel)
         setBagSize(product.bagSize)
         setStock(product.stock); 
-        //  console.log(productName)
+        setAroma(product.aroma);
+        setFinish(product.finish);
+        setFlavor(product.flavor)
      }
     }
-
-      //   setOldImages(product.images);
-    //   }
   },[loading])
   console.log(roastLevel)
 
   const updateProductSubmitHandler = (e) => {
     e.preventDefault();
-
-    const myForm = new FormData();
-
-    // myForm.set("productName", productName);
-    // myForm.set("price", price);
-    // myForm.set("desc", desc);
-    // // myForm.set("category", category);
-    // myForm.set("stock", stock);
-
-    // images.forEach((image) => {
-    //   myForm.append("images", image);
-    // });
-    dispatch(updateProduct(productId,price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName));
+    console.log(img)
+    if (img.name){
+      const fileName = new Date().getTime() + img.name;
+      const storage = getStorage(app);
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, img);
+  
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+          }
+        },
+        
+      (error) => {
+        // Handle unsuccessful uploads
+      },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            let img = downloadURL
+            dispatch(updateProduct(productId,price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName,img));
+          });
+        }
+      );
+    }
+    else{
+      dispatch(updateProduct(productId,price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName));
+    }
+   
   };
   const roastLevels = [
     "Light",
     "Medium",
     "Dark"
 ]
-const coffeeType = [
-    "Single Origin",
-    "Blended"
-]
 
-  const updateProductImagesChange = (e) => {
-    const files = Array.from(e.target.files);
-
-    setImages([]);
-    setImagesPreview([]);
-    setOldImages([]);
-
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
-  };
+console.log(img)
 
   return (
     <Fragment>
@@ -270,29 +271,26 @@ const coffeeType = [
           </div>
 
           <div id="createProductFormFile">
-              <label></label>
-            <input
-              type="file"
-              name="avatar"
-              accept="image/*"
-            //   onChange={createProductImagesChange}
-              multiple
-            />
+              <input
+            type="file"
+            id="file"
+            onChange={(e) => setImg(e.target.files[0])}
+          />
           </div>
 
           <div id="createProductFormImage">
-            {imagesPreview.map((image, index) => (
-              <img key={index} src={image} alt="Product Preview" />
-            ))}
+              {product.img && img == null && <img src={product.img} alt="Product Preview" 
+              style={{width:'13rem',height:'18rem'}}
+              />}
+              {img && <p>{img.name}</p>}
           </div>
-
           <Button
             id="createProductBtn"
             type="submit"
             disabled={loading ? true : false}
             onClick={updateProductSubmitHandler}
           >
-            Create
+            Update
           </Button>
         </form>
       </div>

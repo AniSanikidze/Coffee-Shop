@@ -284,15 +284,14 @@
 
 
 
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 // import "./orderDetails.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import MetaData from "../MetaData";
 import { Link, useHistory } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import { getOrderDetails, clearErrors, getSpecificOrder } from "../../actions/orderAction";
+// import { getOrderDetails, clearErrors, getSpecificOrder } from "../../actions/orderAction";
 import Loader from "../loading/Loader";
-import { useAlert } from "react-alert";
 import Navbar from "../navbar/Navbar";
 import Footer from "../footer/Footer";
 // import { useHistory } from "react-router-dom";
@@ -301,16 +300,16 @@ import Footer from "../footer/Footer";
 const ConfirmOrder = ({ match }) => {
   const {  cartItems, loading } = useSelector((state) => state.cart);
   // const shippingInfo = localStorage.getItem("shippingInfo")
-  const {user} = useSelector((state) => state.user)
+  // const {user} = useSelector((state) => state.user)
   const history = useHistory();
   const shippingInfo = localStorage.getItem("shippingInfo")
         ? JSON.parse(localStorage.getItem("shippingInfo"))
         : {}
 
-  const dispatch = useDispatch();
-  const alert = useAlert();
+  // const dispatch = useDispatch();
+  // const alert = useAlert();
   
-    const shippingPrice = shippingInfo.city == "Tbilisi" ? 5 : 10
+    const shippingPrice = shippingInfo.city === "Tbilisi" ? 5 : 10
   
     let subTotal = cartItems.reduce((total, currentValue) => total = total + (currentValue.quantity * currentValue.price),0)
 
@@ -326,15 +325,7 @@ const ConfirmOrder = ({ match }) => {
 
     history.push("/payment/process");
   };
-  console.log(shippingInfo)
-  // useEffect(() => {
-  //   if (error) {
-  //     alert.error(error);
-  //     dispatch(clearErrors());
-  //   }
 
-  //   // dispatch(getSpecificOrder(match.params.id));
-  // }, [dispatch, alert, error, match.params.id]);
   return (
       <><Navbar/>
 
@@ -412,8 +403,8 @@ const ConfirmOrder = ({ match }) => {
                {cartItems &&
                   cartItems.map((item) => (
                     <div key={item.productId}>
-                      <img 
-                      src='../images/Home/Brazil.jpg'
+                      <img style={{width:'10rem', height:'15rem'}}
+                      src={item.img}
                        alt="Product" />
                       <Link to={`/product/${item.productId}`}>
                         {item.productName}, {item.coffeeType}

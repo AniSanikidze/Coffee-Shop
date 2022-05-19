@@ -1,12 +1,9 @@
 import React,{useEffect, useState} from 'react'
 import { Button } from "../button/Button"
-import useUpdateUsernameForm from './useUpdateUsernameForm'
-import validateUsername from './validateUsername';
-import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from '../loading/Loader';
 import { clearErrors, loadUser, updateProfile } from '../../actions/userAction';
-import { LOAD_USER_REQUEST, UPDATE_PROFILE_RESET } from '../../constants/userConstants';
+import {  UPDATE_PROFILE_RESET } from '../../constants/userConstants';
 import { useAlert } from 'react-alert';
 import MetaData from '../MetaData';
 
@@ -14,17 +11,16 @@ function UpdateDetails() {
     let {user} = useSelector(state=>state.user)
     const [username,setUsername] = useState("")
     const [email,setEmail] = useState("")
-    const [submitClicked, setSubmitClicked] = useState(false)
+    const [setSubmitClicked] = useState(false)
     const dispatch = useDispatch()
     const alert = useAlert()
     
-    let {loading,isUpdated,error} = useSelector((state)=>state.account)
-
+    let {isUpdated,error} = useSelector((state)=>state.account)
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitClicked(true);
-        if(username == user.username && email == user.email){
+        if(username === user.username && email === user.email){
             error = "Please update fields to save changes"
             alert.error(error);
             dispatch(clearErrors());
@@ -54,17 +50,9 @@ function UpdateDetails() {
           });
          }
         }
-      , [dispatch, error, user, isUpdated]);
+      , [dispatch, error, user,alert, isUpdated]);
 
-    const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 10px 0;
-  padding: 10px;
-`;
-    return (
-        
-          
+    return (  
         <form
                 onSubmit={handleSubmit}
                 className='form' >

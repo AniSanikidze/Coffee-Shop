@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-// import { mobile } from "../responsive";
 import {useSelector, useDispatch} from 'react-redux'
 import Loader from '../loading/Loader';
 import { useHistory } from "react-router-dom";
-import {clearErrors, register,loadUser, login} from '../../actions/userAction'
+import {clearErrors, register, login} from '../../actions/userAction'
 import { useAlert } from 'react-alert';
 
 const Container = styled.div`
@@ -72,23 +71,13 @@ const Register = () => {
     const [username,setUsername] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const dispatch = useDispatch()
-    let {loading,error,user,isAuthenticated} = useSelector(state=>state.user)
+    let {loading,error,isAuthenticated} = useSelector(state=>state.user)
     let history = useHistory();
     const alert = useAlert()
-    // console.log(username,email,password,confirmPassword)
 
     const handleRegistration = (e) => {
         e.preventDefault();
-
-        // const formData = new FormData()
-
-        // formData.set("username",username)
-        // formData.set("email",email)
-        // formData.set("password",password)
-        // formData.set("confirmPassword",confirmPassword)
-
         dispatch(register(username,email,password,confirmPassword));
-        // console.log(isAuthenticated)
     }
 
     useEffect(() => {
@@ -98,14 +87,13 @@ const Register = () => {
           dispatch(login(email,password))
         history.push('/')
         alert.success("Thank you for registration!")
-        // dispatch(loadUser())
         }
       }
-    },[loading])
+    },[loading,alert,dispatch,email,password,history,isAuthenticated])
 
     useEffect(() => {
       dispatch(clearErrors())
-  },[dispatch,window.location.pathname])
+  },[dispatch])
 
   return (
     <Container>
@@ -133,7 +121,6 @@ const Register = () => {
           type="password"
           name="password"
           minLength={6}
-        //   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}

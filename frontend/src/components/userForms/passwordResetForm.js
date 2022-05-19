@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import './userForm.css'
+import '../forms/Form.css'
 import { useEffect, useState } from "react";
 import {useSelector, useDispatch} from 'react-redux'
 import Loader from '../loading/Loader';
@@ -82,11 +82,11 @@ const PasswordResetForm = ({ match}) => {
             }
           }
       }
-    ,[dispatch,error,alert,success])
+    ,[dispatch,error,alert,success,history])
 
   useEffect(() => {
       dispatch(clearErrors())
-  },[dispatch,window.location.pathname])
+  },[dispatch])
 
   return (
     

@@ -57,7 +57,7 @@ function App() {
   useEffect(() => {
     store.dispatch(loadUser());
     getStripeApiKey();
-    },[window.location.path])
+    },[])
 
   return (
     <>
@@ -98,14 +98,14 @@ function App() {
              <ProtectedRoute path='/admin/order/:id' isAdmin={true} component={ProcessOrder}/>
              <ProtectedRoute path='/admin/users' isAdmin={true} component={UserListPage}/>
              <ProtectedRoute path='/admin/user/:id' isAdmin={true} component={UpdateUserPage}/>
-             <Route component={PageNotFound}/>
-            </Switch>
-            {stripeApiKey && 
+             <ProtectedRoute path='/success' exact component={OrderSuccess}/>
+             {stripeApiKey && 
               <Elements stripe={loadStripe(stripeApiKey)}> 
                 <ProtectedRoute path='/payment/process' exact component={PaymentProcessing}/>
               </Elements>
             } 
-            <ProtectedRoute path='/success' exact component={OrderSuccess}/>
+             <Route component={PageNotFound}/>
+            </Switch>
           </UserContext.Provider>
         </Switch>
       </Router>

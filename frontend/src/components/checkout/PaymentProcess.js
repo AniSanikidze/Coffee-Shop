@@ -1,8 +1,7 @@
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useRef } from "react";
 import CheckoutSteps from "./CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../MetaData";
-import { Typography } from "@material-ui/core";
 import { useAlert } from "react-alert";
 import {
   CardNumberElement,
@@ -14,7 +13,7 @@ import {
 import styled from "styled-components";
 import axios from "axios";
 import "./PaymentProcessing.css";
-import { createOrder, clearErrors } from "../../actions/orderAction";
+import { createOrder } from "../../actions/orderAction";
 import Navbar from "../navbar/Navbar";
 import Footer from "../footer/Footer";
 import Loader from "../loading/Loader";
@@ -30,7 +29,6 @@ const PaymentProcessing = ({ history }) => {
 
   const { shippingInfo, cartItems} = useSelector((state) => state.cart);
   const { user,loading } = useSelector((state) => state.user);
-  const { error } = useSelector((state) => state.newOrder);
 
   const paymentData = {
     amount: Math.round(orderInfo.totalPrice * 100),

@@ -1,4 +1,3 @@
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 export const UserMenuItemsData = [
         {
             menuItem: "Customer Information",

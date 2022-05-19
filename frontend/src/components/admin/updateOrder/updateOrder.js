@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-//   updateProduct,
   getProductInfo,
 } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
@@ -287,7 +286,7 @@ const coffeeType = [
             />
           </div>
 
-          <div id="createProductFormImage">
+          <div id="updateProductFormImage">
             {imagesPreview.map((image, index) => (
               <img key={index} src={image} alt="Product Preview" />
             ))}

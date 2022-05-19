@@ -33,7 +33,7 @@ import {
 
 // Get All Products
 export const getProduct =
-  (keyword = "", price = [20, 50], singleOrigin = null, origin, sort) =>
+  (keyword = "", price = [20, 50], singleOrigin = null, origin = null, sort) =>
   async (dispatch) => {
     try {
       dispatch({ type: ALL_PRODUCT_REQUEST });
@@ -42,15 +42,14 @@ export const getProduct =
 
       if (keyword !== "" || singleOrigin !== null || price[0] > 20 || price[1] < 50 || origin !== null || sort) {
         link = `api/coffee?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&sort=${sort}`
-        if (origin != null) { 
-            link = `api/coffee?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&origin=${origin}&singleOrigin=${true}`
-            origin=null
+        if (origin !== null) { 
+            link = `api/coffee?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&sort=${sort}&origin=${origin}&singleOrigin=true`
         }
         if(singleOrigin !== null) {
-          link = `api/coffee?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&singleOrigin=${singleOrigin}&sort=${sort}`
-          singleOrigin=null
-        
+          link = `api/coffee?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&sort=${sort}&singleOrigin=${singleOrigin}`
         }
+        console.log(link)
+    
       }
 
       const { data } = await axios.get(link);
@@ -87,18 +86,18 @@ export const getAdminProduct = () => async (dispatch) => {
 };
 
 // Create Product
-export const createProduct = (productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel) => async (dispatch) => {
+export const createProduct = (productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel,img,aroma,flavor,finish) => async (dispatch) => {
   try {
     dispatch({ type: NEW_PRODUCT_REQUEST });
 
     const config = {
       headers: { "Content-Type": "application/json" },
     };
-    console.log(productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel)
+    console.log(productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel,img,aroma,flavor,finish)
 
     const { data } = await axios.post(
       `/api/coffee/new`,
-      {productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel},
+      {productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel,img,aroma,flavor,finish},
       config
     );
 
@@ -115,10 +114,9 @@ export const createProduct = (productName,singleOrigin,origin,desc,bagSize,stock
 };
 
 // Update Product
-export const updateProduct = (id,price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName) => async (dispatch) => {
+export const updateProduct = (id,price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName,img) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PRODUCT_REQUEST });
-    // console.log(price)
 
     const config = {
       headers: { "Content-Type": "application/json" },
@@ -126,7 +124,7 @@ export const updateProduct = (id,price,roastLevel,singleOrigin,origin,desc,stock
 
     const { data } = await axios.put(
       `/api/coffee/${id}`,
-      {price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName},
+      {price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName,img},
       config
     );
 

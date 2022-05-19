@@ -1,24 +1,16 @@
-import React,{useEffect, useState} from 'react'
-import { Button } from "../button/Button"
-import useUpdateUsernameForm from './useUpdateUsernameForm'
-import validateUsername from './validateUsername';
-import styled from "styled-components";
+import React,{useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import Loader from '../loading/Loader';
-import { LOAD_USER_REQUEST, UPDATE_PROFILE_RESET } from '../../constants/userConstants';
 import { useAlert } from 'react-alert';
 import MetaData from '../MetaData';
 import { Link } from 'react-router-dom';
 import LaunchIcon from "@material-ui/icons/Launch";
 import { clearErrors, userOrders } from "../../actions/orderAction";
 import { DataGrid } from "@material-ui/data-grid";
-import Footer from '../footer/Footer';
-import Navbar from '../navbar/Navbar';
 import './UserOrders.css'
 
 function UserOrders() {
-    const dispatch = useDispatch();
-
+  const dispatch = useDispatch();
   const alert = useAlert();
 
   const { loading, error, orders } = useSelector((state) => state.userOrders);
@@ -33,7 +25,7 @@ function UserOrders() {
       minWidth: 100,
       flex: 0.3,
       cellClassName: (params) => {
-        return params.getValue(params.id, "status") === "Delivered"
+        return params.getValue(params.id, "status") === "delivered"
           ? "greenColor"
           : "redColor";
       },
@@ -45,7 +37,6 @@ function UserOrders() {
       minWidth: 150,
       flex: 0.3,
     },
-
     {
       field: "amount",
       headerName: "Amount",
@@ -53,7 +44,6 @@ function UserOrders() {
       minWidth: 100,
       flex: 0.5,
     },
-
     {
       field: "actions",
       flex: 0.3,

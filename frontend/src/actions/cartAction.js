@@ -16,7 +16,7 @@ import {
         productId: data.retrievedcoffee._id,
         productName: data.retrievedcoffee.productName,
         price: data.retrievedcoffee.price,
-        // image: data.retrievedcoffee.imgs[0].url,
+        img: data.retrievedcoffee.img,
         stock: data.retrievedcoffee.Stock,
         quantity: quantity,
         coffeeType: coffeeType,

@@ -19,16 +19,19 @@ export default function Coffees() {
   const {loading,error,products} = useSelector(state=>state.products)
   const { searchInput } = useContext(UserContext);
   const { price } = useContext(UserContext);
-  const {singleOriginFilter} = useContext(UserContext)
-  const {origin} = useContext(UserContext)
+  const {singleOriginFilter,setSingleOriginFilter} = useContext(UserContext)
+  const {origin,setOrigin} = useContext(UserContext)
   const { sortOptions, setSortResultHandler,sortResult } = SelectLogic();
   useEffect(() => {
     if(error){
       alert.error(error)
       dispatch(clearErrors())
     }
+    console.log(origin)
     dispatch(getProduct(searchInput,price,singleOriginFilter,origin,sortResult))
-  },[dispatch,alert,error,searchInput,price,singleOriginFilter,origin,sortResult])
+    // setSingleOriginFilter(null)
+    // setOrigin(null);
+  },[dispatch,error,searchInput,price,singleOriginFilter,origin,sortResult])
 
   
   const { customThemes, customStyles } = SelectStyle();
@@ -64,6 +67,7 @@ export default function Coffees() {
       rating={product.rating}
       category={product.category}
       stock={product.stock}
+      img={product.img}
       />
       )) : <p>Products not found</p>}</div>
       </div><div className='cards__container'>

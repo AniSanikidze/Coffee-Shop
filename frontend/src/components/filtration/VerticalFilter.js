@@ -31,9 +31,18 @@ export const VerticalFilter = () => {
                     <div className="filter-inner-div">
                         <p>COFFEE TYPE</p>
                         <div className="filter-options">
-                            <li className="category-link" onClick={() => setSingleOriginFilter(true)}>Single Origin</li>
-                            <li className="category-link" onClick={() => setSingleOriginFilter(false)}>Blended</li>
-                            <li className="category-link" onClick={() => setSingleOriginFilter(null)}>All Types</li>
+                            <li className="category-link" onClick={() => {
+                                setOrigin(null);
+                                setSingleOriginFilter(true)
+                                }}>Single Origin</li>
+                            <li className="category-link" onClick={() => {
+                                setOrigin(null);
+                                setSingleOriginFilter(false)
+                                }}>Blended</li>
+                            <li className="category-link" onClick={() => {
+                                setOrigin(null);
+                                setSingleOriginFilter(null)
+                                }}>All Types</li>
                         </div>
                     </div>
                 </div>
@@ -45,7 +54,11 @@ export const VerticalFilter = () => {
                                 <li
                                 className="category-link"
                                 key={origin}
-                                onClick={() => setOrigin(origin)}>
+                                onClick={() => {
+                                   setSingleOriginFilter(null)
+                                setOrigin(origin) 
+                                }
+                                }>
                                 {origin}
                                 </li>
                             ))}

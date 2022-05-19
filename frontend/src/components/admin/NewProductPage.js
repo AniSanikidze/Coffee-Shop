@@ -7,8 +7,6 @@ import './AdminDashboard.css'
 import NewProduct from "./newproduct/NewProduct";
 
 const NewProductPage = ({ review }) => {
-
-
   return (
       <>
         <Topbar/>

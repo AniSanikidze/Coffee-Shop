@@ -1,6 +1,6 @@
 .products-container{
   display: flex;
-  margin: 2vmax auto;
+  margin: 2vmax auto 0;
   width: 80vw;
   flex-wrap: wrap;
   justify-content: center;
@@ -40,6 +40,10 @@
   margin-bottom: 0;
   text-transform: uppercase;
   color:#555555 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   /* font-weight: bold; */
 }
 

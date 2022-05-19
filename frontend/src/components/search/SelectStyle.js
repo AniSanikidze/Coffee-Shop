@@ -1,7 +1,4 @@
-import SearchboxLogic from "./AdjustSearchbox";
-
 const SearchboxStyle = () => {
-    const { selectHeight } = SearchboxLogic();
 
     const customStyles = {
         control: (provided, state) => ({

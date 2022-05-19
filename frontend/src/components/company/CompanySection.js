@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '../button/Button';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import './CompanySection.css';
+import { Element } from 'react-scroll'
 
 function CompanySection() {
   const [image, setImage] = useState(true);
@@ -27,7 +26,7 @@ function CompanySection() {
   window.addEventListener('resize', showImage);
 
   return (
-    <>
+    <Element id='company-section'>
       <div className= 'company-section'>
         <div className='container' data-aos="fade-up">
           <div
@@ -40,20 +39,17 @@ function CompanySection() {
             <div className='col'>
               <div className='text-wrapper'>
                 <h1 className= 'heading'>
-                  Lorem ipsum
+                Coffee Berry began with a vision:
                 </h1>
                 <p className= 'description'>
-                  About Us summary
+                Start with the best raw ingridients, roast with pasion and care,
+                istablish relationship based on respect, and love the earth, it takes a
+                global effort to get coffee into your cup and we want to respect all
+                the people it takes to get it here. <br/><br/>
+                We seek out compelling coffees and roast to eccentuate their
+                unique qualities. our coffee is an expression of our values: passion,
+                care, respected integrity.
                 </p>
-                <Link to='/'>
-                  <Button
-                    buttonSize='btn--large'
-                    buttonStyle='btn--search'
-                    className="btn-see-more"
-                  >
-                    Get to know us
-                  </Button>
-                </Link>
               </div>
             </div>
             {image &&
@@ -61,7 +57,7 @@ function CompanySection() {
                 <div className='img-wrapper'>
                   <img
                     src='images/Home/2.png'
-                    alt='Student'
+                    alt='Company logo'
                     className='company-img'
                   />
                 </div>
@@ -70,7 +66,7 @@ function CompanySection() {
           </div>
         </div>
       </div>
-    </>
+    </Element>
   );
 }
 

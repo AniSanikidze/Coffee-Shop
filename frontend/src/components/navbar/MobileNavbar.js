@@ -1,39 +1,20 @@
-import { useState, useContext } from 'react';
-import { UserContext } from "../../UserContext"
+import { useState } from 'react';
 
 const MobileNavbar = () => {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-  const { setPragueCollegePath } = useContext(UserContext)
-  const { setClickedDistrict, setClickedSuggestion } = useContext(UserContext)
-  const { setChosenRestaurant, setGeneralSearchPath } = useContext(UserContext);
 
   const handleClick = () => setClick(!click);
 
   const closeMenuOpenRestaurants = () => {
     setClick(false);
-    setPragueCollegePath(false);
-    // setClickedDistrict(false);
-    // setClickedSuggestion(false);
-    setChosenRestaurant(false);
-    setGeneralSearchPath(false)
   }
   const closeMenuOpenPCRestaurants = () => {
     setClick(false);
-    setPragueCollegePath(true);
-    // setClickedDistrict(false);
-    // setClickedSuggestion(false);
-    setChosenRestaurant(false);
-    setGeneralSearchPath(false);
   }
 
   const closeMenuDiscardChanges = () => {
     setClick(false);
-    setPragueCollegePath(false)
-    // setClickedDistrict(false)
-    // setClickedSuggestion(false)
-    setChosenRestaurant(false)
-    setGeneralSearchPath(false);
    }
 
   const showButton = () => {

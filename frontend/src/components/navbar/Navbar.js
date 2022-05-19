@@ -1,75 +1,28 @@
-import React, { useEffect, useContext, useState } from 'react';
-// import { Button } from '../button/Button';
+import React, { useEffect, useState } from 'react';
 import MobileNavbar from './MobileNavbar'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './Navbar.css';
-import { Modal } from '../forms/Modal'
 import Searchbox from '../search/Searchbox';
-import NavbarLogic from './NavbarLogic';
-import { UserContext } from '../../UserContext';
-import UserNavbar from '../user/UserNavbar';
-import { useSelector, useDispatch } from "react-redux";
-// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-// import {faUser} from '@fortawesome/free-solid-svg-icons'
-import { 
-  // Search, 
-  ShoppingCartOutlined, PersonOutline } from "@material-ui/icons";
+import { useSelector} from "react-redux";
+import { ShoppingCartOutlined, PersonOutline, SearchOutlined } from "@material-ui/icons";
 import { Badge } from "@material-ui/core";
 
 function Navbar() {
-  let totalQuantity = 0
-  const { button, showButton, closeMenuDiscardChanges, closeMenuOpenPCRestaurants }
+  const { button, showButton, closeMenuDiscardChanges }
     = MobileNavbar();
-  const { navMenuClassName, searchbox, showLogInModal,
-          showSignUpModal, openLogInModal, openSignUpModal,
-          setShowLogInModal, setShowSignUpModal }
-    = NavbarLogic();
-  const { pragueCollegePath,
-    successfullLogin, setSuccessfullLogin, logout}
-    = useContext(UserContext);
   const [click, setClick] = useState(false)
-  const [open, setOpen] = useState(false)
-  const {loading,isAuthenticated,user} = useSelector(state=>state.user)
+  const {isAuthenticated} = useSelector(state=>state.user)
+  const history = useHistory();
 
   const handleClick = () => {
     setClick(!click)
   }
 
-  // useEffect(() => {
-  //   const userLoggedIn = localStorage.getItem("user-logged-in");
-  //     setSuccessfullLogin(userLoggedIn);
-  //   }, [successfullLogin, setSuccessfullLogin])
-
-    const {cartItems} = useSelector(state => state.cart)
-
-    // console.log(cartItems.length)
-
-    // console.log("user authentication",isAuthenticated)
-
-
-  //  function setRestaurantsNavLink () {
-  //   switch(window.location.pathname){
-  //     case '/restaurants':
-  //        return (pragueCollegePath === true ?
-  //          "All Restaurants"
-  //          :
-  //          "PC Restaurants")
-  //     default:
-  //       return "All Restaurants";
-  //   }
-  // }
+  const {cartItems} = useSelector(state => state.cart)
 
   useEffect(() => {
    showButton();
   }, [showButton]);
-
-  // useEffect(() => {
-  //   if (logout) {
-  //     setShowLogInModal(false);
-  //     setSuccessfullLogin(false)
-  //   }
-  // }, [logout,setSuccessfullLogin,setShowLogInModal])
-
 
   window.addEventListener('resize', showButton);
 
@@ -99,74 +52,35 @@ function Navbar() {
               </Link>
             </li>
             <li className='nav-item'>
-              <Link to='/' className='nav-links' onClick={closeMenuDiscardChanges}>
+              <Link className='nav-links'     onClick={() => {
+                const anchor = document.querySelector('#company-section')
+                anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                }}>
                 ABOUT US
               </Link>
             </li>
-            <li className='nav-item'>
-              <Link to='/' className='nav-links' onClick={closeMenuDiscardChanges}>
-                WHOLESALE
-              </Link>
-            </li>
-            <li className='nav-links-mobile'
-                onClick={openLogInModal}>
+            <li className='nav-links-mobile'>
               Log In
             </li>
-            <li
-              className='nav-links-mobile'
-              onClick={openSignUpModal}>
+            <li className='nav-links-mobile'>
                 Sign Up
             </li>
           </ul>
           <div className='nav-menu'>
-          {(successfullLogin && localStorage.getItem("user-logged-in") === "true")
-            ?
-            <UserNavbar />
-            :
-            <>
-            <Searchbox/>
+            {window.location.pathname === "/coffee" ? <Searchbox/> :
+            <SearchOutlined onClick={() => history.push('/coffee')} style={{'marginTop':'30%', 'fontSize': '30px', 'cursor':'pointer','color': '#555555'}}/>}
             <Link to='/cart' style={{'color': '#555555'}}>
               <Badge badgeContent={cartItems.length > 0  ? cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0) : "0"} color='primary' style={{'marginTop':'30%'}}>
                 <ShoppingCartOutlined style={{'marginTop':'30%', 'cursor':'pointer'}}/>
               </Badge>
             </Link>
             {button &&
-            //   <Button
-            //     buttonStyle='btn--outline'
-            //     buttonSize='btn--medium'
-            //     onClick={openLogInModal}
-            //     id="login">
-            //     LOG IN
-            // </Button>
-            // <i className="fa-solid fa-user"/>
             <Link to={isAuthenticated ?  '/user-account' : '/login'}>
               <div style={{'display': 'flex'}}>
-              {/* <p style={{'marginTop':'20%', 'fontSize': '20px', 'cursor':'pointer','color': '#555555'}}>{!loading && user.username}</p> */}
               <PersonOutline  style={{'marginTop':'30%', 'fontSize': '30px', 'cursor':'pointer','color': '#555555'}}/>
             </div>
             </Link>
-            // <FontAwesomeIcon icon={faUser} style={{'fontSize':'20px', 'padding':'10px','cursor':'pointer',
-            // // 'color':'#afa483'
-            // }} onClick={openSignUpModal}/>
             }
-            <Modal
-              showLogInModal={showLogInModal}
-              setShowLogInModal={setShowLogInModal}
-            />
-            {button &&
-            //   <Button
-            //     id="signup"
-            //     buttonSize='btn--medium'
-            //     onClick={openSignUpModal}>
-            //     SIGN UP
-            // </Button>
-            <i className="fas fa-user"></i>
-            }
-            <Modal
-              showSignUpModal={showSignUpModal}
-              setShowSignUpModal={setShowSignUpModal}
-            />
-          </>}
           </div>
         </div>
       </nav>

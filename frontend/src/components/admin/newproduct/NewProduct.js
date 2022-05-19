@@ -7,11 +7,19 @@ import { Button } from "@material-ui/core";
 import MetaData from "../../MetaData";
 import { NEW_PRODUCT_RESET } from "../../../constants/productConstants";
 import { useHistory } from "react-router-dom";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import app from "../../firebase";
 
-const NewProduct = ({ history }) => {
+
+const NewProduct = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
-  const hsitory = useHistory()
+  const history = useHistory()
 
   const { loading, error, success } = useSelector((state) => state.newProduct);
 
@@ -26,8 +34,7 @@ const NewProduct = ({ history }) => {
   const [bagSize, setBagSize] = useState(0)
   const [roastLevel, setRoastLevel] = useState("");
   const [stock, setStock] = useState(0);
-  const [images, setImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
+  let [img, setImg] = useState(null);
 
   const roastLevels = [
       "Light",
@@ -54,46 +61,41 @@ const NewProduct = ({ history }) => {
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
+    const fileName = new Date().getTime() + img.name;
+    const storage = getStorage(app);
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, img);
 
-    // const myForm = new FormData();
-
-    // myForm.set("productName", productName);
-    // myForm.set("price", price);
-    // myForm.set("description", description);
-    // myForm.set("category", category);
-    // myForm.set("Stock", Stock);
-    // myForm.set("singleOrigin", singleOrigin);
-    // myForm.set("price", price);
-    // myForm.set("description", description);
-    // myForm.set("category", category);
-    // myForm.set("Stock", Stock);
-
-    // images.forEach((image) => {
-    //   myForm.append("images", image);
-    // });
-    console.log(productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel)
-    dispatch(createProduct(productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel));
-  };
-
-  const createProductImagesChange = (e) => {
-    const files = Array.from(e.target.files);
-
-    setImages([]);
-    setImagesPreview([]);
-
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
         }
-      };
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          let img = downloadURL
+            dispatch(createProduct(productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel,img,aroma,flavor,finish));
+        });
+      }
+    );
 
-      reader.readAsDataURL(file);
-    });
+
   };
+
 
   return (
     <Fragment>
@@ -188,9 +190,7 @@ const NewProduct = ({ history }) => {
                 onChange={(e) => setBagSize(e.target.value)}
               />
             </div>
-
             <div>
-
               <textarea
                 placeholder="Product Description"
                 value={desc}
@@ -199,7 +199,6 @@ const NewProduct = ({ history }) => {
                 rows="1"
               ></textarea>
             </div>
-
             <div>
               <input
                 type="number"
@@ -208,21 +207,13 @@ const NewProduct = ({ history }) => {
                 onChange={(e) => setStock(e.target.value)}
               />
             </div>
-
-            <div id="createProductFormFile">
-              <input
-                type="file"
-                name="avatar"
-                accept="image/*"
-                onChange={createProductImagesChange}
-                multiple
-              />
-            </div>
-
-            <div id="createProductFormImage">
-              {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
-              ))}
+            <div id="createProductFormFile" style={{display:'flex',flexDirection: 'column'}}>
+            <input
+            type="file"
+            id="file"
+            onChange={(e) => setImg(e.target.files[0])}
+          />
+          <p>{img !== null && img.name}</p>
             </div>
 
             <Button

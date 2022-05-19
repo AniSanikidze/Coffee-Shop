@@ -6,16 +6,13 @@ import {
   Room,
 } from "@material-ui/icons";
 import styled from "styled-components";
-// import { mobile } from "../responsive";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
   background-color: #fff;
    box-shadow: 0px -2px 2px 0px rgb(0 0 0 / 10%), 0px -2px 2px 0px rgb(0 0 0 / 6%), 0px -2px 2px 0px rgb(0 0 0 / 7%);
-  // // box-shadow: 0px -4px 2px 0px rgba(0,0,0,0.75)
-
 `;
-// ${mobile({ flexDirection: "column" })}
 const Left = styled.div`
   flex: 1;
   display: flex;
@@ -36,6 +33,7 @@ const SocialContainer = styled.div`
 const SocialIcon = styled.div`
   width: 40px;
   height: 40px;
+  cursor: pointer;
   border-radius: 50%;
   color: white;
   background-color: #${(props) => props.color};
@@ -65,6 +63,7 @@ const List = styled.ul`
 const ListItem = styled.li`
   width: 50%;
   margin-bottom: 10px;
+  color: #555555 !important;
 `;
 
 const Right = styled.div`
@@ -78,9 +77,6 @@ const ContactItem = styled.div`
   align-items: center;
 `;
 
-const Payment = styled.img`
-    width: 50%;
-`;
 
 const Footer = () => {
   return (
@@ -88,30 +84,32 @@ const Footer = () => {
       <Left>
         <Logo>Coffee Berry</Logo>
         <Desc>
-          There are many variations of passages of Lorem Ipsum available, but
-          the majority have suffered alteration in some form, by injected
-          humour, or randomised words which don’t look even slightly believable.
+          We seek out compelling coffees and roast to eccentuate their unique qualities.
+          Our coffee is an expression of our values: passion, care, respected integrity.
         </Desc>
         <SocialContainer>
-          <SocialIcon color="3B5999">
-            <Facebook />
+          <SocialIcon onClick={()=> window.open(
+            "https://www.facebook.com/Coffee-Berry-%E1%83%99%E1%83%9D%E1%83%A4%E1%83%98-%E1%83%91%E1%83%94%E1%83%A0%E1%83%98-163616970984328", "_blank")} color="3B5999">
+            <Facebook  />
           </SocialIcon>
           <SocialIcon color="E4405F">
-            <Instagram />
+            <Instagram  onClick={()=> window.open(
+            "https://www.instagram.com/freshly_roasted_coffee_/", "_blank")}/>
           </SocialIcon>
         </SocialContainer>
       </Left>
       <Center>
         <Title>Useful Links</Title>
         <List>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Wholesale</ListItem>
-          <ListItem>About Us</ListItem>
-          <ListItem>Roasted Coffee</ListItem>
-          <ListItem>Green Coffee</ListItem>
-          <ListItem>Coffee Machines</ListItem>
-          <ListItem>Terms</ListItem>
+          <ListItem><Link to='/' style={{textDecoration: 'none',color: "#000"}}>Home</Link></ListItem>
+          <ListItem>          
+            <Link to='/cart' style={{textDecoration: 'none',color: "#000"}}>
+                Cart</Link></ListItem>
+          <ListItem>          
+            <Link to='/' style={{textDecoration: 'none',color: "#000"}}>
+            About us</Link></ListItem>
+          <ListItem><Link to='/coffee' style={{textDecoration: 'none',color: "#000"}}>Coffee Shop</Link></ListItem>
+          <ListItem><Link to='/' style={{textDecoration: 'none',color: "#000"}}>Privacy Policy</Link></ListItem>
         </List>
       </Center>
       <Right>
@@ -125,7 +123,6 @@ const Footer = () => {
         <ContactItem>
           <MailOutline style={{marginRight:"10px"}} /> infocoffeeberry@gmail.com
         </ContactItem>
-        <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
       </Right>
     </Container>
   );

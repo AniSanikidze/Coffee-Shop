@@ -1,11 +1,8 @@
-import React,{useEffect,useContext, useState} from 'react';
-import Aos from 'aos'
+import React,{ useState} from 'react';
 import 'aos/dist/aos.css';
 import './ShippingForm.css'
 import styled from "styled-components";
 import {useSelector, useDispatch} from 'react-redux'
-import Loader from '../loading/Loader';
-import { useAlert } from 'react-alert';
 import MetaData from '../MetaData';
 import CheckoutSteps from './CheckoutSteps';
 import { saveShippingInfo } from '../../actions/cartAction';
@@ -13,7 +10,6 @@ import { useHistory } from 'react-router-dom';
 
 function ShippingForm({match}) {
   const dispatch = useDispatch();
-  const alert = useAlert();
   const history = useHistory();
   const { shippingInfo } = useSelector((state) => state.cart);
 

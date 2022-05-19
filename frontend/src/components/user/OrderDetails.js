@@ -257,7 +257,7 @@ import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../MetaData";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import { getOrderDetails, clearErrors, getSpecificOrder } from "../../actions/orderAction";
+import { clearErrors, getSpecificOrder } from "../../actions/orderAction";
 import Loader from "../loading/Loader";
 import { useAlert } from "react-alert";
 import Navbar from "../navbar/Navbar";
