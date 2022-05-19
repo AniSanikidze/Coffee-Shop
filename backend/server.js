@@ -21,6 +21,8 @@ const cookieParser = require('cookie-parser')
 // 	process.exit(1);
 //   });
 
+//   app.use(bodyParser.urlencoded({parameterLimit: '100000',limit:'500mb', extended: true }))
+
 const options = {
 	definition: {
 		openapi: "3.0.0",

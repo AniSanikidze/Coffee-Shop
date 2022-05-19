@@ -23,6 +23,7 @@ const getCoffeeProduct = async (req, res) => {
 
 
 const createCoffeeProduct = async (req, res) => {
+
     try{
         const newcoffee = new coffee(req.body)
         console.log(newcoffee)
@@ -122,7 +123,7 @@ const deleteCoffeeReview = async (req,res) => {
         const retrievedcoffee = res.foundItem
         const reviewID = req.query.reviewID
 
-        const coffeeProductReviews = await retrievedcoffee.updateOne({$pull: {reviews: {_id: reviewID}}})
+        await retrievedcoffee.updateOne({$pull: {reviews: {_id: reviewID}}})
         retrievedcoffee.numOfReviews -= 1
         await retrievedcoffee.save()
         let sumOfRatings = 0

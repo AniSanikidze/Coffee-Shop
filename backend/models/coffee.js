@@ -48,8 +48,8 @@ const mongoose = require('mongoose')
  *         roastLevel:
  *           type: string
  *           description: Roast level of the coffee product (only for roasted coffee)
- *         imgs:
- *           type: Object.array
+ *         img:
+ *           type: String
  *           description: Array of product image URLs
  *         numOfReviews:
  *           type: number
@@ -110,10 +110,11 @@ const coffeeSchema = new mongoose.Schema({
         type:Number,
         required: [true, "Please enter the price of the coffee"]
     },
+    aroma: {type:String},
+    flavor: {type:String},
+    finish: {type:String},
     roastLevel: {type:String},
-    imgs: [{
-        url: {type:String}
-    }],
+    img: {type:String},
     numOfReviews: {
         type:Number,
         default:0
