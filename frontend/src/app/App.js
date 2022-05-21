@@ -24,15 +24,14 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from '../pages/OrderSuccess';
 import OrderDetails from '../components/user/OrderDetails';
-import AdminDashboard from '../components/admin/AdminDashboard';
 import UsersBoard from '../components/admin/UsersBoard';
 import NewProductPage from '../components/admin/NewProductPage';
 import UpdateProductPage from '../components/admin/UpdateProductPage';
 import OrdersListPage from '../components/admin/OrderListPage';
-import ProcessOrder from '../components/admin/processOrder/processOrder';
 import UserListPage from '../components/admin/UserListPage';
 import UpdateUserPage from '../components/admin/UpdateUserPage';
 import PageNotFound from '../components/pageNotFound/PageNotFound';
+import ProcessOrderPage from '../components/admin/ProcessOrderPage';
 
 function App() {
   const [searchInput,setSearchInput] = useState("")
@@ -90,12 +89,11 @@ function App() {
              <Route path='/product/:id' exact component={ProductPage}/>
              <Route path='/coffee' component={Coffees} />
              <Route path='/coffee/:keyword' component={Coffees} />
-             <ProtectedRoute path='/admin/dashboard' isAdmin={true} component={AdminDashboard}/>
              <ProtectedRoute path='/admin/products-board' isAdmin={true} component={UsersBoard}/>
              <ProtectedRoute path='/admin/product/new' isAdmin={true} component={NewProductPage}/>
              <ProtectedRoute path='/admin/product/:id' isAdmin={true} component={UpdateProductPage}/>
              <ProtectedRoute path='/admin/orders' isAdmin={true} component={OrdersListPage}/>
-             <ProtectedRoute path='/admin/order/:id' isAdmin={true} component={ProcessOrder}/>
+             <ProtectedRoute path='/admin/order/:id' isAdmin={true} component={ProcessOrderPage}/>
              <ProtectedRoute path='/admin/users' isAdmin={true} component={UserListPage}/>
              <ProtectedRoute path='/admin/user/:id' isAdmin={true} component={UpdateUserPage}/>
              <ProtectedRoute path='/success' exact component={OrderSuccess}/>

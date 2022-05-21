@@ -40,7 +40,7 @@ const UserList = () => {
 
     if (isDeleted) {
       alert.success("User Deleted Successfully");
-      history.push("/admin/dashboard");
+      history.push("/admin/users");
       dispatch({ type: DELETE_USER_RESET });
     }
 

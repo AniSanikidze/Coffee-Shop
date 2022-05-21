@@ -54,7 +54,7 @@ const NewProduct = () => {
 
     if (success) {
       alert.success("Product Created Successfully");
-      history.push("/admin/dashboard");
+      history.push("/admin/products-board");
       dispatch({ type: NEW_PRODUCT_RESET });
     }
   }, [dispatch, alert, error, history, success]);
@@ -107,8 +107,7 @@ const NewProduct = () => {
             encType="multipart/form-data"
             onSubmit={createProductSubmitHandler}
           >
-            <h1>Create Product</h1>
-
+            <h1>Create Coffee Product</h1>
             <div>
               <input
                 type="text"

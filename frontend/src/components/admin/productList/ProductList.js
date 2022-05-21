@@ -45,7 +45,7 @@ const ProductList = () => {
 
     if (isDeleted) {
       alert.success("Product Deleted Successfully");
-      history.push("/admin/dashboard");
+      history.push("/admin/products-board");
       dispatch({ type: DELETE_PRODUCT_RESET });
     }
 
@@ -118,12 +118,12 @@ const ProductList = () => {
 
   return (
     <Fragment>
-      <MetaData title={`ALL PRODUCTS - Admin`} />
+      <MetaData title={`ALL COFFEE - Admin`} />
 
       <div className="dashboard">
         {/* <SideBar /> */}
         <div className="productListContainer">
-          <h1 id="productListHeading">ALL PRODUCTS</h1>
+          <h1 id="productListHeading">All Coffee</h1>
 
           <DataGrid
             rows={rows}

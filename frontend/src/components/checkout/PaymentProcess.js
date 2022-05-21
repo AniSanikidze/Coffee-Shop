@@ -17,6 +17,7 @@ import { createOrder } from "../../actions/orderAction";
 import Navbar from "../navbar/Navbar";
 import Footer from "../footer/Footer";
 import Loader from "../loading/Loader";
+import { clearCart } from "../../actions/cartAction";
 
 const PaymentProcessing = ({ history }) => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
@@ -44,6 +45,8 @@ const PaymentProcessing = ({ history }) => {
     phoneNumber: shippingInfo.phoneNumber,
     status: "pending"
   };
+
+  console.log(cartItems)
 
   const TopButton = styled.button`
   padding: 10px;
@@ -89,7 +92,6 @@ const PaymentProcessing = ({ history }) => {
           },
         },
       });
-      console.log(result)
 
       if (result.error) {
         payBtn.current.disabled = false;
@@ -103,8 +105,11 @@ const PaymentProcessing = ({ history }) => {
           };
 
           dispatch(createOrder(order));
+          dispatch(clearCart())
+          localStorage.removeItem('cartItems')
 
           history.push("/success");
+          // window.location.reload()
         } else {
           alert.error("There's some issue while processing payment ");
         }
@@ -114,13 +119,6 @@ const PaymentProcessing = ({ history }) => {
       alert.error(error.response.data.message);
     }
   };
-
-//   useEffect(() => {
-//     if (error) {
-//       alert.error(error);
-//       dispatch(clearErrors());
-//     }
-//   }, [dispatch, error, alert]);
 
   return (
       <>
@@ -132,8 +130,6 @@ const PaymentProcessing = ({ history }) => {
       
         <form className="form" onSubmit={(e) => submitHandler(e)}>
             <div className="change-password">
-          {/* <Typography>Card Info</Typography> */}
-            {/* <CreditCardIcon /> */}
             <div className='form-inputs'>
                 <label className="old-password">
                     Card number
@@ -144,26 +140,17 @@ const PaymentProcessing = ({ history }) => {
                 <label className="old-password">
                     Card expiration
                 </label>
-            {/* <EventIcon /> */}
             <CardExpiryElement className="paymentInput" />
           </div>
           <div className='form-inputs'>
                 <label className="old-password">
                     Security code
                 </label>
-            {/* <VpnKeyIcon /> */}
             <CardCvcElement className="paymentInput" />
           </div>
           <div style={{marginTop:'38px',display:'flex',justifyContent:'center'}}>
                 <TopButton type="filled" style={{backgroundColor: '#afa483', width: '30%'}} ref={payBtn}>Pay - ₾{orderInfo.totalPrice}</TopButton>
-                </div>
-{/* 
-          <input
-            type="submit"
-            value={`Pay - ₹${orderInfo && orderInfo.totalPrice}`}
-            ref={payBtn}
-            className="paymentFormBtn"
-          />*/}</div>
+                </div></div>
         </form> 
       </div>
     </Fragment>}

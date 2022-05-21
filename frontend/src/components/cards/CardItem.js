@@ -32,7 +32,8 @@ function CardItem(props) {
                 alt={props.productName}
                 src={props.img ? props.img : '/images/Home/finall.png'}
               />
-              {props.stock > 0 && <div className='add-to-cart' style={{'display':'flex', 'flexDirection':'column'}} onClick={(e) => {
+              {props.stock > 0 && <div className='add-to-cart' style={{'display':'flex', 'flexDirection':'column'}}
+              onClick={(e) => {
                 e.preventDefault();
                 addToCartHandler();              }
                 }>Add to Cart <span style={{'fontSize':'16px'}}>+</span></div>}

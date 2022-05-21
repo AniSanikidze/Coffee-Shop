@@ -1,27 +1,42 @@
 import React from "react";
 import "./TopBar.css";
-import { NotificationsNone, Language, Settings } from "@material-ui/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { logout } from "../../../actions/userAction";
+import { useAlert } from "react-alert";
 
 export default function Topbar() {
+  const {user} = useSelector((state) => state.user)
+  const alert = useAlert()
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  const LogOutHandler = () => {
+    dispatch(logout())
+    history.push('/')
+    alert.success("Logged Out Successfully")
+  }
+
   return (
     <div className="topbar">
       <div className="topbarWrapper">
         <div className="topLeft">
-          <span className="logo">lamaadmin</span>
+          <span className="logo">Admin: {user.username}</span>
         </div>
         <div className="topRight">
+          <Link to='/' style={{textDecoration: 'none'}}>
           <div className="topbarIconContainer">
-            <NotificationsNone />
-            <span className="topIconBadge">2</span>
+            Shop
           </div>
+          </Link>
+          <Link to='/user-account' style={{textDecoration: 'none'}}>
           <div className="topbarIconContainer">
-            <Language />
-            <span className="topIconBadge">2</span>
+            Account Details
           </div>
-          <div className="topbarIconContainer">
-            <Settings />
+          </Link>
+          <div className="topbarIconContainer" onClick={LogOutHandler}>
+            Log out
           </div>
-          <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="topAvatar" />
         </div>
       </div>
     </div>

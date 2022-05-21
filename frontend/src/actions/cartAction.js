@@ -2,6 +2,7 @@ import {
     ADD_TO_CART,
     REMOVE_CART_ITEM,
     SAVE_SHIPPING_INFO,
+    CLEAR_CART
   } from "../constants/cartConstants";
   import axios from "axios";
   
@@ -37,6 +38,16 @@ import {
     });
   
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+  };
+
+  export const clearCart = () => async (dispatch, getState) => {
+    dispatch({
+      type: CLEAR_CART,
+      payload: {},
+    });
+    // window.location.reload()
+  
+    localStorage.removeItem("cartItems");
   };
   
   // SAVE SHIPPING INFO

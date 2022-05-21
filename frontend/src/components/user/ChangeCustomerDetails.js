@@ -11,7 +11,7 @@ function UpdateDetails() {
     let {user} = useSelector(state=>state.user)
     const [username,setUsername] = useState("")
     const [email,setEmail] = useState("")
-    const [setSubmitClicked] = useState(false)
+    // const [setSubmitClicked] = useState(false)
     const dispatch = useDispatch()
     const alert = useAlert()
     
@@ -19,7 +19,7 @@ function UpdateDetails() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSubmitClicked(true);
+        // setSubmitClicked(true);
         if(username === user.username && email === user.email){
             error = "Please update fields to save changes"
             alert.error(error);

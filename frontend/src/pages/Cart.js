@@ -159,7 +159,7 @@ const Cart = () => {
       <>
         <Top>
           <Link to='/coffee'><TopButton>CONTINUE SHOPPING</TopButton></Link>
-            <TopText>Shopping Cart({cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0)})</TopText>
+            <TopText>Shopping Cart{localStorage.getItem('cartItems') && (cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0))}</TopText>
         </Top>
         <Bottom>
           <Info>

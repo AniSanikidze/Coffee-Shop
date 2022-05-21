@@ -27,7 +27,7 @@
   
   .updateProductForm > div {
     /* display: flex; */
-    width: 100%;
+    width: 80% !important;
     align-items: center;
   }
   .updateProductForm > div > input,

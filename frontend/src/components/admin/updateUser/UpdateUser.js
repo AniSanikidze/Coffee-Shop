@@ -43,7 +43,7 @@ const UpdateUser = ({ match }) => {
 
     if (isUpdated) {
       alert.success("user Updated Successfully");
-      history.push("/admin/dashboard");
+      history.push("/admin/users");
       dispatch({ type: UPDATE_USER_RESET });
     }
   }, [

@@ -14,10 +14,7 @@ const OrdersListPage = ({ review }) => {
         <div class='side-bar-container'>
            <Sidebar/> 
            <div className="dashboard-pages">
-               
-                  <OrderList/>
-               
-               
+              <OrderList/>
            </div>
         </div>
       </>

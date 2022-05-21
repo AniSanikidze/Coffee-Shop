@@ -17,6 +17,15 @@
     object-fit: cover;
     margin-right: 10px;
   }
+  #productListHeading{
+    font-size: 30px;
+    font-weight: 400;
+    color: #555;
+  }
+
+  .MuiDataGrid-columnsContainer{
+    background-color: #f0f0f0;
+  }
   
   .userListEdit{
       border: none;

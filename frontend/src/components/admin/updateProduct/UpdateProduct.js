@@ -98,8 +98,7 @@ const UpdateProduct = ({ match }) => {
 
   const updateProductSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(img)
-    if (img.name){
+    if (img !== null){
       const fileName = new Date().getTime() + img.name;
       const storage = getStorage(app);
       const storageRef = ref(storage, fileName);
@@ -150,7 +149,7 @@ console.log(img)
     <Fragment>
     <MetaData title="Create Product" />
     {loading ? <Loader/> : <div className="dashboard">
-      <div className="updateProductContainer">
+      <div className="newProductContainer">
         <form
           className="updateProductForm"
           encType="multipart/form-data"

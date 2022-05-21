@@ -25,7 +25,6 @@ import {
   // Create Order
   export const createOrder = (order) => async (dispatch) => {
     try {
-      console.log(order)
       dispatch({ type: CREATE_ORDER_REQUEST });
   
       const config = {
@@ -49,7 +48,6 @@ import {
       dispatch({ type: MY_ORDERS_REQUEST });
   
       const { data } = await axios.get("/api/user-profile/my-orders");
-      // console.log(data)
   
       dispatch({ type: MY_ORDERS_SUCCESS, payload: data.orders });
     } catch (error) {

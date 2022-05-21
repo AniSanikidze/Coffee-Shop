@@ -4,10 +4,9 @@ import Navbar from "../navbar/Navbar";
 import Sidebar from "./sidebar/SideBar";
 import Topbar from "./topbar/TopBar";
 import './AdminDashboard.css'
-import UpdateOrder from "./updateOrder/updateOrder";
+import ProcessOrder from "./processOrder/processOrder";
 
-const UpdateOrderPage = ({ match }) => {
-
+const ProcessOrderPage = ({ match }) => {
 
   return (
       <>
@@ -15,14 +14,11 @@ const UpdateOrderPage = ({ match }) => {
         <div class='side-bar-container'>
            <Sidebar/> 
            <div className="dashboard-pages">
-               <div >
-                   <UpdateOrder match={match}/>
-               </div>
-               
+              <ProcessOrder match={match}/>
            </div>
         </div>
       </>
   );
 };
 
-export default UpdateOrderPage;
+export default ProcessOrderPage;

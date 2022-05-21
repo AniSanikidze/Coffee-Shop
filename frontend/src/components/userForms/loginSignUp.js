@@ -6,6 +6,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import Loader from '../loading/Loader';
 import { useHistory } from "react-router-dom";
 import {clearErrors, login} from '../../actions/userAction'
+import { useContext } from "react";
+import { UserContext } from '../../UserContext';
 
 const Container = styled.div`
   width: 100%;
@@ -62,9 +64,10 @@ const Links = styled.a`
   color: #555555
 `;
 
-const Login = ({ location }) => {
+const Login = () => {
     const [loginEmail,setLoginEmail] = useState("")
     const [loginPassword,setLoginPassword] = useState("")
+    const { setClickedUserMenuItem } = useContext(UserContext)
     let history = useHistory();
     const dispatch = useDispatch()
     const {loading,error,user,isAuthenticated} = useSelector(state=>state.user)
@@ -80,8 +83,9 @@ const Login = ({ location }) => {
     useEffect(() => {
       if (!loading){
         if(isAuthenticated){
+          setClickedUserMenuItem("customerinfo")
           if(user.role === "admin") {
-            history.push('/admin/dashboard')
+            history.push('/admin/products-board')
           }
           else{
             history.push(redirect)

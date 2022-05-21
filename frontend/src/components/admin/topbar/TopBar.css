@@ -16,10 +16,8 @@
   }
   
   .logo {
-    font-weight: bold;
-    font-size: 30px;
-    color: darkblue;
-    cursor: pointer;
+    font-size: 20px;
+    color: #555;
   }
   
   .topRight{
@@ -31,7 +29,8 @@
     position: relative;
     cursor: pointer;
     margin-right: 10px;
-    color: #555;
+    color: rgb(58, 58, 58);
+    font-size: 20px;
   }
   
   .topIconBadge{
@@ -52,6 +51,5 @@
   .topAvatar{
       width: 40px;
       height: 40px;
-      border-radius: 50%;
       cursor: pointer;
   }
