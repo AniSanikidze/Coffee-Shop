@@ -13,6 +13,7 @@ const paymentRoute = require('./routes/paymentRoute')
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 const cookieParser = require('cookie-parser')
+const path = require("path");
 
 // // Handling Uncaught Exception
 // process.on("uncaughtException", (err) => {
@@ -49,6 +50,11 @@ connectDatabase()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+if (process.env.NODE_ENV !== "PRODUCTION") {
+	dotenv.config({ path: "backend/config/config.env" });
+  }
 
 app.use('/api', coffeeRoutes, authRoutes, userRoutes, orderRoutes, cartRoutes,paymentRoute)
 

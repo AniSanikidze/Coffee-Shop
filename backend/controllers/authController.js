@@ -115,7 +115,9 @@ const forgotPassword = async (req, res) => {
     
     try{
         await user.save();
-        const resetPasswordURL = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`
+        const resetPasswordURL = `${req.protocol}://${req.get(
+            "host"
+          )}/password/reset/${resetToken}`;
         const message = `
         Hi ${user.username},\n
         Someone has requested a new password for the following account on Coffee Berry:\n

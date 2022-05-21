@@ -29,8 +29,6 @@ export default function Coffees() {
     }
     console.log(origin)
     dispatch(getProduct(searchInput,price,singleOriginFilter,origin,sortResult))
-    // setSingleOriginFilter(null)
-    // setOrigin(null);
   },[dispatch,error,searchInput,price,singleOriginFilter,origin,sortResult])
 
   
