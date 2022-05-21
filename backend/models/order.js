@@ -89,6 +89,7 @@ const orderSchema = new mongoose.Schema({
                 type: String,
                 required : [true, "Please enter product name"]
             },
+            img : {type: String},
             price: {
                 type: Number,
                 required: [true, "Please enter product price"]

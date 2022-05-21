@@ -4,7 +4,6 @@ const findMiddleware = (item) => {
 
         try {
             foundItem = await item.findById(req.params.id)
-            console.log(foundItem)
             res.foundItem = foundItem
             if (foundItem == null) {
                 return res.status(404).json({message: "Not found"})
