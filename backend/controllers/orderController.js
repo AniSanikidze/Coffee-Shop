@@ -42,7 +42,7 @@ const createOrder = async (req, res) => {
         await newOrder.save()
         res.status(201).json({
             success: true,
-            newOrder
+            newOrder: newOrder
         })
     }
     catch (err) {
@@ -58,7 +58,7 @@ const updateOrderStatus = async (req, res) => {
         await updatedOrder.save()
         res.status(201).json({
             success: true,
-            updatedOrder
+            order: updatedOrder
         })
     }
     catch (err) {
@@ -75,6 +75,7 @@ const deleteOrder = async (req, res) => {
             message: "Order was deleted"})
     }
     catch (err) {
+        console.log(err)
         res.status(500).json({message: err.message})
     }
 }
@@ -97,12 +98,13 @@ const getUserOrder = async (req, res) => {
 const getMyOrders = async (req,res) => {
     try{
         const orders = await order.find({userId: req.user.id})
+        // console.log(orders)
         if (orders == null) {
-            res.status(404).json("Orders not found")
+            return res.status(404).json("Orders not found")
         }
         res.status(200).json({
             success: true,
-            orders})
+            orders: orders})
     }
     catch (err) {
         res.status(500).json({message: err.message})
@@ -140,7 +142,29 @@ const getMonthlyIncome = async (req,res) => {
 const getOrder = async (req, res) => {
     retrievedOrder = res.foundItem
     res.status(200).json({success:true,
-        retrievedOrder})
+        order: retrievedOrder})
+}
+
+const getMyOrder = async (req,res) => {
+    try{
+        let orders = await order.find({userId: req.user.id})
+        let myOrder = await order.findById(req.params.id)
+        // console.log(orders)
+        // console.log(myOrder)
+        for (orderItem in orders){
+            if(orders[orderItem].id == myOrder.id){
+            return res.status(200).json({
+                success: true,
+                order: myOrder}) 
+            }
+
+        }
+        return res.status(400).json({message: "User does not have access to this order"})
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).json({message: err.message})
+    }
 }
 
 module.exports = {
@@ -151,5 +175,6 @@ module.exports = {
     getAllOrders,
     getMonthlyIncome,
     getOrder,
-    getMyOrders
+    getMyOrders,
+    getMyOrder
 }

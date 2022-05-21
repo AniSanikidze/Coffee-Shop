@@ -8,7 +8,8 @@ const {
     getAllOrders, 
     getMonthlyIncome,
     getOrder,
-    getMyOrders
+    getMyOrders,
+    getMyOrder
 } = require('../controllers/orderController')
 const { isAuthenticatedAdmin, verifyToken} = require('../middleware/authMiddleware')
 const findMiddleware = require('../middleware/findMiddleware')
@@ -98,6 +99,33 @@ router.route('/order/:id').get(isAuthenticatedAdmin,findMiddleware(order), getOr
 /**
  * @swagger
  * /api/order/{id}:
+ *  get:
+ *    summary: Retrieves specific order - Admin Accessibility only
+ *    tags: [Admin]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: orderID
+ *    responses:
+ *      200:
+ *        description: Successfully retrieved specific order
+ *      401:
+ *        description: Not authorized
+ *      403:
+ *        description: Forbidden action
+ *      404:
+ *        description: Orders not found
+ *      500:
+ *        description: Internal Server Error
+ */
+ router.route('/my-orders/:id').get(verifyToken, getMyOrder)
+
+/**
+ * @swagger
+ * /api/order/{id}:
  *  put:
  *    summary: Updates specific order status - Admin Accessibility only
  *    tags: [Admin]
@@ -130,7 +158,7 @@ router.route('/order/:id').get(isAuthenticatedAdmin,findMiddleware(order), getOr
  *      500:
  *        description: Internal Server Error
  */
-.put(isAuthenticatedAdmin, findMiddleware(order),updateOrderStatus)
+router.put("/order/:id",isAuthenticatedAdmin, findMiddleware(order),updateOrderStatus)
 
 /**
  * @swagger
@@ -159,7 +187,7 @@ router.route('/order/:id').get(isAuthenticatedAdmin,findMiddleware(order), getOr
  *       500:
  *         description: Internal Server Error
  */
-.delete(isAuthenticatedAdmin, findMiddleware(order), deleteOrder)
+router.delete('/order/:id',isAuthenticatedAdmin, findMiddleware(order), deleteOrder)
 /**
  * @swagger
  * /api/orders:

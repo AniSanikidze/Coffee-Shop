@@ -85,17 +85,35 @@ const orderSchema = new mongoose.Schema({
                 ref: "Product",
                 required: [true, "Please enter productId"]
             },
+            productName: {
+                type: String,
+                required : [true, "Please enter product name"]
+            },
+            img : {type: String},
             price: {
                 type: Number,
                 required: [true, "Please enter product price"]
             },
             quantity: {
                 type: Number,
-                default: 1
+                default: 1,
+                required: [true, "Please enter product quantity"]
+            },
+            coffeeType: {
+                type: String,
+                required: [true, "Please enter coffee type"]
             }
         }
     ],
-    amount: {
+    subTotal: {
+        type: Number,
+        required: true
+    },
+    shippingPrice:{
+        type: Number,
+        required: true
+    },
+    totalPrice: {
         type: Number,
         required: true
     },
@@ -116,9 +134,19 @@ const orderSchema = new mongoose.Schema({
     status: {
         type: String,
         default: "pending"
-    }
+    },
+	paymentInfo: {
+	    id: {
+	      type: String,
+	      required: true,
+	    },
+	    status: {
+	      type: String,
+	      required: true,
+	    },
+	},
 },
     {timestamps: true}
 )
 
-module.exports = mongoose.model("Order", orderSchema)
+module.exports = mongoose.model("order", orderSchema)

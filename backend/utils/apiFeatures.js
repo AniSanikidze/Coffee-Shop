@@ -31,6 +31,15 @@ class ApiFeatures {
     if (queryCopy.new) {
         this.query = this.query.find(JSON.parse(queryStr)).sort({createdAt: -1});
     }
+    else if (queryCopy.sort == "priceAsc"){
+      this.query = this.query.find(JSON.parse(queryStr)).sort({price: 1})
+    }
+    else if (queryCopy.sort == "priceDesc"){
+      this.query = this.query.find(JSON.parse(queryStr)).sort({price: -1})
+    }
+    else if (queryCopy.sort == "ratingDesc"){
+      this.query = this.query.find(JSON.parse(queryStr)).sort({rating: -1})
+    }
     else {
         this.query = this.query.find(JSON.parse(queryStr))
     }

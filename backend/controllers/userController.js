@@ -11,14 +11,14 @@ const getAllUsers = async (req, res) => {
     })
     res.status(200).json({
         success:true,
-        usersArray})
+        users: usersArray})
 }
 
 const getUser = async (req, res) => {
   retrievedUser = res.foundItem
   res.status(200).json({
     success:true,
-    retrievedUser
+    user: retrievedUser
   })
 }
 
@@ -34,6 +34,16 @@ const updateUserDetails = async (req, res) => {
           updatedUser})
   }
   catch (err) {
+    console.log(err)
+    if(err._message == 'Validation failed') {
+      // if (err.path == 'username'){
+      //   res.status(400).json({message: "Username validation failed. "})
+      // }
+        return res.status(400).json({message: "Email validation failed"})
+    }
+    if(err.code === 11000) {
+      return res.status(400).json({message: `The specified email already exists`})
+    }
       res.status(500).json({message: err.message})
   }
 }
@@ -58,6 +68,9 @@ const updateUserPassword = async (req, res) => {
             success: true,
             others})
       }
+      else{
+        return res.status(404).json({message: "Incorrect Password"})
+      }
     }
     catch (err) {
         res.status(500).json({message: err.message})
@@ -66,18 +79,31 @@ const updateUserPassword = async (req, res) => {
 
 const updateUserRole = async(req, res) => {
   retrievedUser = res.foundItem
-  const role = req.body.role
-  if (!role) {
-    res.status(400).json({message: "Role was not provided in the request body"})
+  let username
+  let role
+  let email
+  // const role = req.body.role
+  // if (!role) {
+  //   res.status(400).json({message: "Role was not provided in the request body"})
+  // }
+  if (retrievedUser.username !== req.body.username) {
+    username = req.body.username
+  }
+  if (retrievedUser.email !== req.body.email){
+    email = req.body.email
+  }
+  if (retrievedUser.role !== req.body.role){
+    role = req.body.role
   }
   try{
-    const updatedUser = await retrievedUser.updateOne(role,
+    const updatedUser = await retrievedUser.updateOne({username,role,email},
     {new: true,
     runValidators: true,
     useFindAndModify:false})
+    console.log(updatedUser)
     res.status(201).json({
         success: true,
-        updatedUser})
+        user: updatedUser})
   } catch (err) {
       res.status(500).json({message: err.message})
   }
@@ -139,10 +165,11 @@ const getUserStats = async (req, res) => {
 
 const getProfileDetails = async(req, res) => {
   try {
-    const specificUser = req.user
+    const user = req.user
+    const {password,... others} = user._doc
     res.status(200).json({
         success:true,
-        specificUser
+        user: others
       })
     } catch (err) {
       res.status(500).json({message: err.message})

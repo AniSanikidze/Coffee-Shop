@@ -9,16 +9,19 @@ const authRoutes = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
 const orderRoutes = require('./routes/orderRoutes')
 const cartRoutes = require('./routes/cartRoutes')
+const paymentRoute = require('./routes/paymentRoute')
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 const cookieParser = require('cookie-parser')
 
-// Handling Uncaught Exception
-process.on("uncaughtException", (err) => {
-	console.log(`Error: ${err.message}`);
-	console.log(`Shutting down the server due to Uncaught Exception`);
-	process.exit(1);
-  });
+// // Handling Uncaught Exception
+// process.on("uncaughtException", (err) => {
+// 	console.log(`Error: ${err.message}`);
+// 	console.log(`Shutting down the server due to Uncaught Exception`);
+// 	process.exit(1);
+//   });
+
+//   app.use(bodyParser.urlencoded({parameterLimit: '100000',limit:'500mb', extended: true }))
 
 const options = {
 	definition: {
@@ -47,17 +50,17 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
 
-app.use('/api', coffeeRoutes, authRoutes, userRoutes, orderRoutes, cartRoutes)
+app.use('/api', coffeeRoutes, authRoutes, userRoutes, orderRoutes, cartRoutes,paymentRoute)
 
 
 const server = app.listen(port, () => console.log(`Server running on port ${port}`))
 
-// Unhandled Promise Rejection
-process.on("unhandledRejection", (err) => {
-	console.log(`Error: ${err.message}`);
-	console.log(`Shutting down the server due to Unhandled Promise Rejection`);
+// // Unhandled Promise Rejection
+// process.on("unhandledRejection", (err) => {
+// 	console.log(`Error: ${err.message}`);
+// 	console.log(`Shutting down the server due to Unhandled Promise Rejection`);
   
-	server.close(() => {
-	  process.exit(1);
-	});
-  });
+// 	server.close(() => {
+// 	  process.exit(1);
+// 	});
+//   });

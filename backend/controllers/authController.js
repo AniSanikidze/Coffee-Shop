@@ -1,6 +1,8 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const sendEmail = require('../utils/sendEmail')
+
 
 const generateToken = (id,role,expire_time) => {
     const accessToken = jwt.sign({
@@ -15,28 +17,35 @@ const generateToken = (id,role,expire_time) => {
 const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt()
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
+    if (req.body.password != req.body.confirmPassword){
+        return res.status(400).json({message: "Provided passwords do not match"})
+    }
+
     const user = new User({
         username: req.body.username,
         email: req.body.email,
         password: hashedPassword
     })
     const {password,... others} = user._doc
-    if (!(user.username && user.email && user.password)){
-        return res.status(404).json({message: "Username, email and password not provided"})
-    }
+    
     try{
         await user.save()
         res.status(201).cookie("token", generateToken(user.id_,user.role),
          {expires: new Date(Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
           httpOnly: true}).json({
             success: true,
-            ...others,
+            user: others,
         })
         await user.save()
     }
     catch (err) {
+        console.log(err)
+        if(err._message === 'User validation failed') {
+              return res.status(400).json({message: "Email validation failed"})
+        }
         if(err.code === 11000) {
-            return res.status(400).json({message: `Duplicate email entered`})
+            return res.status(400).json({message: `The specified email already exists`})
         }
         return res.status(500).json({message: err.message})
     }
@@ -44,16 +53,17 @@ const registerUser = async (req, res) => {
 
 
 const logIn = async (req, res) => {
-    if (!req.body.email || !req.body.password){
-        return res.status(400).json({message: 'Please enter email and password'})
-    }
-
+    // if (!req.body.email || !req.body.password){
+    //     return res.status(400).json({message: 'Please enter email and password'})
+    // }
     const user = await User.findOne({email: req.body.email})
-
-    if (user == null) {
-        return res.status(404).json("User was not found")
+    if(req.body.email != "" && req.body.password != ""){
+        if (user == null) {
+            return res.status(404).json({message: "No customer account found"})
+        }
     }
 
+    
     try{
         const {password,... others} = user._doc
         if (await bcrypt.compare(req.body.password, user.password)) {
@@ -62,18 +72,17 @@ const logIn = async (req, res) => {
               ),
               httpOnly: true}).json({
                 success: true,
-                ...others,
+                user: others,
             })
         }
         else{
-            res.status(404).json({
-                success:false,
-                message: "Wrong credentials"
+            return res.status(404).json({
+                message: "The credentials provided are incorrect"
             })
         }  
     }
     catch (err) {
-        res.status(500).json(err.message)
+        res.status(500).json({message: err.message})
     }
 }
 
@@ -87,12 +96,13 @@ const logOut = async (req, res) => {
         message: "Logged Out"
     })}
     catch (err) {
-        res.status(500).json(err.message)
+        res.status(500).json({message: err.message})
     }
 }
 
 const forgotPassword = async (req, res) => {
     const user = await User.findOne({email: req.body.email})
+    console.log(req.body)
 
     if (user == null){
         return res.status(404).json({message: "User was not found"})
@@ -105,9 +115,14 @@ const forgotPassword = async (req, res) => {
     
     try{
         await user.save();
-        const resetPasswordURL = `${req.protocol}://${req.get('host')}/api/password/reset/${resetToken}`
-        const message = `Please click on the given link to reset you password : ${resetPasswordURL} \n\n
-         Please, ignore this email if you haven't requested it.` 
+        const resetPasswordURL = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`
+        const message = `
+        Hi ${user.username},\n
+        Someone has requested a new password for the following account on Coffee Berry:\n
+        Username: ${user.username}\n
+        If you didn't make this request, just ignore this email. If you'd like to proceed:\n
+        Please click on the given link to reset you password : ${resetPasswordURL}\n
+        Thanks for reading.` 
         
         await sendEmail({
             email: user.email,
@@ -134,7 +149,7 @@ const resetPassword = async (req, res) => {
     }
     jwt.verify(resetToken, process.env.JWT_SECRET_PASS_RESET, (err) => {
         if (err) {
-            return res.status(403).json("Token is not valid!");
+            return res.status(403).json({message:"Token is not valid!"});
         }})
 
     const user = await User.findOne({resetPasswordToken: resetToken})
