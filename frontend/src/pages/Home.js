@@ -8,7 +8,6 @@ import Footer from '../components/footer/Footer';
 
 function Home() {
 
-
   return (
     <>
     <MetaData title="Home Page - Coffee Berry"/>
