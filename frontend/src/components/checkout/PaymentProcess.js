@@ -46,7 +46,7 @@ const PaymentProcessing = ({ history }) => {
     status: "pending"
   };
 
-  console.log(cartItems)
+  console.log(shippingInfo)
 
   const TopButton = styled.button`
   padding: 10px;
@@ -105,11 +105,13 @@ const PaymentProcessing = ({ history }) => {
           };
 
           dispatch(createOrder(order));
+          console.log("orderrrrrrrrrrrrrrrrr",order)
+          // window.location.reload()
           dispatch(clearCart())
-          localStorage.removeItem('cartItems')
+          // localStorage.removeItem('cartItems')
 
           history.push("/success");
-          // window.location.reload()
+          window.location.reload()
         } else {
           alert.error("There's some issue while processing payment ");
         }
@@ -124,7 +126,8 @@ const PaymentProcessing = ({ history }) => {
       <>
       <Navbar/>{loading ? <Loader/> :
     <Fragment>
-      <MetaData title="Payment - Coffee Berry" />
+      {stripe ? 
+      <><MetaData title="Payment - Coffee Berry" />
       <div className='checkout-form' style={{padding: '3rem'}}>
       <CheckoutSteps activeStep={2} style={{marginBottom: '5rem'}}/>
       
@@ -152,7 +155,8 @@ const PaymentProcessing = ({ history }) => {
                 <TopButton type="filled" style={{backgroundColor: '#afa483', width: '30%'}} ref={payBtn}>Pay - ₾{orderInfo.totalPrice}</TopButton>
                 </div></div>
         </form> 
-      </div>
+      </div></> :
+      <Loader />}
     </Fragment>}
     <Footer/>
     </>

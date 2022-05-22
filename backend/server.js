@@ -50,14 +50,18 @@ connectDatabase()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
-	dotenv.config({ path: "backend/config/config.env" });
+	dotenv.config({ path: "backend/config/.env" });
   }
+
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.use('/api', coffeeRoutes, authRoutes, userRoutes, orderRoutes, cartRoutes,paymentRoute)
 
+  app.get("*", (req, res) => {
+	 res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
+  });
 
 const server = app.listen(port, () => console.log(`Server running on port ${port}`))
 

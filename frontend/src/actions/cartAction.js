@@ -43,11 +43,11 @@ import {
   export const clearCart = () => async (dispatch, getState) => {
     dispatch({
       type: CLEAR_CART,
-      payload: {},
+      payload: [],
     });
     // window.location.reload()
   
-    localStorage.removeItem("cartItems");
+    localStorage.setItem("cartItems", []);
   };
   
   // SAVE SHIPPING INFO

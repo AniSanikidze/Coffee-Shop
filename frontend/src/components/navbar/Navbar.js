@@ -45,19 +45,20 @@ function Navbar() {
             </li>
             <li className='nav-item'>
               <Link
-                to='/shop-categories'
+                to='/coffee'
                 className='nav-links'
               >
                 SHOP
               </Link>
             </li>
             <li className='nav-item'>
+              {window.location.pathname == '/' &&
               <Link className='nav-links'     onClick={() => {
                 const anchor = document.querySelector('#company-section')
                 anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 }}>
                 ABOUT US
-              </Link>
+              </Link>}
             </li>
             <li className='nav-links-mobile'>
               Log In

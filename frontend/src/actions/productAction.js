@@ -7,6 +7,9 @@ import {
   ADMIN_PRODUCT_REQUEST,
   ADMIN_PRODUCT_SUCCESS,
   ADMIN_PRODUCT_FAIL,
+  ADMIN_PRODUCTS_REQUEST,
+  ADMIN_PRODUCTS_SUCCESS,
+  ADMIN_PRODUCTS_FAIL,
   NEW_PRODUCT_REQUEST,
   NEW_PRODUCT_SUCCESS,
   NEW_PRODUCT_FAIL,
@@ -66,16 +69,34 @@ export const getProduct =
     }
   };
 
-// // Get All Products For Admin
-export const getAdminProduct = () => async (dispatch) => {
+export const getAdminProducts = () => async (dispatch) => {
   try {
-    dispatch({ type: ADMIN_PRODUCT_REQUEST });
+    dispatch({ type: ADMIN_PRODUCTS_REQUEST });
 
     const { data } = await axios.get("/api/coffee");
 
     dispatch({
-      type: ADMIN_PRODUCT_SUCCESS,
+      type: ADMIN_PRODUCTS_SUCCESS,
       payload: data.products,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_PRODUCTS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const getAdminProduct = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: ADMIN_PRODUCT_REQUEST });
+
+    const { data } = await axios.get(`/api/coffee/${id}`);
+    console.log(data)
+
+    dispatch({
+      type: ADMIN_PRODUCT_SUCCESS,
+      payload: data.retrievedcoffee,
     });
   } catch (error) {
     dispatch({
@@ -165,7 +186,6 @@ export const getProductInfo = (id) => async (dispatch) => {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
     const { data } = await axios.get(`/api/coffee/${id}`);
-    // console.log(data.retrievedcoffee.reviews)
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
@@ -202,45 +222,6 @@ export const newReview = (rating,comment,coffeeId) => async (dispatch) => {
   }
 };
 
-// Get All Reviews of a Product
-export const getAllReviews = (id) => async (dispatch) => {
-  try {
-    dispatch({ type: ALL_REVIEW_REQUEST });
-
-    const { data } = await axios.get(`/api/reviews?id=${id}`);
-
-    dispatch({
-      type: ALL_REVIEW_SUCCESS,
-      payload: data.reviews,
-    });
-  } catch (error) {
-    dispatch({
-      type: ALL_REVIEW_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
-
-// Delete Review of a Product
-export const deleteReviews = (reviewId, productId) => async (dispatch) => {
-  try {
-    dispatch({ type: DELETE_REVIEW_REQUEST });
-
-    const { data } = await axios.delete(
-      `/api/v1/reviews?id=${reviewId}&productId=${productId}`
-    );
-
-    dispatch({
-      type: DELETE_REVIEW_SUCCESS,
-      payload: data.success,
-    });
-  } catch (error) {
-    dispatch({
-      type: DELETE_REVIEW_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
 
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {

@@ -4,6 +4,7 @@ import {
   clearErrors,
   updateProduct,
   getProductInfo,
+  getAdminProduct,
 } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
@@ -17,6 +18,7 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
+  deleteObject
 } from "firebase/storage";
 import app from "../../firebase";
 
@@ -25,7 +27,7 @@ const UpdateProduct = ({ match }) => {
   const alert = useAlert();
   const history = useHistory()
 
-  const {loading,error,product} = useSelector(state=>state.product)
+  const {loading,error,product} = useSelector((state)=>state.product)
 
   const {
     error: updateError,
@@ -76,10 +78,16 @@ const UpdateProduct = ({ match }) => {
   ]);
 
   useEffect(() => {
-      dispatch(getProductInfo(productId))
-    if(!loading){
-             if (product){
-          console.log(product)
+    dispatch(getAdminProduct(productId))
+},[dispatch,productId])
+
+// console.log(productId)
+
+useEffect(() => {
+  // dispatch(getAdminProduct(productId))
+  if(!loading){
+      if (product){
+        console.log(product)
         setProductName(product.productName);
         setDesc(product.desc);
         setPrice(product.price);
@@ -91,18 +99,35 @@ const UpdateProduct = ({ match }) => {
         setAroma(product.aroma);
         setFinish(product.finish);
         setFlavor(product.flavor)
-     }
-    }
-  },[loading])
-  console.log(roastLevel)
+   }
+  }
+},[loading,product])
 
+console.log(process.env.REACT_APP_APP_ID)
+
+// {!loading && (console.log(product))}
   const updateProductSubmitHandler = (e) => {
+
     e.preventDefault();
     if (img !== null){
-      const fileName = new Date().getTime() + img.name;
       const storage = getStorage(app);
+    
+      // Create a reference to the file to delete
+      const desertRef = ref(storage, product.img);
+      
+      // Delete the file
+      deleteObject(desertRef).then(() => {
+        // File deleted successfully
+      }).catch((error) => {
+        // Uh-oh, an error occurred!
+      });
+      
+      const fileName = new Date().getTime() + img.name;
+      // const storage = getStorage(app);
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, img);
+
+      
   
       uploadTask.on(
         "state_changed",
@@ -143,11 +168,10 @@ const UpdateProduct = ({ match }) => {
     "Dark"
 ]
 
-console.log(img)
 
   return (
     <Fragment>
-    <MetaData title="Create Product" />
+          <MetaData title="Create Product" />
     {loading ? <Loader/> : <div className="dashboard">
       <div className="newProductContainer">
         <form
@@ -172,7 +196,6 @@ console.log(img)
             <input
               type="text"
               placeholder="Origin"
-              required
               value={origin}
               onChange={(e) => setOrigin(e.target.value)}
             />

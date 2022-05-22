@@ -7,7 +7,7 @@ import { UserContext } from '../../UserContext';
 import { useHistory } from "react-router-dom";
 
 function Searchbox() {
-  const { setSearchInput } = useContext(UserContext);
+  const { searchInput,setSearchInput } = useContext(UserContext);
 
    const { inputClassName, 
           searchIconClassname } = AdjustSearchbox();
@@ -38,6 +38,7 @@ function Searchbox() {
       </Link>
         <input
           type="text"
+          value={searchInput}
           className={inputClassName}
           placeholder={"Search Coffee"}
           onChange={handleChange}
