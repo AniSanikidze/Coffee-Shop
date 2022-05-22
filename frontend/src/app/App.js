@@ -85,7 +85,7 @@ function App() {
              <ProtectedRoute path='/order/:id' exact component={OrderDetails}/>
              <Route path='/login' exact component={Form} />
              <Route path='/signup' exact component={SignUp}/>
-             <Route path='/shop-categories' exact component={ShopCategories}/>
+             {/* <Route path='/shop-categories' exact component={ShopCategories}/> */}
              <Route path='/product/:id' exact component={ProductPage}/>
              <Route path='/coffee' component={Coffees} />
              <Route path='/coffee/:keyword' component={Coffees} />
@@ -102,7 +102,7 @@ function App() {
                 <ProtectedRoute path='/payment/process' exact component={PaymentProcessing}/>
               </Elements>
             } 
-             <Route component={PageNotFound}/>
+             {/* <Route component={PageNotFound}/> */}
             </Switch>
           </UserContext.Provider>
         </Switch>

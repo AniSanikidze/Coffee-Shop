@@ -4,7 +4,7 @@ import "./ProductList.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-  getAdminProduct,
+  getAdminProducts,
   deleteProduct,
 } from "../../../actions/productAction";
 import { Link, useHistory } from "react-router-dom";
@@ -13,7 +13,6 @@ import { Button } from "@material-ui/core";
 import MetaData from "../../MetaData";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-// import SideBar from "./Sidebar";
 import { DELETE_PRODUCT_RESET } from "../../../constants/productConstants";
 
 const ProductList = () => {
@@ -22,7 +21,7 @@ const ProductList = () => {
   const alert = useAlert();
   const history = useHistory();
 
-  const { error, products } = useSelector((state) => state.products);
+  const { error, products,loading } = useSelector((state) => state.products);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.adminProduct
@@ -49,7 +48,7 @@ const ProductList = () => {
       dispatch({ type: DELETE_PRODUCT_RESET });
     }
 
-    dispatch(getAdminProduct());
+    dispatch(getAdminProducts());
   }, [dispatch, alert, error, deleteError, history, isDeleted]);
 
   const columns = [
@@ -106,8 +105,8 @@ const ProductList = () => {
 
   const rows = [];
 
-  products &&
-    products.forEach((item) => {
+  if (!loading && products) {
+        products.map((item) => {
       rows.push({
         id: item._id,
         stock: item.stock,
@@ -115,6 +114,8 @@ const ProductList = () => {
         name: item.productName,
       });
     });
+  }
+
 
   return (
     <Fragment>

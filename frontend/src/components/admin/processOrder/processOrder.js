@@ -11,7 +11,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../loading/Loader";
 import { useAlert } from "react-alert";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import { Button } from "@material-ui/core";
 import { UPDATE_ORDER_RESET } from "../../../constants/orderConstants";
 import { getUserDetails } from "../../../actions/userAction";
@@ -98,8 +97,6 @@ const ProcessOrder = ({ match }) => {
         dispatch(getUserDetails(order.userId))  
       }
   },[getUserDetails])
-
-  console.log(order)
 
   return (
     <Fragment>

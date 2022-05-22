@@ -5,6 +5,9 @@ import {
   ADMIN_PRODUCT_REQUEST,
   ADMIN_PRODUCT_SUCCESS,
   ADMIN_PRODUCT_FAIL,
+  ADMIN_PRODUCTS_REQUEST,
+  ADMIN_PRODUCTS_SUCCESS,
+  ADMIN_PRODUCTS_FAIL,
   NEW_PRODUCT_REQUEST,
   NEW_PRODUCT_SUCCESS,
   NEW_PRODUCT_FAIL,
@@ -37,7 +40,7 @@ import {
 export const productsReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case ALL_PRODUCT_REQUEST:
-    case ADMIN_PRODUCT_REQUEST:
+    case ADMIN_PRODUCTS_REQUEST:
       return {
         loading: true,
         products: [],
@@ -46,18 +49,15 @@ export const productsReducer = (state = { products: [] }, action) => {
       return {
         loading: false,
         products: action.payload.products,
-        // productsCount: action.payload.productsCount,
-        // resultPerPage: action.payload.resultPerPage,
-        // filteredProductsCount: action.payload.filteredProductsCount,
       };
 
-    case ADMIN_PRODUCT_SUCCESS:
+    case ADMIN_PRODUCTS_SUCCESS:
       return {
         loading: false,
         products: action.payload,
       };
     case ALL_PRODUCT_FAIL:
-    case ADMIN_PRODUCT_FAIL:
+    case ADMIN_PRODUCTS_FAIL:
       return {
         loading: false,
         error: action.payload,
@@ -76,6 +76,7 @@ export const productsReducer = (state = { products: [] }, action) => {
 export const productInfoReducer = (state = { product: {} }, action) => {
   switch (action.type) {
     case PRODUCT_DETAILS_REQUEST:
+    case ADMIN_PRODUCT_REQUEST:
       return {
         loading: true,
         ...state,
@@ -84,18 +85,15 @@ export const productInfoReducer = (state = { product: {} }, action) => {
       return {
         loading: false,
         product: action.payload,
-        // productsCount: action.payload.productsCount,
-        // resultPerPage: action.payload.resultPerPage,
-        // filteredProductsCount: action.payload.filteredProductsCount,
       };
 
-    // case ADMIN_PRODUCT_SUCCESS:
-    //   return {
-    //     loading: false,
-    //     products: action.payload,
-    //   };
+    case ADMIN_PRODUCT_SUCCESS:
+      return {
+        loading: false,
+        product: action.payload,
+      };
     case PRODUCT_DETAILS_FAIL:
-    // case ADMIN_PRODUCT_FAIL:
+    case ADMIN_PRODUCT_FAIL:
       return {
         loading: false,
         error: action.payload,

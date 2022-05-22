@@ -53,6 +53,7 @@ const shippingInfo = localStorage.getItem("shippingInfo")
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
 
     history.push("/payment/process");
+    // window.location.reload()
   };
 
 const SummaryTitle = styled.h1`

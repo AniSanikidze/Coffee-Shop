@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 100%;
   height: 100vh;
   background:
-    url("https://images.squarespace-cdn.com/content/v1/56d6d5465559866a562d9b26/1559837339701-W565GSG9G3DO8YUOLKOS/EDIT2-6723.jpg")
+    url("images/Home/EDIT2-6723.jpg")
       center;
   background-size: cover;
   display: flex;

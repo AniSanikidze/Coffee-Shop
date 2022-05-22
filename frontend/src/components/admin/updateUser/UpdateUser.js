@@ -63,11 +63,8 @@ const UpdateUser = ({ match }) => {
   },[dispatch,userId])
 
   useEffect(() => {
-    if (user && user._id !== userId) {
-      } else
     if(!loading){
-             if (user){
-          console.log(user)
+        if (user){
         setUsername(user.username);
         setEmail(user.email);
         setRole(user.role)

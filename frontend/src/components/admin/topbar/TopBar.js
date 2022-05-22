@@ -24,7 +24,7 @@ export default function Topbar() {
           <span className="logo">Admin: {user.username}</span>
         </div>
         <div className="topRight">
-          <Link to='/' style={{textDecoration: 'none'}}>
+          <Link to='/coffee' style={{textDecoration: 'none'}}>
           <div className="topbarIconContainer">
             Shop
           </div>
