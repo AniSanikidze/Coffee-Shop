@@ -44,9 +44,7 @@ import {
     dispatch({
       type: CLEAR_CART,
       payload: [],
-    });
-    // window.location.reload()
-  
+    });  
     localStorage.setItem("cartItems", []);
   };
   
@@ -55,12 +53,10 @@ import {
     dispatch({
       type: SAVE_SHIPPING_INFO,
       payload: {
-        shippingAddress: {
-            address: address,
-            city: city
-        },
+        address: address,
+        city: city,
         phoneNumber: phoneNumber
-      },
+      }
     });
   
     localStorage.setItem("shippingInfo", JSON.stringify({

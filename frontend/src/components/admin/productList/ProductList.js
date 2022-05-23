@@ -11,7 +11,6 @@ import { Link, useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../../MetaData";
-import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { DELETE_PRODUCT_RESET } from "../../../constants/productConstants";
 
@@ -86,8 +85,8 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/product/${params.getValue(params.id, "id")}`}>
-              <EditIcon />
+            <Link to={`/admin/product/${params.getValue(params.id, "id")}`} style={{textDecoration: 'none !important'}}>
+              update
             </Link>
 
             <Button
@@ -95,7 +94,7 @@ const ProductList = () => {
                 deleteProductHandler(params.getValue(params.id, "id"))
               }
             >
-              <DeleteIcon />
+              <DeleteIcon style={{color: 'red'}} />
             </Button>
           </Fragment>
         );

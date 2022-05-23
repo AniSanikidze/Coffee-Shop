@@ -11,7 +11,7 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     background:
-    url("images/Home/EDIT2-6723.jpg")
+    url("/images/Home/EDIT2-6723.jpg")
         center;
     background-size: cover;
     display: flex;

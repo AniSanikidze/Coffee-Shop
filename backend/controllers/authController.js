@@ -149,34 +149,37 @@ const resetPassword = async (req, res) => {
     if (!resetToken){
        return res.status(401).json({message: "Authentication error!"})
     }
-    jwt.verify(resetToken, process.env.JWT_SECRET_PASS_RESET, (err) => {
+    if (!jwt.verify(resetToken, process.env.JWT_SECRET_PASS_RESET, (err) => {
         if (err) {
-            return res.status(403).json({message:"Token is not valid!"});
-        }})
-
-    const user = await User.findOne({resetPasswordToken: resetToken})
-
-    if (!user){
-        return res.status(404).json({message: "Invalid password reset token provided"})
-    }
-
-    if (req.body.password != req.body.confirmPassword){
-        return res.status(400).json({message: "Provided passwords do not match"})
-    }
-    const salt = await bcrypt.genSalt()
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
-    try{
-            user.resetPasswordToken = undefined
-            user.password = hashedPassword
-            await user.save()
-            res.status(200).json({
-                success: true,
-                message: "The password was successfully updated"
-            })
-    }
-    catch (err){
-        res.status(500).json({message: err.message})
-    }
+            return res.status(503).json({message:"Link has expired! Please request the new one."});
+        }})){
+            try{
+        
+                const user = await User.findOne({resetPasswordToken: resetToken})
+        
+                if (!user){
+                    return res.status(404).json({message: "Invalid password reset token provided"})
+                }
+        
+                if (req.body.password != req.body.confirmPassword){
+                    return res.status(400).json({message: "Provided passwords do not match"})
+                }
+                const salt = await bcrypt.genSalt()
+                const hashedPassword = await bcrypt.hash(req.body.password, salt)
+        
+                    user.resetPasswordToken = undefined
+                    user.password = hashedPassword
+                    await user.save()
+                    return res.status(200).json({
+                        success: true,
+                        message: "The password was successfully updated"
+                    })
+            }
+            catch (err){
+                return res.status(500).json({message: err.message})
+            }
+        }
+    
 }
 
 module.exports = {

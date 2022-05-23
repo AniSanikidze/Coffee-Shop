@@ -42,7 +42,6 @@ function App() {
   const [pragueCollegePath, setPragueCollegePath] = useState(false);
   let [clickedUserMenuItem, setClickedUserMenuItem]
     = useState("customerinfo")
-  const [chosenRestaurant, setChosenRestaurant] = useState(false);
   const [generalSearchPath, setGeneralSearchPath] = useState(false);
   const [incorrectPassword, setIncorrectPassword] = useState(false);
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -70,10 +69,14 @@ function App() {
             origin, setOrigin,
             pragueCollegePath, setPragueCollegePath,
             clickedUserMenuItem, setClickedUserMenuItem,
-            chosenRestaurant, setChosenRestaurant,
             generalSearchPath, setGeneralSearchPath,
             incorrectPassword, setIncorrectPassword,
           }}>
+            {stripeApiKey && 
+              <Elements stripe={loadStripe(stripeApiKey)}> 
+                <ProtectedRoute path='/payment/process' exact component={PaymentProcessing}/>
+              </Elements>
+            }
             <Switch>
              <Route path='/' exact component={Home} />
              <ProtectedRoute path='/user-account' exact component={() => (<UserAccount />)}/>
@@ -96,18 +99,20 @@ function App() {
              <ProtectedRoute path='/admin/order/:id' isAdmin={true} component={ProcessOrderPage}/>
              <ProtectedRoute path='/admin/users' isAdmin={true} component={UserListPage}/>
              <ProtectedRoute path='/admin/user/:id' isAdmin={true} component={UpdateUserPage}/>
-             <ProtectedRoute path='/success' exact component={OrderSuccess}/>
-             {stripeApiKey && 
-              <Elements stripe={loadStripe(stripeApiKey)}> 
-                <ProtectedRoute path='/payment/process' exact component={PaymentProcessing}/>
-              </Elements>
-            } 
-             {/* <Route component={PageNotFound}/> */}
+             <ProtectedRoute path='/success' exact component={OrderSuccess}/> 
+             <Route component={PageNotFound}/>
             </Switch>
           </UserContext.Provider>
         </Switch>
       </Router>
     </>
+
+
+
+
+
+
+
   );
 }
 

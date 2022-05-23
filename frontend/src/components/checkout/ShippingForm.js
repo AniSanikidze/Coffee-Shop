@@ -35,7 +35,6 @@ function ShippingForm({match}) {
 
   return (
     <div className='shipping-form' style={{padding: '3rem'}}>
-      <CheckoutSteps activeStep={0} style={{marginBottom: '5rem'}}/>
     <form  onSubmit={handleSubmit}
                 className='form' >
                   

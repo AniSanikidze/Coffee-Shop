@@ -121,7 +121,7 @@ const Cart = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const {cartItems} = useSelector(state => state.cart)
+  const {cartItems} = useSelector((state) => state.cart)
 
   const increaseProductQuantity = (id,quantity,stock,coffeeType) => {
     if(quantity + 1 !== stock){
@@ -161,11 +161,11 @@ const Cart = () => {
       <>
         <Top>
           <Link to='/coffee'><TopButton>CONTINUE SHOPPING</TopButton></Link>
-            <TopText>Shopping Cart{(cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0))}</TopText>
+            <TopText>Shopping Cart{cartItems && (cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0))}</TopText>
         </Top>
         <Bottom>
           <Info>
-            {cartItems.map((item) => (
+            {cartItems && cartItems.map((item) => (
               <Product>
               <ProductDetail>
                 <div style={{'position':'relative','background-repeat': 'no-repeat','width':'200px','height':'200px','background-size': 'contain',
@@ -207,7 +207,7 @@ const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>₾{cartItems.reduce((total, currentValue) => total = total + (currentValue.quantity * currentValue.price),0)}</SummaryItemPrice>
+              <SummaryItemPrice>₾{cartItems && cartItems.reduce((total, currentValue) => total = total + (currentValue.quantity * currentValue.price),0)}</SummaryItemPrice>
             </SummaryItem>
             <Button onClick={checkOutHandler}>CHECKOUT NOW</Button>
           </Summary>

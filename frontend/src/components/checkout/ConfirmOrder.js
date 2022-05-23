@@ -19,8 +19,8 @@ function ConfirmOrder({match}) {
   const dispatch = useDispatch();
   const alert = useAlert();
   const history = useHistory();
-  const { cartItems,loading} = useSelector((state) => state.cart);
-  // const { user,loading } = useSelector((state) => state.user);
+  const { shippingInfo,cartItems,loading} = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
 
   const TopButton = styled.button`
   padding: 10px;
@@ -31,11 +31,6 @@ function ConfirmOrder({match}) {
     props.type === "filled" ? "black" : "transparent"};
   color: ${(props) => props.type === "filled" && "white"};
 `;
-
-const shippingInfo = localStorage.getItem("shippingInfo")
-? JSON.parse(localStorage.getItem("shippingInfo"))
-: {}
-
 
     const shippingPrice = shippingInfo.city == "Tbilisi" ? 5 : 10
   
@@ -53,7 +48,7 @@ const shippingInfo = localStorage.getItem("shippingInfo")
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
 
     history.push("/payment/process");
-    // window.location.reload()
+  
   };
 
 const SummaryTitle = styled.h1`
@@ -128,44 +123,19 @@ const Details = styled.div`
 `;
 
 
-
-
-
-  // console.log(match)
-  
-
-  // const a = useEffect(() => {
-  //   Aos.init({ duration: 1000 })
-  // }, [])
-  
-  // window.addEventListener('a', a);
-  // console.log(useSelector(state => state.products))
-
   return (
       <><Navbar/>
-      <CheckoutSteps activeStep={1} style={{marginBottom: '5rem'}} 
-      />
       {loading ? <Loader/> : <div className="confirmOrderPage">
         <div>
           <div className="confirmcheckoutArea">
             <Typography>Shipping Details</Typography>
             <div className="confirmcheckoutAreaBox">
-              {/* <div>
-                <p>Username: {user.username}</p> */}
-                {/* <span></span> */}
-              {/* </div>
-              <div>
-                <p>Email: {user.email}</p> */}
-                {/* <span></span> */}
-              {/* </div> */}
               <div>
                 <p>Phone: {shippingInfo.phoneNumber}</p>
-                {/* <span></span> */}
               </div>
               <div>{console.log(shippingInfo)}
                 <p>Address: {shippingInfo &&
                        `${shippingInfo.address}, ${shippingInfo.city}`}</p>
-                {/* <span></span> */}
               </div>
             </div>
           </div>

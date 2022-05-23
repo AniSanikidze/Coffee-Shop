@@ -10,7 +10,7 @@ export const VerticalFilter = () => {
     const origins = [
         "Brazil",
         "Colombia",
-        "Costa",
+        "Costa Rica",
         "Ethiopia",
         "Kenya",
         "Tanzania",
@@ -75,7 +75,7 @@ export const VerticalFilter = () => {
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={20}
-              max={50}
+              max={37}
             /></div>
             </div>
             </div>

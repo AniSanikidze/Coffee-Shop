@@ -18,7 +18,6 @@ import {
         );
   
         if (isItemExist) {
-
           return {
             ...state,
             cartItems: state.cartItems.map((i) =>
@@ -26,8 +25,6 @@ import {
             ),
           };
         } else {  
-                        console.log(isItemExist)
-
           return {
             ...state,
             cartItems: [...state.cartItems, item],
@@ -43,7 +40,7 @@ import {
       case CLEAR_CART:
         return {
           ...state,
-          cartItems: {}
+          cartItems: []
         }
   
       case SAVE_SHIPPING_INFO:

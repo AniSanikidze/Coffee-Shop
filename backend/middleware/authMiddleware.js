@@ -8,7 +8,7 @@ const verifyToken = async (req, res, next) => {
         req.user = await user.findById(decodedUserData.id);
         next();
     } else {
-      return res.status(500).json("Not authorized")
+        res.status(503).send({message: "Bad credentials" });
     }  
 };
 

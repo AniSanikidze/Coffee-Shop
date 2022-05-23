@@ -35,11 +35,40 @@ const updateStock = async(res,productId,quantity) => {
 const createOrder = async (req, res) => {
     try{
         const newOrder = new order(req.body)
+        // const customer = await user.findById(req.user.id)
         const boughtProducts = req.body.products
         boughtProducts.forEach((boughtProduct) => {
             updateStock(res,boughtProduct.productId,boughtProduct.quantity)
-        }) 
+        })
         await newOrder.save()
+        // const message = `
+
+        // Confirmation Number: ${placedOrder._id}
+
+        // Hello ${customer.username},
+
+        // We’re happy to let you know that we’ve received your order.
+
+        // Ordered items: ${boughtProducts.forEach((boughtProduct) => {
+        //     boughtProduct.productName,
+        //     boughtProduct.price,
+        //     boughtProduct.quantity,
+        //     boughtProduct.coffeeType
+        // })}
+
+        // Once your package ships, we will send you an email with a tracking number and link so you can see the movement of your package.
+
+        // If you have any questions, contact us here or call us on +995599080831!
+
+        // Coffee Berry
+        // `
+        // console.log(customer)
+        // console.log(boughtProducts)
+        // await sendEmail({
+        //     email: customer.email,
+        //     subject: 'Order Confirmation - Coffee Berry',
+        //     message
+        // })
         res.status(201).json({
             success: true,
             newOrder: newOrder

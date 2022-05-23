@@ -28,7 +28,7 @@ const PaymentProcessing = ({ history }) => {
   const elements = useElements();
   const payBtn = useRef(null);
 
-  const { shippingInfo, cartItems} = useSelector((state) => state.cart);
+  const { shippingInfo,cartItems} = useSelector((state) => state.cart);
   const { user,loading } = useSelector((state) => state.user);
 
   const paymentData = {
@@ -41,12 +41,15 @@ const PaymentProcessing = ({ history }) => {
     subTotal: orderInfo.subTotal,
     shippingPrice: orderInfo.shippingPrice,
     totalPrice: orderInfo.totalPrice,
-    shippingAddress: shippingInfo.shippingAddress,
+    shippingAddress: {
+      address: shippingInfo.address,
+      city: shippingInfo.city
+    },
     phoneNumber: shippingInfo.phoneNumber,
     status: "pending"
   };
 
-  console.log(shippingInfo)
+  console.log(order)
 
   const TopButton = styled.button`
   padding: 10px;
@@ -105,13 +108,11 @@ const PaymentProcessing = ({ history }) => {
           };
 
           dispatch(createOrder(order));
-          console.log("orderrrrrrrrrrrrrrrrr",order)
           // window.location.reload()
           dispatch(clearCart())
           // localStorage.removeItem('cartItems')
 
           history.push("/success");
-          window.location.reload()
         } else {
           alert.error("There's some issue while processing payment ");
         }
@@ -121,15 +122,13 @@ const PaymentProcessing = ({ history }) => {
       alert.error(error.response.data.message);
     }
   };
-
   return (
       <>
-      <Navbar/>{loading ? <Loader/> :
+      <Navbar/>
     <Fragment>
-      {stripe ? 
-      <><MetaData title="Payment - Coffee Berry" />
+      <MetaData title="Payment - Coffee Berry" />
       <div className='checkout-form' style={{padding: '3rem'}}>
-      <CheckoutSteps activeStep={2} style={{marginBottom: '5rem'}}/>
+      {/* <CheckoutSteps activeStep={2} style={{marginBottom: '5rem'}}/> */}
       
         <form className="form" onSubmit={(e) => submitHandler(e)}>
             <div className="change-password">
@@ -155,9 +154,8 @@ const PaymentProcessing = ({ history }) => {
                 <TopButton type="filled" style={{backgroundColor: '#afa483', width: '30%'}} ref={payBtn}>Pay - ₾{orderInfo.totalPrice}</TopButton>
                 </div></div>
         </form> 
-      </div></> :
-      <Loader />}
-    </Fragment>}
+      </div> 
+    </Fragment>
     <Footer/>
     </>
   );
