@@ -42,13 +42,12 @@ function CompanySection() {
                 Coffee Berry began with a vision:
                 </h1>
                 <p className= 'description'>
-                Start with the best raw ingridients, roast with pasion and care,
-                istablish relationship based on respect, and love the earth, it takes a
-                global effort to get coffee into your cup and we want to respect all
-                the people it takes to get it here. <br/><br/>
-                We seek out compelling coffees and roast to eccentuate their
-                unique qualities. our coffee is an expression of our values: passion,
-                care, respected integrity.
+                Start with the best raw ingredients, roast with passion and care, 
+                and establish a relationship based on respect and love for the earth.
+                It takes global effort to get the best coffee into your cup. 
+                We respect all the people it takes to get it here.  <br/><br/>
+                We seek out compelling coffees and roasts to accentuate their unique qualities.
+                Our coffee expresses our values: passion, care, and integrity.
                 </p>
               </div>
             </div>

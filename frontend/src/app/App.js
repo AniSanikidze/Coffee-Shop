@@ -100,7 +100,7 @@ function App() {
              <ProtectedRoute path='/admin/users' isAdmin={true} component={UserListPage}/>
              <ProtectedRoute path='/admin/user/:id' isAdmin={true} component={UpdateUserPage}/>
              <ProtectedRoute path='/success' exact component={OrderSuccess}/> 
-             <Route component={PageNotFound}/>
+             {/* <Route component={PageNotFound}/> */}
             </Switch>
           </UserContext.Provider>
         </Switch>
