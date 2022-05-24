@@ -72,11 +72,9 @@ function App() {
             generalSearchPath, setGeneralSearchPath,
             incorrectPassword, setIncorrectPassword,
           }}>
-            {stripeApiKey && 
               <Elements stripe={loadStripe(stripeApiKey)}> 
                 <ProtectedRoute path='/payment/process' exact component={PaymentProcessing}/>
               </Elements>
-            }
             <Switch>
              <Route path='/' exact component={Home} />
              <ProtectedRoute path='/user-account' exact component={() => (<UserAccount />)}/>

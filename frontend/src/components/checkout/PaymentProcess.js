@@ -1,5 +1,4 @@
-import React, { Fragment, useRef } from "react";
-import CheckoutSteps from "./CheckoutSteps";
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../MetaData";
 import { useAlert } from "react-alert";
@@ -122,14 +121,21 @@ const PaymentProcessing = ({ history }) => {
       alert.error(error.response.data.message);
     }
   };
+  const [stipeLoaded,setStripeLoaded] = useState(false);
+
+  useEffect(() => {
+    if (stripe){
+      setStripeLoaded(true)
+    }
+  },[stripe])
+
   return (
       <>
       <Navbar/>
     <Fragment>
       <MetaData title="Payment - Coffee Berry" />
       <div className='checkout-form' style={{padding: '3rem'}}>
-      {/* <CheckoutSteps activeStep={2} style={{marginBottom: '5rem'}}/> */}
-      
+      {setStripeLoaded ?       
         <form className="form" onSubmit={(e) => submitHandler(e)}>
             <div className="change-password">
             <div className='form-inputs'>
@@ -153,7 +159,8 @@ const PaymentProcessing = ({ history }) => {
           <div style={{marginTop:'38px',display:'flex',justifyContent:'center'}}>
                 <TopButton type="filled" style={{backgroundColor: '#afa483', width: '30%'}} ref={payBtn}>Pay - ₾{orderInfo.totalPrice}</TopButton>
                 </div></div>
-        </form> 
+        </form> : 
+        <Loader/>}
       </div> 
     </Fragment>
     <Footer/>
