@@ -7,6 +7,7 @@ import Navbar from "../components/navbar/Navbar";
 import { useDispatch } from "react-redux";
 import { addItemsToCart, removeItemsFromCart } from "../actions/cartAction";
 import { useHistory } from "react-router-dom";
+import { loadUser } from "../actions/userAction";
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -123,6 +124,8 @@ const Cart = () => {
 
   const {cartItems} = useSelector((state) => state.cart)
 
+  // const {user} = useSelector((user) => state.user)
+
   const increaseProductQuantity = (id,quantity,stock,coffeeType) => {
     if(quantity + 1 !== stock){
       quantity += 1
@@ -141,11 +144,10 @@ const Cart = () => {
     dispatch(removeItemsFromCart(id,coffeeType))
   }
 
-  const checkOutHandler = () => {
+  const checkOutHandler = () => { 
+    dispatch(loadUser())
     history.push('/login?redirect=checkout')
   }
-
-  console.log(cartItems)
   
   return (
     <>
@@ -153,23 +155,23 @@ const Cart = () => {
       <Wrapper>
       {cartItems.length === 0 ? 
       <div style={{'height': '80vh', 'width': '100%', 'alignItems': 'center', 'display': 'flex',flexDirection: 'column', padding:'50px',justifyContent: 'center'}}>
-        <RemoveShoppingCartOutlined style={{'cursor':'pointer', 'fontSize': '5rem', 'color': '#555555'}}/>
-        <h1 style={{'font-size': '30px','color': '#999','margin': '30px', fontWeight: '200'}}>Your cart is currently empty.</h1>
+        <RemoveShoppingCartOutlined style={{'cursor':'pointer', fontSize: '5rem', 'color': '#555555'}}/>
+        <h1 style={{fontSize: '30px','color': '#999','margin': '30px', fontWeight: '200'}}>Your cart is currently empty.</h1>
         <Link to='/coffee'><TopButton type="filled" style={{backgroundColor: '#afa483'}}>RETURN TO SHOP</TopButton></Link>
       </div>
       :
       <>
         <Top>
           <Link to='/coffee'><TopButton>CONTINUE SHOPPING</TopButton></Link>
-            <TopText>Shopping Cart{cartItems && (cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0))}</TopText>
+            <TopText>Shopping Cart({cartItems && (cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0))})</TopText>
         </Top>
         <Bottom>
           <Info>
             {cartItems && cartItems.map((item) => (
               <Product>
               <ProductDetail>
-                <div style={{'position':'relative','background-repeat': 'no-repeat','width':'200px','height':'200px','background-size': 'contain',
-                'background-position': '50% 50%', 'background-image':`url(${item.img})`}}>
+                <div style={{'position':'relative',backgroundRepeat: 'no-repeat','width':'200px','height':'200px',backgroundSize: 'contain',
+                backgroundPosition: '50% 50%', backgroundImage:`url(${item.img})`}}>
                 </div>
                 <Details>
                   <ProductName>
@@ -196,9 +198,9 @@ const Cart = () => {
                   >+</button>
                 </div>
                 <h1 style={{'color': '#555555',
-                          'font-size': '1.3vmax',
+                          fontSize: '1.3vmax',
                           'margin': '1vmax 0',
-                          'font-weight': '400'}}>₾{item.price * item.quantity}</h1>
+                          fontWeight: '400'}}>₾{item.price * item.quantity}</h1>
               </PriceDetail>
             </Product>
             ))}

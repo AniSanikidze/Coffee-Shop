@@ -22,8 +22,8 @@ const OrderSuccess = () => {
   const history = useHistory()
 
   const viewOrdershandler = () => {
-    history.push('/user-account')
-    setClickedUserMenuItem("orders")
+    history.push('/user-account');
+    setClickedUserMenuItem("orders");
   }
   
   return (
@@ -31,7 +31,7 @@ const OrderSuccess = () => {
       <Navbar />
       <div style={{'height': '80vh', 'width': '100%', 'alignItems': 'center', 'display': 'flex',flexDirection: 'column', padding:'50px',justifyContent: 'center'}}>
         <Check style={{'cursor':'pointer', 'fontSize': '5rem', 'color': 'green'}}/>
-        <h1 style={{'font-size': '30px','color': '#999','margin': '30px', fontWeight: '200'}}>Your order has been placed successfully</h1>
+        <h1 style={{fontSize: '30px','color': '#999','margin': '30px', fontWeight: '200'}}>Your order has been placed successfully</h1>
         <TopButton type="filled" style={{backgroundColor: '#afa483'}} onClick={viewOrdershandler}>VIEW ORDERS</TopButton>
       </div>
       <Footer />

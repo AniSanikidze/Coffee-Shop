@@ -2,7 +2,7 @@ import React, { useState,useEffect} from 'react'
 import { Button } from '../button/Button';
 import { useSelector, useDispatch } from "react-redux";
 import Loader from '../loading/Loader';
-import { clearErrors, updatePassword } from '../../actions/userAction';
+import { clearErrors, loadUser, updatePassword } from '../../actions/userAction';
 import { UPDATE_PASSWORD_RESET } from '../../constants/userConstants';
 import { useAlert } from 'react-alert';
 
@@ -29,7 +29,14 @@ function ChangePassword() {
           }
           else {
               if (error) {
-        alert.error(error);
+                if (error === "Token Expired"){
+                    alert.error("Session Expired")
+                    dispatch(loadUser())
+                  }
+                  else {
+                    alert.error(error);     
+                  }
+                
       }
     }
       

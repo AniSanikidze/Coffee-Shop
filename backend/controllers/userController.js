@@ -34,11 +34,7 @@ const updateUserDetails = async (req, res) => {
           updatedUser})
   }
   catch (err) {
-    console.log(err)
     if(err._message == 'Validation failed') {
-      // if (err.path == 'username'){
-      //   res.status(400).json({message: "Username validation failed. "})
-      // }
         return res.status(400).json({message: "Email validation failed"})
     }
     if(err.code === 11000) {
@@ -100,7 +96,6 @@ const updateUserRole = async(req, res) => {
     {new: true,
     runValidators: true,
     useFindAndModify:false})
-    console.log(updatedUser)
     res.status(201).json({
         success: true,
         user: updatedUser})

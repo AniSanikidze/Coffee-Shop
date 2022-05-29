@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect } from "react";
+import React, { Fragment, useRef, useState, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../MetaData";
 import { useAlert } from "react-alert";
@@ -17,8 +17,9 @@ import Navbar from "../navbar/Navbar";
 import Footer from "../footer/Footer";
 import Loader from "../loading/Loader";
 import { clearCart } from "../../actions/cartAction";
+import { useHistory } from "react-router-dom";
 
-const PaymentProcessing = ({ history }) => {
+const PaymentProcessing = () => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
 
   const dispatch = useDispatch();
@@ -26,9 +27,10 @@ const PaymentProcessing = ({ history }) => {
   const stripe = useStripe();
   const elements = useElements();
   const payBtn = useRef(null);
+  const history = useHistory();
 
   const { shippingInfo,cartItems} = useSelector((state) => state.cart);
-  const { user,loading } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const paymentData = {
     amount: Math.round(orderInfo.totalPrice * 100),
@@ -48,8 +50,6 @@ const PaymentProcessing = ({ history }) => {
     status: "pending"
   };
 
-  console.log(order)
-
   const TopButton = styled.button`
   padding: 10px;
   font-weight: 600;
@@ -64,6 +64,8 @@ const PaymentProcessing = ({ history }) => {
     e.preventDefault();
 
     payBtn.current.disabled = true;
+    
+    alert.info("Order request submitted. Please wait while we are processing your request.")
 
     try {
       const config = {
@@ -76,7 +78,6 @@ const PaymentProcessing = ({ history }) => {
         paymentData,
         config
       );
-
       const client_secret = data.client_secret;
 
       if (!stripe || !elements) return;
@@ -97,7 +98,6 @@ const PaymentProcessing = ({ history }) => {
 
       if (result.error) {
         payBtn.current.disabled = false;
-
         alert.error(result.error.message);
       } else {
         if (result.paymentIntent.status === "succeeded") {
@@ -107,9 +107,7 @@ const PaymentProcessing = ({ history }) => {
           };
 
           dispatch(createOrder(order));
-          // window.location.reload()
           dispatch(clearCart())
-          // localStorage.removeItem('cartItems')
 
           history.push("/success");
         } else {
@@ -121,7 +119,7 @@ const PaymentProcessing = ({ history }) => {
       alert.error(error.response.data.message);
     }
   };
-  const [stipeLoaded,setStripeLoaded] = useState(false);
+  const [stripeLoaded,setStripeLoaded] = useState(false);
 
   useEffect(() => {
     if (stripe){
@@ -131,11 +129,10 @@ const PaymentProcessing = ({ history }) => {
 
   return (
       <>
-      <Navbar/>
     <Fragment>
       <MetaData title="Payment - Coffee Berry" />
       <div className='checkout-form' style={{padding: '3rem'}}>
-      {setStripeLoaded ?       
+      {stripeLoaded ?  
         <form className="form" onSubmit={(e) => submitHandler(e)}>
             <div className="change-password">
             <div className='form-inputs'>
@@ -157,13 +154,12 @@ const PaymentProcessing = ({ history }) => {
             <CardCvcElement className="paymentInput" />
           </div>
           <div style={{marginTop:'38px',display:'flex',justifyContent:'center'}}>
-                <TopButton type="filled" style={{backgroundColor: '#afa483', width: '30%'}} ref={payBtn}>Pay - ₾{orderInfo.totalPrice}</TopButton>
+                <TopButton type="filled" style={{backgroundColor: '#afa483', width: '30%'}} ref={payBtn}>Pay ₾{orderInfo.totalPrice}</TopButton>
                 </div></div>
         </form> : 
         <Loader/>}
       </div> 
     </Fragment>
-    <Footer/>
     </>
   );
 };

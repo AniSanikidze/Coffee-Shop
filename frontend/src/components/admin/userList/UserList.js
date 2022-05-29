@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "./UserList.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,10 +6,10 @@ import { Link, useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../../MetaData";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteUser, getAllUsers, clearErrors } from "../../../actions/userAction";
 import { DELETE_USER_RESET } from "../../../constants/userConstants";
+import { UserContext } from "../../../UserContext";
+import DeleteDialog from "../../deleteConfirmation/DeleteDialog";
 
 const UserList = () => {
   const dispatch = useDispatch();
@@ -23,9 +23,14 @@ const UserList = () => {
     (state) => state.account
   );
 
-  const deleteUserHandler = (id) => {
-    dispatch(deleteUser(id));
-  };
+  const {deleteUserSubmitted,setDeleteUserSubmitted} = useContext(UserContext)
+
+  useEffect(() => {
+    if (deleteUserSubmitted){
+      dispatch(deleteUser(deleteUserSubmitted))
+      setDeleteUserSubmitted(false)
+    }
+  },[deleteUserSubmitted,dispatch,setDeleteUserSubmitted])
 
   useEffect(() => {
     if (error) {
@@ -80,16 +85,16 @@ const UserList = () => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/user/${params.getValue(params.id, "id")}`}>
-              <EditIcon />
+            <Button>
+            <Link to={`/admin/user/${params.getValue(params.id, "id")}`} style={{textDecoration: 'none', color: '#555555'}}>
+              update
             </Link>
-            <Button
-              onClick={() =>
-                deleteUserHandler(params.getValue(params.id, "id"))
-              }
-            >
-              <DeleteIcon />
             </Button>
+            <DeleteDialog
+              id={params.getValue(params.id,"id")}
+              deleteItem="user"
+              name={params.getValue(params.id, "username")}
+              />
           </Fragment>
         );
       },

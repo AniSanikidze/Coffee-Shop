@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import '../forms/Form.css'
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import {useSelector, useDispatch} from 'react-redux'
 import Loader from '../loading/Loader';
@@ -8,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import {clearErrors, login} from '../../actions/userAction'
 import { useContext } from "react";
 import { UserContext } from '../../UserContext';
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -67,6 +67,7 @@ const Links = styled.a`
 const Login = () => {
     const [loginEmail,setLoginEmail] = useState("")
     const [loginPassword,setLoginPassword] = useState("")
+    const [loginSubmitted, SetLoginSubmitted] = useState(false)
     const { setClickedUserMenuItem } = useContext(UserContext)
     let history = useHistory();
     const dispatch = useDispatch()
@@ -74,9 +75,8 @@ const Login = () => {
     const redirect = window.location.search ? window.location.search.split("=")[1] : "/user-account"
 
     const handleLogin = (e) => {
-
       e.preventDefault();
-
+      SetLoginSubmitted(true);
       dispatch(login(loginEmail,loginPassword))
   }
 
@@ -92,7 +92,7 @@ const Login = () => {
           }
         }
       }
-    },[loading,redirect,dispatch,history,isAuthenticated,user])
+    },[loading,redirect,dispatch,history,isAuthenticated,user,setClickedUserMenuItem])
 
   useEffect(() => {
       dispatch(clearErrors())
@@ -103,25 +103,38 @@ const Login = () => {
     <Container>
       {loading ? <Loader/> : <Wrapper >
         <Title>SIGN IN</Title>
-        <p style={{'color':'red', 'fontSize':'14px', "margin": '7px 0' }}>{error}</p>
+        <p style={{'color':'red', 'fontSize':'14px', "margin": '7px 0' }}>{loginSubmitted && error}</p>
         <Form onSubmit={handleLogin}>
           <Input 
           type='email'
             name='email'
-            placeholder='Enter your email'
+            placeholder='Email'
             value={loginEmail}
             onChange={(e) => setLoginEmail(e.target.value)}
             required
            />
-          <Input placeholder="password" 
+          <Input placeholder="Password" 
           type="password"
           value={loginPassword}
           onChange={(e) => setLoginPassword(e.target.value)}
           required
           minLength={6}/>
           <Button >LOGIN</Button>
-          <Link to='/forgot-password'><Links >FORGOT PASSWORD?</Links></Link>  
-          <Link to='/signup'><Links >CREATE A NEW ACCOUNT</Links></Link>
+          <Link to='/forgot-password'
+                style={{margin: '5px 0px',
+                fontSize: '12px',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                color: '#555555'}}>
+            FORGOT PASSWORD?
+          </Link> 
+          <Link to='/signup' 
+          style={{margin: '5px 0px',
+          fontSize: '12px',
+          textDecoration: 'underline',
+          cursor: 'pointer',
+          color: '#555555'}}
+          >CREATE A NEW ACCOUNT</Link>
         </Form>
       </Wrapper>}
     </Container>

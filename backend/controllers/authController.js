@@ -40,7 +40,6 @@ const registerUser = async (req, res) => {
         await user.save()
     }
     catch (err) {
-        console.log(err)
         if(err._message === 'User validation failed') {
               return res.status(400).json({message: "Email validation failed"})
         }
@@ -102,7 +101,6 @@ const logOut = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
     const user = await User.findOne({email: req.body.email})
-    console.log(req.body)
 
     if (user == null){
         return res.status(404).json({message: "User was not found"})

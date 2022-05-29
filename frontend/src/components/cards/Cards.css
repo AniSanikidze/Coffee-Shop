@@ -52,7 +52,6 @@
 }
 
 .add-to-cart {
-  /* position: relative; */
   display: none !important;
   margin-top: 0;
     opacity: 1;
@@ -97,12 +96,8 @@
 
 .productCard:hover {
   box-shadow: 0 0 5px rgba(15, 15, 15, 0.26);
-
   transform: translateY(-1vmax);
-
 }
-
-
 
 .productCard:hover .add-to-cart {
   position: relative;
@@ -115,6 +110,16 @@
     transform: translateY(2);
     width: 100%;
     left: 0;
+}
+
+
+
+@media screen and (max-width: 1300px) {
+.productCard > div{
+  display: flex;
+  flex-direction: column;
+}
+
 }
 
 @media screen and (max-width: 600px) {

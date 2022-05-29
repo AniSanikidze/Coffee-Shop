@@ -41,7 +41,6 @@ function UserProfile() {
         history.push('/admin/products-board')
     }
 
-    console.log(clickedUserMenuItem)
 
     return (
         <>
@@ -55,9 +54,9 @@ function UserProfile() {
                 <div className="user-info-box">
                     <div className="info-box-menu">
                         {(user.role === "admin" ? AdminrMenuItemsData : UserMenuItemsData).map(item =>
-                         <div className="info-box-menu-item">
+                         <div className="info-box-menu-item" key={item.menuItem}>
                                 {item.options.map(option =>
-                                   <div className="menu-item-options ">
+                                   <div className="menu-item-options" key ={option.keyword}>
                                         <span className={clickedUserMenuItem === option.keyword ?
                                             "menu-item-option clicked"
                                             :
@@ -74,7 +73,7 @@ function UserProfile() {
                     </div>
                 </div>
                 <div className={`user-info-content ${clickedUserMenuItem === "orders" && "orders"}`}>
-                {clickedUserMenuItem !== "orders" &&    <h4 className="menu-item-header content" on 
+                {clickedUserMenuItem !== "orders" &&    <h4 className="menu-item-header content"
                     >
                         {clickedUserMenuItem === "password" ?
                             "Change Password"

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
   updateProduct,
-  getProductInfo,
   getAdminProduct,
 } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
@@ -81,13 +80,10 @@ const UpdateProduct = ({ match }) => {
     dispatch(getAdminProduct(productId))
 },[dispatch,productId])
 
-// console.log(productId)
 
 useEffect(() => {
-  // dispatch(getAdminProduct(productId))
   if(!loading){
       if (product){
-        console.log(product)
         setProductName(product.productName);
         setDesc(product.desc);
         setPrice(product.price);
@@ -103,23 +99,17 @@ useEffect(() => {
   }
 },[loading,product])
 
-console.log(process.env.REACT_APP_APP_ID)
-
-// {!loading && (console.log(product))}
   const updateProductSubmitHandler = (e) => {
 
     e.preventDefault();
     if (img !== null){
       const storage = getStorage(app);
     
-      // Create a reference to the file to delete
       const desertRef = ref(storage, product.img);
       
-      // Delete the file
       deleteObject(desertRef).then(() => {
-        // File deleted successfully
       }).catch((error) => {
-        // Uh-oh, an error occurred!
+        alert.error(error)
       });
       
       const fileName = new Date().getTime() + img.name;
@@ -134,13 +124,13 @@ console.log(process.env.REACT_APP_APP_ID)
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
+          alert.success("Upload is " + progress + "% done");
           switch (snapshot.state) {
             case "paused":
-              console.log("Upload is paused");
+              alert.info("Upload is paused");
               break;
             case "running":
-              console.log("Upload is running");
+              alert.success("Upload is running");
               break;
             default:
           }
@@ -202,8 +192,7 @@ console.log(process.env.REACT_APP_APP_ID)
           </div>
           <div>
           <lable className="old-password">Coffee type</lable>
-            <select value={singleOrigin ? true : false} onChange={(e) => setSingleOrigin(e.target.value == "Single Origin" ? "true" : "false")}>
-              {/* <placeholder>{singleOrigin ? "Single Origin" : "Blend"}</placeholder> */}
+            <select value={singleOrigin ? true : false} onChange={(e) => setSingleOrigin(e.target.value)}>
                   <option value={true}>Single Origin</option>
                   <option value={false}>Blend</option>
             </select>

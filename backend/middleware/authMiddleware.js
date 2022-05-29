@@ -15,7 +15,7 @@ const verifyToken = async (req, res, next) => {
             return res.status(403).json({message: "Token Expired"})
           }
     } else {
-        return res.status(503).send({message: "Bad credentials" });
+        return res.status(503).send({message: "Not authorized. Please log into the system" });
     }  
 };
 

@@ -15,7 +15,7 @@ function CardItem(props) {
     color: 'rgba(20,20,20,0.1)',
     activeColor: '#afa483',
     value: props.rating,
-    isHalf: true,
+    ishalf: 'true',
     size: window.innerWidth < 600 ? 20 : 25
   }
 
@@ -38,7 +38,7 @@ function CardItem(props) {
                 addToCartHandler();              }
                 }>Add to Cart <span style={{'fontSize':'16px'}}>+</span></div>}
               <p style={{'color':'#111111'}}>{props.productName}</p>
-            <span style={{'font-family': 'firago'}}>{props.price}₾</span>
+            <span style={{fontFamily: 'firago'}}>{props.price}₾</span>
             <div>
               <ReactStars {...options}/> <span> ({props.numOfReviews}reviews)</span>
             </div>

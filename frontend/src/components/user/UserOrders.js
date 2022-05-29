@@ -3,11 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from '../loading/Loader';
 import { useAlert } from 'react-alert';
 import MetaData from '../MetaData';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import LaunchIcon from "@material-ui/icons/Launch";
 import { clearErrors, userOrders } from "../../actions/orderAction";
 import { DataGrid } from "@material-ui/data-grid";
 import './UserOrders.css'
+import { loadUser } from '../../actions/userAction';
 
 function UserOrders() {
   const dispatch = useDispatch();
@@ -74,12 +75,21 @@ function UserOrders() {
 
   useEffect(() => {
     if (error) {
+      if (error === "Token Expired"){
+        alert.error("Session Expired")
+        dispatch(loadUser())
+      }
+      else{
       alert.error(error);
-      dispatch(clearErrors());
+      dispatch(clearErrors()); 
+      }
     }
-
     dispatch(userOrders());
   }, [dispatch, alert, error]);
+
+  useEffect(() => {
+
+  },[error])
 
     return (
         
@@ -95,9 +105,11 @@ function UserOrders() {
           <DataGrid
             rows={rows}
             columns={columns}
+            rowsPerPageOptions={[10]}
             pageSize={10}
             disableSelectionOnClick
             className="myOrdersTable"
+            // rowsPerPageOptions={10}
             autoHeight
           /> </div>)}
         </form>

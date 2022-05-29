@@ -40,7 +40,7 @@ const Product = (props) => {
         value: props.rating,
         readOnly: true,
         precision: 0.5,
-        isHalf:true
+        ishalf: 'true'
       };
       const {error} = useSelector(state=>state.product)
 
@@ -160,7 +160,7 @@ const Product = (props) => {
                 <b>Origin:</b>  {props.origin}
                 </p>}
               <p>
-                <b>Weight:</b> {props.weight}
+                <b>Weight:</b> {props.bagSize}g
               </p>
               <p>
                 <b>Roast Level:</b> {props.roastLevel}
@@ -182,7 +182,7 @@ const Product = (props) => {
                           {props.reviews && props.reviews[0] ? (
           <div className={reviewsClicked ? "reviews" : "reviews-hidden"}>
           {props.reviews.map((review) => (
-            <Review review={review}/>
+            <Review key ={review._id}review={review}/>
                  )
                  )}
                  </div>) : (<div> 

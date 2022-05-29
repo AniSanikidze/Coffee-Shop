@@ -53,11 +53,11 @@
 .form-input.blue:focus {
     border: solid 1px rgba(56, 56, 56, 0.144);
     box-shadow: 0 0 5pt 0.5pt #d3d3d3;
-} */ */
+} */ 
 
 .form-input::placeholder {
   color: #595959;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .checkbox  text {

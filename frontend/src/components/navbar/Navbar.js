@@ -52,8 +52,8 @@ function Navbar() {
               </Link>
             </li>
             <li className='nav-item'>
-              {window.location.pathname == '/' &&
-              <Link className='nav-links'     onClick={() => {
+              {window.location.pathname === '/' &&
+              <Link to='/' className='nav-links'     onClick={() => {
                 const anchor = document.querySelector('#company-section')
                 anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 }}>

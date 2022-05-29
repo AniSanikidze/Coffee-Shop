@@ -103,10 +103,8 @@ import {
   export const deleteOrder = (id) => async (dispatch) => {
     try {
       dispatch({ type: DELETE_ORDER_REQUEST });
-      console.log(id)
   
       const { data } = await axios.delete(`/api/order/${id}`);
-      console.log(data)
   
       dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
     } catch (error) {

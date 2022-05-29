@@ -19,15 +19,14 @@ export default function Coffees() {
   const {loading,error,products} = useSelector(state=>state.products)
   const { searchInput } = useContext(UserContext);
   const { price } = useContext(UserContext);
-  const {singleOriginFilter,setSingleOriginFilter} = useContext(UserContext)
-  const {origin,setOrigin} = useContext(UserContext)
+  const {singleOriginFilter} = useContext(UserContext)
+  const {origin} = useContext(UserContext)
   const { sortOptions, setSortResultHandler,sortResult } = SelectLogic();
   useEffect(() => {
     if(error){
       alert.error(error)
       dispatch(clearErrors())
     }
-    console.log(origin)
     dispatch(getProduct(searchInput,price,singleOriginFilter,origin,sortResult))
   },[dispatch,error,searchInput,price,singleOriginFilter,origin,sortResult])
 
@@ -58,7 +57,9 @@ export default function Coffees() {
       >
       {loading ? <Loader/> : 
       products[0] ? products.map(product => (
-      <CardItem productName={product.productName}
+      <CardItem 
+      key={product._id}
+      productName={product.productName}
       id={product._id}
       price={product.price}
       numOfReviews={product.numOfReviews}

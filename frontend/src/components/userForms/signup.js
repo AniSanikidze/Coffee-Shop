@@ -70,6 +70,7 @@ const Register = () => {
     const [email, setEmail] = useState("")
     const [username,setUsername] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [signUpSubmitted,setSignUpSubmitted] = useState(false)
     const dispatch = useDispatch()
     let {loading,error,isAuthenticated} = useSelector(state=>state.user)
     let history = useHistory();
@@ -77,12 +78,12 @@ const Register = () => {
 
     const handleRegistration = (e) => {
         e.preventDefault();
+        setSignUpSubmitted(true);
         dispatch(register(username,email,password,confirmPassword));
     }
 
     useEffect(() => {
       if (!loading){
-        console.log(isAuthenticated)
         if(isAuthenticated){
           dispatch(login(email,password))
         history.push('/')
@@ -100,7 +101,7 @@ const Register = () => {
       {loading ? <Loader/>: 
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
-        <p style={{'color':'red', 'fontSize':'14px', "margin": '7px 0' }}>{error}</p>
+        <p style={{'color':'red', 'fontSize':'14px', "margin": '7px 0' }}>{signUpSubmitted && error}</p>
         <Form onSubmit={handleRegistration}>
           <Input placeholder="username" type='text'
             name='username'

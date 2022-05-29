@@ -1,17 +1,16 @@
-import React,{ useState} from 'react';
+import React,{ useEffect, useState} from 'react';
 import 'aos/dist/aos.css';
 import './ShippingForm.css'
 import styled from "styled-components";
 import {useSelector, useDispatch} from 'react-redux'
 import MetaData from '../MetaData';
-import CheckoutSteps from './CheckoutSteps';
 import { saveShippingInfo } from '../../actions/cartAction';
 import { useHistory } from 'react-router-dom';
 
 function ShippingForm({match}) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { shippingInfo } = useSelector((state) => state.cart);
+  const { shippingInfo,loading } = useSelector((state) => state.cart);
 
   const [address, setAddress] = useState(shippingInfo.address);
   const [city, setCity] = useState(shippingInfo.city);
@@ -26,6 +25,16 @@ function ShippingForm({match}) {
     props.type === "filled" ? "black" : "transparent"};
   color: ${(props) => props.type === "filled" && "white"};
 `;
+
+useEffect(() => {
+  if(!loading){
+      if (shippingInfo){
+      setAddress(shippingInfo.address);
+      setCity(shippingInfo.city);
+      setPhoneNo(shippingInfo.phoneNo);
+   }
+  }
+},[loading,shippingInfo])
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -51,17 +60,11 @@ function ShippingForm({match}) {
                     type='text'
                     placeholder='House number and street name'
                     name="street-address" 
-                    autocomplete="home street-address"
+                    autoComplete="home street-address"
                      required
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     />
-                    {/* {incorrectOldPassword &&
-                        !errors.oldPassword &&
-                        values.oldPassword.length !== 0 ?
-                    <p>Incorrect Password</p>
-                        :
-                    errors.oldPassword && <p>{errors.oldPassword}</p>} */}
                 </div>
                 <div className="form-inputs">
                 <label className="old-password">
@@ -69,12 +72,6 @@ function ShippingForm({match}) {
                 </label>
                 <input
                     className={
-                        // values.newPassword.length > 5 ?
-                        // values.newPassword > 64 ?
-                        //     "form-input"
-                        //     :
-                        //     "form-input green"
-                        // :
                         "form-input"}
                     name='city'
                     type="text"
@@ -91,17 +88,10 @@ function ShippingForm({match}) {
                 </label>
                 <input
                     className={
-                        // values.newPassword.length > 5 ?
-                        // values.newPassword > 64 ?
-                            // "form-input"
-                        //     :
-                        //     "form-input green"
-                        // :
                         "form-input"}
-                      type="tel" name="phone" 
-                      // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                      name="phone" 
                       placeholder='Enter your phone number'
-                      autocomplete="tel"
+                      autoComplete="tel"
                       minLength={9}
                       required
                     value={phoneNo}

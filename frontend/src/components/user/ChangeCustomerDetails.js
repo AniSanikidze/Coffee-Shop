@@ -19,6 +19,7 @@ function UpdateDetails() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        dispatch(loadUser())
         // setSubmitClicked(true);
         if(username === user.username && email === user.email){
             error = "Please update fields to save changes"

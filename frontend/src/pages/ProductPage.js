@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, getProductInfo } from '../actions/productAction';
 import Loader from '../components/loading/Loader';
 import Footer from '../components/footer/Footer';
-import { productsReducer } from '../reducers/productReducer';
 
 function ProductPage({match}) {
     const dispatch = useDispatch()
@@ -38,7 +37,7 @@ function ProductPage({match}) {
       description={product.desc}
       origin={product.origin}
       singleOrigin={product.singleOrigin}
-      weight={product.weight}
+      bagSize={product.bagSize}
       roastLevel={product.roastLevel} 
       img={product.img}
       aroma={product.aroma}

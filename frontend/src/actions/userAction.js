@@ -44,14 +44,11 @@ import {
       dispatch({ type: LOGIN_REQUEST });
   
       const config = { headers: { "Content-Type": "application/json" } };
-        console.log(email,password)
       const { data } = await axios.post(
         `api/login`,
         { email, password },
         config
-      );
-    //   console.log("data", data)
-  
+      );  
       dispatch({ type: LOGIN_SUCCESS, payload: data.user });
     } catch (error) {
       dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
@@ -62,7 +59,6 @@ import {
   export const register = (username,email,password,confirmPassword) => async (dispatch) => {
     try {
       dispatch({ type: REGISTER_USER_REQUEST });
-      console.log(username,email,password,confirmPassword)
   
       const config = { headers: { "Content-Type": "application/json" } };
   
@@ -83,7 +79,6 @@ import {
       dispatch({ type: LOAD_USER_REQUEST });
   
       const { data } = await axios.get(`/api/my-profile`);
-      console.log(data)
   
       dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
     } catch (error) {
@@ -110,7 +105,6 @@ import {
       const config = { headers: { "Content-Type": "application/json" } };
   
       const { data } = await axios.put(`/api/my-profile/update/user-details`, {username,email}, config);
-      console.log(data)
   
       dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
     } catch (error) {
@@ -137,7 +131,6 @@ import {
     // console.log(data)
       dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
     } catch (error) {
-      console.log(error)
       dispatch({
         type: UPDATE_PASSWORD_FAIL,
         payload: error.response.data.message,
@@ -170,8 +163,6 @@ import {
       const config = { headers: { "Content-Type": "application/json" } };
   
       const { data } = await axios.post(`/api/password/forgot`, {email}, config);
-
-      console.log(data)
   
       dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
     } catch (error) {

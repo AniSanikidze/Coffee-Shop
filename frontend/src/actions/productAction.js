@@ -25,12 +25,6 @@ import {
   NEW_REVIEW_REQUEST,
   NEW_REVIEW_SUCCESS,
   NEW_REVIEW_FAIL,
-  ALL_REVIEW_REQUEST,
-  ALL_REVIEW_SUCCESS,
-  ALL_REVIEW_FAIL,
-  DELETE_REVIEW_REQUEST,
-  DELETE_REVIEW_SUCCESS,
-  DELETE_REVIEW_FAIL,
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
@@ -51,7 +45,6 @@ export const getProduct =
         if(singleOrigin !== null) {
           link = `api/coffee?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&sort=${sort}&singleOrigin=${singleOrigin}`
         }
-        console.log(link)
     
       }
 
@@ -92,7 +85,6 @@ export const getAdminProduct = (id) => async (dispatch) => {
     dispatch({ type: ADMIN_PRODUCT_REQUEST });
 
     const { data } = await axios.get(`/api/coffee/${id}`);
-    console.log(data)
 
     dispatch({
       type: ADMIN_PRODUCT_SUCCESS,
@@ -114,7 +106,6 @@ export const createProduct = (productName,singleOrigin,origin,desc,bagSize,stock
     const config = {
       headers: { "Content-Type": "application/json" },
     };
-    console.log(productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel,img,aroma,flavor,finish)
 
     const { data } = await axios.post(
       `/api/coffee/new`,

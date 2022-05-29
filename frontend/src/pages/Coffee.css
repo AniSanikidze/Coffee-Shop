@@ -9,7 +9,6 @@ body {
 
 .coffee-cards-container{
     margin: 2rem;
-    /* margin-left: 7%; */
 }
 
 .coffee-cards-header {
@@ -18,7 +17,6 @@ body {
 }
 
 .sort {
-    /* margin-left: 14rem; */
     position: absolute !important;
     right: 2vmax;
     margin-right: 2vmax;

@@ -5,8 +5,8 @@ import {Slider} from '@material-ui/core'
 
 export const VerticalFilter = () => {
     const { price, setPrice } = useContext(UserContext);
-    const {setSingleOriginFilter} = useContext(UserContext)
-    const {setOrigin} = useContext(UserContext)
+    const {singleOriginFilter, setSingleOriginFilter} = useContext(UserContext)
+    const {origin, setOrigin} = useContext(UserContext)
     const origins = [
         "Brazil",
         "Colombia",
@@ -31,15 +31,15 @@ export const VerticalFilter = () => {
                     <div className="filter-inner-div">
                         <p>COFFEE TYPE</p>
                         <div className="filter-options">
-                            <li className="category-link" onClick={() => {
+                            <li className="category-link" style={{textDecoration: singleOriginFilter === true && 'underline'}} onClick={() => {
                                 setOrigin(null);
                                 setSingleOriginFilter(true)
                                 }}>Single Origin</li>
-                            <li className="category-link" onClick={() => {
+                            <li className="category-link" style={{textDecoration: singleOriginFilter === false && 'underline'}} onClick={() => {
                                 setOrigin(null);
                                 setSingleOriginFilter(false)
                                 }}>Blended</li>
-                            <li className="category-link" onClick={() => {
+                            <li className="category-link" style={{textDecoration: singleOriginFilter === null &&  origin === null && 'underline'}} onClick={() => {
                                 setOrigin(null);
                                 setSingleOriginFilter(null)
                                 }}>All Types</li>
@@ -50,16 +50,17 @@ export const VerticalFilter = () => {
                     <div className="filter-inner-div">
                         <p>Origin</p>
                         <div className="filter-options">
-                            {origins.map((origin) => (
+                            {origins.map((originItem) => (
                                 <li
                                 className="category-link"
-                                key={origin}
+                                key={originItem}
                                 onClick={() => {
                                    setSingleOriginFilter(null)
-                                setOrigin(origin) 
-                                }
-                                }>
-                                {origin}
+                                setOrigin(originItem) 
+                                }}
+                                style={{textDecoration: origin === originItem && 'underline'}}
+                                >
+                                {originItem}
                                 </li>
                             ))}
                         </div>

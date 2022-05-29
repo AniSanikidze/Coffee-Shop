@@ -38,7 +38,9 @@ function Cards({match}) {
       <div className='products-container'>
       {loading ? <Loader/> : 
       products && products.map(product => (
-      <CardItem productName={product.productName}
+      <CardItem 
+      key={product._id}
+      productName={product.productName}
       id={product._id}
       price={product.price}
       numOfReviews={product.numOfReviews}

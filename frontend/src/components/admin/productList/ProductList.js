@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect,useContext } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "./ProductList.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,8 +11,9 @@ import { Link, useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../../MetaData";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { DELETE_PRODUCT_RESET } from "../../../constants/productConstants";
+import { UserContext } from "../../../UserContext";
+import DeleteDialog from "../../deleteConfirmation/DeleteDialog";
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -26,9 +27,14 @@ const ProductList = () => {
     (state) => state.adminProduct
   );
 
-  const deleteProductHandler = (id) => {
-    dispatch(deleteProduct(id));
-  };
+  const {deleteProductSubmitted,setDeleteProductSubmitted} = useContext(UserContext)
+
+  useEffect(() => {
+    if (deleteProductSubmitted){
+      dispatch(deleteProduct(deleteProductSubmitted))
+      setDeleteProductSubmitted(false)
+    }
+  },[deleteProductSubmitted,dispatch,setDeleteProductSubmitted])
 
   useEffect(() => {
     if (error) {
@@ -56,8 +62,8 @@ const ProductList = () => {
     {
       field: "name",
       headerName: "Name",
-      minWidth: 300,
-      flex: 1,
+      minWidth: 200,
+      flex: 0.5,
     },
     {
       field: "stock",
@@ -77,7 +83,7 @@ const ProductList = () => {
 
     {
       field: "actions",
-      flex: 0.3,
+      flex: 0.5,
       headerName: "Actions",
       minWidth: 100,
       type: "number",
@@ -85,17 +91,17 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/product/${params.getValue(params.id, "id")}`} style={{textDecoration: 'none !important'}}>
+            <Button>
+            <Link to={`/admin/product/${params.getValue(params.id, "id")}`} style={{textDecoration: 'none', color: '#555555'}}>
               update
             </Link>
-
-            <Button
-              onClick={() =>
-                deleteProductHandler(params.getValue(params.id, "id"))
-              }
-            >
-              <DeleteIcon style={{color: 'red'}} />
             </Button>
+
+            <DeleteDialog
+              id={params.getValue(params.id,"id")}
+              deleteItem="product"
+              name={params.getValue(params.id, "name")}
+              />
           </Fragment>
         );
       },
@@ -112,6 +118,7 @@ const ProductList = () => {
         price: item.price,
         name: item.productName,
       });
+      return null;
     });
   }
 

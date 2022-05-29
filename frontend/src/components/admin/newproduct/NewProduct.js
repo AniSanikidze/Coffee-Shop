@@ -22,6 +22,7 @@ const NewProduct = () => {
   const history = useHistory()
 
   const { loading, error, success } = useSelector((state) => state.newProduct);
+  const {error: userError} = useSelector((state) => state.user);
 
   const [productName, setProductName] = useState("");
   const [singleOrigin, setSingleOrigin] = useState(true)
@@ -61,38 +62,43 @@ const NewProduct = () => {
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
-    const fileName = new Date().getTime() + img.name;
-    const storage = getStorage(app);
-    const storageRef = ref(storage, fileName);
-    const uploadTask = uploadBytesResumable(storageRef, img);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
+    if (userError !== "Token Expired"){
+      if(img !== null){
+        const fileName = new Date().getTime() + img.name;
+        const storage = getStorage(app);
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, img);
+    
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              alert.success("Upload is " + progress + "% done")
+            switch (snapshot.state) {
+              case "paused":
+                alert.error("Upload is paused")
+                break;
+              case "running":
+                alert.note("Upload is running")
+                break;
+              default:
+            }
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              let img = downloadURL
+                dispatch(createProduct(productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel,img,aroma,flavor,finish));
+            });
+          }
+        );
+        }else{
+          alert.error("Please add product image")
         }
-      },
-      (error) => {
-        // Handle unsuccessful uploads
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          let img = downloadURL
-            dispatch(createProduct(productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel,img,aroma,flavor,finish));
-        });
-      }
-    );
-
+    }
 
   };
 
@@ -121,13 +127,14 @@ const NewProduct = () => {
               <input
                 type="text"
                 placeholder="Origin"
-                required
                 value={origin}
                 onChange={(e) => setOrigin(e.target.value)}
               />
             </div>
             <div>
-              <select onChange={(e) => setSingleOrigin(e.target.value == "Single Origin" ? "true" : "false")}>
+              <select 
+              required
+              onChange={(e) => setSingleOrigin(e.target.value === "Single Origin" ? "true" : "false")}>
                 <option value="">Choose Coffee Type</option>
                 {coffeeType.map((type) => (
                   <option key={type} value={type}>
@@ -164,7 +171,9 @@ const NewProduct = () => {
               />
             </div>
             <div>
-              <select onChange={(e) => setRoastLevel(e.target.value)}>
+              <select 
+              required
+              onChange={(e) => setRoastLevel(e.target.value)}>
                 <option value="">Choose Roast Level</option>
                 {roastLevels.map((roastLevel) => (
                   <option key={roastLevel} value={roastLevel}>
@@ -196,6 +205,7 @@ const NewProduct = () => {
                 onChange={(e) => setDesc(e.target.value)}
                 cols="30"
                 rows="1"
+                required
               ></textarea>
             </div>
             <div>
@@ -219,7 +229,6 @@ const NewProduct = () => {
               id="createProductBtn"
               type="submit"
               disabled={loading ? true : false}
-              onClick={createProductSubmitHandler}
             >
               Create
             </Button>

@@ -8,7 +8,7 @@ const NewProductPage = () => {
   return (
       <>
         <Topbar/>
-        <div class='side-bar-container'>
+        <div className='side-bar-container'>
            <Sidebar/> 
            <div className="dashboard-pages">
                <div>

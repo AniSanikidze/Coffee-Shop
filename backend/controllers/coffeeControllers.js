@@ -26,7 +26,6 @@ const createCoffeeProduct = async (req, res) => {
 
     try{
         const newcoffee = new coffee(req.body)
-        console.log(newcoffee)
         await newcoffee.save()
         res.status(201).json({
             success: true,
@@ -40,7 +39,6 @@ const createCoffeeProduct = async (req, res) => {
 
 const updateCoffeeProduct = async (req, res) => {
     try{
-        console.log(req.body)
         const updatedcoffee = await res.foundItem.updateOne(req.body, 
             {
                 new: true,

@@ -15,6 +15,7 @@ import { Button } from "@material-ui/core";
 import { UPDATE_ORDER_RESET } from "../../../constants/orderConstants";
 import { getUserDetails } from "../../../actions/userAction";
 import styled from "styled-components";
+import {loadUser} from '../../../actions/userAction'
 
 const PriceDetail = styled.div`
   flex: 1;
@@ -54,12 +55,10 @@ const Details = styled.div`
 const ProcessOrder = ({ match }) => {
   const { order, error, loading } = useSelector((state) => state.specificOrder);
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
-  const {user} = useSelector((state) => state.user)
   const [status,setStatus] = useState("")
 
   const updateOrderSubmitHandler = (e) => {
     e.preventDefault();
-
     dispatch(updateOrder(match.params.id, status));
   };
 
@@ -69,8 +68,14 @@ const ProcessOrder = ({ match }) => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
+      if (error === "Token Expired"){
+        alert.error("Session Expired")
+        dispatch(loadUser())
+      }
+      else {
+        alert.error(error);
+        dispatch(clearErrors());
+      }
     }
     if (updateError) {
       alert.error(updateError);
@@ -81,22 +86,21 @@ const ProcessOrder = ({ match }) => {
       history.push('/admin/orders');
       dispatch({ type: UPDATE_ORDER_RESET });
     }
-
     dispatch(getOrderAdmin(match.params.id));
     
-  }, [dispatch, alert, error, match.params.id, isUpdated, updateError]);
+  }, [dispatch, alert, error, match.params.id, isUpdated, updateError,history]);
 
   useEffect(() => {
     if (!loading){
       setStatus(order.status)
     }
-  },[order])
+  },[order,loading])
 
   useEffect(() => {
       if(order){
         dispatch(getUserDetails(order.userId))  
       }
-  },[getUserDetails])
+  },[dispatch,order])
 
   return (
     <Fragment>
@@ -117,19 +121,13 @@ const ProcessOrder = ({ match }) => {
                   <Typography>Shipping Info</Typography>
                   <div className="orderDetailsContainerBox">
                     <div>
-                      <p>Username:</p>
-                      <span>{user && user.username}</span>
+                      <p>User ID:</p>
+                      <span>{order.userId}</span>
                     </div>
                     <div>
                       <p>Phone:</p>
                       <span>
                         {order.phoneNumber && order.phoneNumber}
-                      </span>
-                    </div>
-                    <div>
-                      <p>Email:</p>
-                      <span>
-                        {user.email}
                       </span>
                     </div>
                     <div>
@@ -189,42 +187,26 @@ const ProcessOrder = ({ match }) => {
                     <ProductDetail>
                     <Link to={`/product/${item.productId}`}>
                       <div style={{'position':'relative','background-repeat': 'no-repeat','width':'200px','height':'200px','background-size': 'contain',
- 'background-image':`url(${item.img})`}}>
-                      {/* <Image src="images/Home/Brazil.jpg" /> */}
+ backgroundImage:`url(${item.img})`}}>
                       </div>
                       </Link>
                       <Details>
                         <ProductName>
                           <b>Product:</b> {item.productName}
                         </ProductName>
-                        {/* <ProductId>
-                          <b>ID:</b> 93813718293
-                        </ProductId> */}
-                        {/* <ProductColor color="black" /> */}
                         <ProductSize>
                           <b>Whole Beans or Ground:</b> {item.coffeeType}
                         </ProductSize>
                       </Details>
                     </ProductDetail>
                     <PriceDetail>
-                        {/* <Add /> */}
-                        {/* <ProductAmount>2</ProductAmount> */}
                       <div className="detailsBlock-3-1-1">
                         <input readOnly type="number" 
                         value={item.quantity}
-                        />{/* <button 
-                        onClick={() => decreaseProductQuantity(item.product,item.quantity,item.coffeeType)}
-                        >-</button>
-                        
-                        <button 
-                        onClick={() => increaseProductQuantity(item.product,item.quantity,item.stock,item.coffeeType)}
-                        >+</button> */}
+                        />
                       </div>
-                        {/* <Remove /> */}
-                      {/* </ProductAmountContainer> */}
-                      {/* <ProductPrice>$ 30</ProductPrice> */}
                       <h1 style={{'color': '#555555',
-          'font-size': '1.3vmax',
+          fontSize: '1.3vmax',
           'margin': '1vmax 0',
           'font-weight': '400'}}>₾{item.price * item.quantity}</h1>
                     </PriceDetail>
@@ -243,7 +225,7 @@ const ProcessOrder = ({ match }) => {
                   className="updateOrderForm"
                   onSubmit={updateOrderSubmitHandler}
                 >
-                  <h1>Process Order</h1>
+                  <h1>Update Order Status</h1>
 
                   <div>
                     <select value={status}onChange={(e) => setStatus(e.target.value)}>

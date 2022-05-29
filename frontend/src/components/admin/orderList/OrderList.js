@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect,useContext } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "./OrderList.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,9 +11,10 @@ import { Link, useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../../MetaData";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIconOutlined from "@material-ui/icons/Delete";
 import { DELETE_ORDER_RESET } from "../../../constants/orderConstants";
+import DeleteDialog from "../../deleteConfirmation/DeleteDialog";
+import { UserContext } from "../../../UserContext";
+import { loadUser } from "../../../actions/userAction";
 
 const OrderList = () => {
   const dispatch = useDispatch();
@@ -27,14 +28,25 @@ const OrderList = () => {
     (state) => state.order
   );
 
-  const deleteOrderHandler = (id) => {
-    dispatch(deleteOrder(id));
-  };
+  const {deleteOrderSubmitted,setDeleteOrderSubmitted} = useContext(UserContext)
+
+  useEffect(() => {
+    if (deleteOrderSubmitted){
+      dispatch(deleteOrder(deleteOrderSubmitted))
+      setDeleteOrderSubmitted(false)
+    }
+  },[deleteOrderSubmitted,dispatch])
 
   useEffect(() => {
     if (error) {
+      if (error === "Token Expired"){
+        alert.error("Session Expired");
+        dispatch(loadUser())
+      }
+      else{
       alert.error(error);
       dispatch(clearErrors());
+      }
     }
 
     if (deleteError) {
@@ -84,16 +96,16 @@ const OrderList = () => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/order/${params.getValue(params.id, "id")}`}>
-              <EditIcon />
+            <Button>
+            <Link to={`/admin/order/${params.getValue(params.id, "id")}`} style={{textDecoration: 'none', color: '#555555'}}>
+              update
             </Link>
-            <Button
-              onClick={() =>
-                deleteOrderHandler(params.getValue(params.id, "id"))
-              }
-            >
-              <DeleteIconOutlined />
             </Button>
+            <DeleteDialog 
+              id={params.getValue(params.id,"id")}
+              deleteItem="order"
+              name={params.getValue(params.id, "id")}
+              />
           </Fragment>
         );
       },
@@ -118,10 +130,8 @@ const OrderList = () => {
       <MetaData title={`ALL ORDERS - Admin`} />
 
       <div className="dashboard">
-        {/* <SideBar /> */}
         <div className="productListContainer">
           <h1 id="productListHeading">ALL ORDERS</h1>
-
           <DataGrid
             rows={rows}
             columns={columns}

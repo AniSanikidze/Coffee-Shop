@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button } from '../button/Button'
-import { deleteProfile, logout } from '../../actions/userAction';
+import { deleteProfile, loadUser, logout } from '../../actions/userAction';
 import { DELETE_USER_RESET } from '../../constants/userConstants';
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors} from '../../actions/userAction';
@@ -33,7 +33,13 @@ function DeleteAccount({ submitForm }) {
       }
       else {
           if (error) {
-            alert.error(error);
+            if (error === "Token Expired"){
+                alert.error("Session Expired")
+                dispatch(loadUser())
+              }
+              else{
+               alert.error(error);   
+              }  
       }
         }
     }, [dispatch, error, alert, isDeleted,history]);

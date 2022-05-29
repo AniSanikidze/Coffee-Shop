@@ -1,17 +1,7 @@
 import "./SideBar.css";
 import {
-  LineStyle,
-  Timeline,
-  TrendingUp,
   PermIdentity,
-  Storefront,
-  AttachMoney,
-  BarChart,
-  MailOutline,
   DynamicFeed,
-  ChatBubbleOutline,
-  WorkOutline,
-  Report,
 } from "@material-ui/icons";
 import InventoryIconOutlined from '@mui/icons-material/Inventory';
 import { Link } from "react-router-dom";
