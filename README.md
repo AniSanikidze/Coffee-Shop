@@ -5,10 +5,8 @@ The prototype includes must have functionalities of a fully-functional e-commerc
 The recommender also works for a fixed location - Prague College.
 
 - [Functionality](#functionality)
-- [Usage](#usage)
 - [Running the application](#running-the-application)
 - [Deployment Information](#deployment-information)
-- [Command Line Interface](#tui)
 
 ## Functionality
 
