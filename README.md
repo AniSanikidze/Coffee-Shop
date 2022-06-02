@@ -1,8 +1,5 @@
 # Coffee Shop with MERN Stack
 The developed application is a prototype of an e-commerce application designed for a company - Coffee Berry. 
-The prototype includes must have functionalities of a fully-functional e-commerce website.
-
-The recommender also works for a fixed location - Prague College.
 
 - [Functionality](#functionality)
 - [Running the application](#running-the-application)
