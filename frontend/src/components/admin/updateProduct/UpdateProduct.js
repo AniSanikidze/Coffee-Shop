@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
@@ -6,45 +6,43 @@ import {
   getAdminProduct,
 } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
-import MetaData from "../../MetaData";
 import { UPDATE_PRODUCT_RESET } from "../../../constants/productConstants";
 import { useHistory } from "react-router-dom";
 import Loader from "../../loading/Loader";
-import './UpdateProductForm.css'
+import "./UpdateProductForm.css";
+import "../newproduct/newProduct.css";
 import {
   getStorage,
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  deleteObject
+  deleteObject,
 } from "firebase/storage";
 import app from "../../firebase";
 
 const UpdateProduct = ({ match }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
-  const history = useHistory()
+  const history = useHistory();
 
-  const {loading,error,product} = useSelector((state)=>state.product)
+  const { loading, error, product } = useSelector((state) => state.product);
 
-  const {
-    error: updateError,
-    isUpdated,
-  } = useSelector((state) => state.adminProduct);
+  const { error: updateError, isUpdated } = useSelector(
+    (state) => state.adminProduct
+  );
 
   const [productName, setProductName] = useState("");
-  const [singleOrigin, setSingleOrigin] = useState(null)
-  const [origin, setOrigin] = useState("")
+  const [singleOrigin, setSingleOrigin] = useState(null);
+  const [origin, setOrigin] = useState("");
   const [price, setPrice] = useState(0);
-  const [aroma,setAroma] = useState("");
-  const [flavor, setFlavor] = useState("")
-  const [finish, setFinish] = useState("")
+  const [aroma, setAroma] = useState("");
+  const [flavor, setFlavor] = useState("");
+  const [finish, setFinish] = useState("");
   const [desc, setDesc] = useState("");
-  const [bagSize, setBagSize] = useState(0)
+  const [bagSize, setBagSize] = useState(0);
   const [roastLevel, setRoastLevel] = useState("");
   const [stock, setStock] = useState(0);
-  const [img,setImg] = useState(null)
+  const [img, setImg] = useState(null);
 
   const productId = match.params.id;
 
@@ -73,58 +71,52 @@ const UpdateProduct = ({ match }) => {
     productId,
     product,
     updateError,
-    loading
+    loading,
   ]);
 
   useEffect(() => {
-    dispatch(getAdminProduct(productId))
-},[dispatch,productId])
+    dispatch(getAdminProduct(productId));
+  }, [dispatch, productId]);
 
-
-useEffect(() => {
-  if(!loading){
-      if (product){
+  useEffect(() => {
+    if (!loading) {
+      if (product) {
         setProductName(product.productName);
         setDesc(product.desc);
         setPrice(product.price);
-        setSingleOrigin(product.singleOrigin)
+        setSingleOrigin(product.singleOrigin);
         setOrigin(product.origin);
-        setRoastLevel(product.roastLevel)
-        setBagSize(product.bagSize)
-        setStock(product.stock); 
+        setRoastLevel(product.roastLevel);
+        setBagSize(product.bagSize);
+        setStock(product.stock);
         setAroma(product.aroma);
         setFinish(product.finish);
-        setFlavor(product.flavor)
-   }
-  }
-},[loading,product])
+        setFlavor(product.flavor);
+      }
+    }
+  }, [loading, product]);
 
   const updateProductSubmitHandler = (e) => {
-
     e.preventDefault();
-    if (img !== null){
+    if (img !== null) {
       const storage = getStorage(app);
-    
+
       const desertRef = ref(storage, product.img);
-      
-      deleteObject(desertRef).then(() => {
-      }).catch((error) => {
-        alert.error(error)
-      });
-      
+
+      deleteObject(desertRef)
+        .then(() => {})
+        .catch((error) => {
+          alert.error(error);
+        });
+
       const fileName = new Date().getTime() + img.name;
       // const storage = getStorage(app);
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, img);
 
-      
-  
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          alert.success("Upload is " + progress + "% done");
           switch (snapshot.state) {
             case "paused":
               alert.info("Upload is paused");
@@ -135,178 +127,220 @@ useEffect(() => {
             default:
           }
         },
-        
-      (error) => {
-        // Handle unsuccessful uploads
-      },
+
+        (error) => {
+          // Handle unsuccessful uploads
+        },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            let img = downloadURL
-            dispatch(updateProduct(productId,price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName,img));
+            let img = downloadURL;
+            dispatch(
+              updateProduct(
+                productId,
+                price,
+                roastLevel,
+                singleOrigin,
+                origin,
+                desc,
+                stock,
+                bagSize,
+                productName,
+                img
+              )
+            );
           });
         }
       );
+    } else {
+      dispatch(
+        updateProduct(
+          productId,
+          price,
+          roastLevel,
+          singleOrigin,
+          origin,
+          desc,
+          stock,
+          bagSize,
+          productName
+        )
+      );
     }
-    else{
-      dispatch(updateProduct(productId,price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName));
-    }
-   
   };
-  const roastLevels = [
-    "Light",
-    "Medium",
-    "Dark"
-]
-
+  const roastLevels = ["Light", "Medium", "Dark"];
 
   return (
-    <Fragment>
-          <MetaData title="Create Product" />
-    {loading ? <Loader/> : <div className="dashboard">
-      <div className="newProductContainer">
-        <form
-          className="updateProductForm"
-          encType="multipart/form-data"
-          onSubmit={updateProductSubmitHandler}
-        >
-          <h1>Update Coffee</h1>
-
-          <div >
-              <lable className="old-password">Coffee name</lable>
-            <input
-              type="text"
-              placeholder="Name"
-              required
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-            />
-          </div>
-          <div >
-              <lable className="old-password">Coffee origin</lable>
-            <input
-              type="text"
-              placeholder="Origin"
-              value={origin}
-              onChange={(e) => setOrigin(e.target.value)}
-            />
-          </div>
-          <div>
-          <lable className="old-password">Coffee type</lable>
-            <select value={singleOrigin ? true : false} onChange={(e) => setSingleOrigin(e.target.value)}>
-                  <option value={true}>Single Origin</option>
-                  <option value={false}>Blend</option>
-            </select>
-          </div>
-          <div>
-          <lable className="old-password">Coffee aroma</lable>
-            <input
-              type="text"
-              placeholder="Aroma"
-              required
-              value={aroma}
-              onChange={(e) => setAroma(e.target.value)}
-            />
-          </div>
-          <div>
-          <lable className="old-password">Coffee flavor</lable>
-            <input
-              type="text"
-              placeholder="Flavor"
-              required
-              value={flavor}
-              onChange={(e) => setFlavor(e.target.value)}
-            />
-          </div>
-          <div>
-          <lable className="old-password">Coffee finish</lable>
-            <input
-              type="text"
-              placeholder="Finish"
-              required
-              value={finish}
-              onChange={(e) => setFinish(e.target.value)}
-            />
-          </div>
-          <div>
-          <lable className="old-password">Roast level</lable>
-            <select value={roastLevel} onChange={(e) => setRoastLevel(e.target.value)}>
-              {/* <placeholder>{roastLevel}</placeholder> */}
-              {roastLevels.map((roast) => (
-                <option key={roast} value={roast} >
-                  {roast}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-          <lable className="old-password">Coffee price</lable>
-            <input
-              type="number"
-              placeholder="Price"
-              value={price}
-              required
-              onChange={(e) => setPrice(e.target.value)}
-            />
-          </div>
-          <div>
-          <lable className="old-password">Bag size</lable>
-            <input
-              type="number"
-              placeholder="Bag size"
-              required
-              value={bagSize}
-              onChange={(e) => setBagSize(e.target.value)}
-            />
-          </div>
-
-          <div>
-          <lable className="old-password">Coffee description</lable>
-            <textarea
-              placeholder="Product Description"
-              value={desc}
-              onChange={(e) => setDesc(e.target.value)}
-              cols="30"
-              rows="1"
-            ></textarea>
-          </div>
-
-          <div>
-          <lable className="old-password">Coffee stock</lable>
-            <input
-              type="number"
-              placeholder="Stock"
-              required
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-            />
-          </div>
-
-          <div id="createProductFormFile">
-              <input
-            type="file"
-            id="file"
-            onChange={(e) => setImg(e.target.files[0])}
-          />
-          </div>
-
-          <div id="createProductFormImage">
-              {product.img && img == null && <img src={product.img} alt="Product Preview" 
-              style={{width:'13rem',height:'18rem'}}
-              />}
-              {img && <p>{img.name}</p>}
-          </div>
-          <Button
-            id="createProductBtn"
-            type="submit"
-            disabled={loading ? true : false}
-            onClick={updateProductSubmitHandler}
+    <div className="newUser">
+      {loading ? (
+        <Loader />
+      ) : (
+        <div>
+          <h1 className="newUserTitle">Update Product</h1>
+          <form
+            className="newUserForm"
+            encType="multipart/form-data"
+            onSubmit={updateProductSubmitHandler}
           >
-            Update
-          </Button>
-        </form>
-      </div>
-    </div>}
-  </Fragment>
+            <div className="newUserItem">
+              <label>Product Name</label>
+              <input
+                type="text"
+                placeholder="Colombia"
+                required
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+              />
+            </div>
+            <div className="newUserItem">
+              <label>Origin</label>
+              <input
+                type="text"
+                placeholder="Colombia"
+                value={origin}
+                onChange={(e) => setOrigin(e.target.value)}
+              />
+            </div>
+            <div className="newUserItem">
+              <label>Select coffee type</label>
+              <select
+                value={singleOrigin ? true : false}
+                onChange={(e) => setSingleOrigin(e.target.value)}
+              >
+                <option value={true}>Single Origin</option>
+                <option value={false}>Blend</option>
+              </select>
+            </div>
+            <div className="newUserItem">
+              <label>Aroma</label>
+              <input
+                type="text"
+                placeholder="Aroma"
+                required
+                value={aroma}
+                onChange={(e) => setAroma(e.target.value)}
+              />
+            </div>
+            <div className="newUserItem">
+              <label>Flavor</label>
+              <input
+                type="text"
+                placeholder="Flavor"
+                required
+                value={flavor}
+                onChange={(e) => setFlavor(e.target.value)}
+              />
+            </div>
+            <div className="newUserItem">
+              <label>Finish</label>
+              <input
+                type="text"
+                placeholder="Finish"
+                required
+                value={finish}
+                onChange={(e) => setFinish(e.target.value)}
+              />
+            </div>
+            <div className="newUserItem">
+              <label>Roast Level</label>
+              <select
+                value={roastLevel}
+                onChange={(e) => setRoastLevel(e.target.value)}
+              >
+                {roastLevels.map((roast) => (
+                  <option key={roast} value={roast}>
+                    {roast}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="newUserItem">
+              <label>Price</label>
+              <input
+                type="number"
+                placeholder="25"
+                required
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+            <div className="newUserItem">
+              <label>Bag size</label>
+              <input
+                type="number"
+                placeholder="250"
+                required
+                value={bagSize}
+                onChange={(e) => setBagSize(e.target.value)}
+              />
+            </div>
+            <div className="newUserItem">
+              <label>Product Description</label>
+              <textarea
+                placeholder="Description..."
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
+                cols="30"
+                rows="1"
+                required
+              ></textarea>
+            </div>
+            <div className="newUserItem">
+              <label>Stock</label>
+              <input
+                type="number"
+                placeholder="400"
+                required
+                value={stock}
+                onChange={(e) => setStock(e.target.value)}
+              />
+            </div>
+            <div className="newUserItem">
+              <label>Update Image</label>
+              <div
+                className="custom-file-upload"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  paddingTop: 10,
+                  paddingLeft: 0,
+                }}
+              >
+                {product.img && img == null && (
+                  <div className="product-img">
+                    <img
+                      src={product.img}
+                      alt="Product Preview"
+                      style={{
+                        width: "13rem",
+                        height: "18rem",
+                        borderRadius: "5px",
+                        marginRight: "10px",
+                      }}
+                    />
+                  </div>
+                )}
+                <input
+                  type="file"
+                  id="file"
+                  style={{ color: "rgba(0, 0, 0, 0)" }}
+                  placeholder="Upload Image"
+                  onChange={(e) => setImg(e.target.files[0])}
+                />
+              </div>
+            </div>
+            <div className="new-product-button">
+              <button
+                id="createProductBtn"
+                type="submit"
+                disabled={loading ? true : false}
+              >
+                Update Product
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 .products-container{
   display: flex;
-  margin: 2vmax auto 0;
+  margin: 2rem auto 0;
   width: 80vw;
   flex-wrap: wrap;
   justify-content: center;
@@ -9,34 +9,42 @@
 
 
 .productCard {
-  width: 14vmax;
+  width: 12.5rem;
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: rgb(48,48,48);
-  margin:2vmax;
+  margin:2rem;
   transition: all 3s;
-  padding-bottom: 0.5vmax;
+  padding-bottom: 0.5rem;
   align-items: center;
   font-family: 'firago';
 }
 
-.productCard > img {
-  width: 14vmax;
-  /* height: 21vmax; */
+.product-img-container img {
+  /* width: 5rem; */
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  transition: all 0.2s linear;
+  /* z-index: -1; */
+  overflow: hidden;
 }
 
-.productCard > div {
-  margin: 0.5vmax;
+.product-rating-container {
+  display: flex;
+  flex-direction: column;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
 
-.productCard > p {
-  /* font-family: "Roboto"; */
-  font-size: 1.4vmax;
-  margin: 1vmax 0.5vmax;
+.productCard p {
+  font-size: 1.4rem;
+  margin: 1rem 0.5rem;
   margin-bottom: 0;
   text-transform: uppercase;
   color:#555555 !important;
@@ -44,28 +52,25 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* font-weight: bold; */
 }
 
-.productCart > img{
-  width: 14vmax !important;
-}
-
-.add-to-cart {
+.product-img-container .add-to-cart {
   display: none !important;
   margin-top: 0;
+  position: absolute;
     opacity: 1;
     -ms-transform: translateY(0);
     -webkit-transform: translateY(0);
     transform: translateY(0);
     width: 100%;
     left: 0;
+    top:250px;
     vertical-align: middle;
     font: inherit;
     text-align: center;
     margin: 0;
     cursor: pointer;
-    font-family: Montserrat,sans-serif;
+    font-family: 'firago';
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: all .3s ease-in-out;
@@ -80,10 +85,10 @@
 }
 
 .productCard > span {
-  margin: 0.5vmax;
+  margin: 0.5rem 0 0 0;
   color: #555555;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-size: 1.1vmax;
+  font-family: 'firago';
+  font-size: 1.1rem;
 }
 
 .productCard .btn {
@@ -100,7 +105,7 @@
 }
 
 .productCard:hover .add-to-cart {
-  position: relative;
+  /* position: absolute; */
   display: block !important;
   margin-top: 0;
     opacity: 1;
@@ -112,13 +117,7 @@
     left: 0;
 }
 
-
-
 @media screen and (max-width: 1300px) {
-.productCard > div{
-  display: flex;
-  flex-direction: column;
-}
 
 }
 

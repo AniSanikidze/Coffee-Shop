@@ -1,7 +1,7 @@
 .company-section {
   color: black;
   background-color: #fff;
-  padding: 5rem;
+  padding: 5rem 24px;
 }
 
 .container {
@@ -55,22 +55,6 @@
   color: #555555
 }
 
-.prague-college-logo {
-  width: 7%;
-  height: 7%;
-  border: none;
-  border-radius: none;
-}
-
-.text-wrapper .btn {
-  border-radius: 7px;
-  background-color: rgb(255, 174, 0);
-}
-
-.dark {
-  color: rgb(255, 174, 0);
-}
-
 .description {
   max-width: 440px;
   margin-bottom: 35px;
@@ -99,7 +83,7 @@
   border: 1px solid #e7e7e7;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 800px) {
   .container {
     display: flex;
     flex-flow: column;

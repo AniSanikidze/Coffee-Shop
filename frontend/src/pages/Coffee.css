@@ -10,6 +10,14 @@ body {
 .coffee-cards-container{
     margin: 2rem;
 }
+.coffee-cards-header .main-search-container{
+    margin-top: 1rem !important;
+    margin-left: 2rem !important;
+}
+
+.coffee-cards-header .main-input, .main-input-updated {
+    height: 30px;
+}
 
 .coffee-cards-header {
     display: flex;

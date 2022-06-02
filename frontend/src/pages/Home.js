@@ -10,8 +10,8 @@ function Home() {
 
   return (
     <>
-    <MetaData title="Home Page - Coffee Berry"/>
-    <Navbar/>
+      <MetaData title="Home Page - Coffee Berry"/>
+      <Navbar/>
       <HeroSection />
       <Cards />
       <CollegeSection />

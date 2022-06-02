@@ -1,7 +1,7 @@
 import {
-  ALL_PRODUCT_FAIL,
-  ALL_PRODUCT_REQUEST,
-  ALL_PRODUCT_SUCCESS,
+  ALL_COFFEE_FAIL,
+  ALL_COFFEE_REQUEST,
+  ALL_COFFEE_SUCCESS,
   ADMIN_PRODUCT_REQUEST,
   ADMIN_PRODUCT_SUCCESS,
   ADMIN_PRODUCT_FAIL,
@@ -37,15 +37,15 @@ import {
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
-export const productsReducer = (state = { products: [] }, action) => {
+export const coffeeReducer = (state = { products: [] }, action) => {
   switch (action.type) {
-    case ALL_PRODUCT_REQUEST:
+    case ALL_COFFEE_REQUEST:
     case ADMIN_PRODUCTS_REQUEST:
       return {
         loading: true,
         products: [],
       };
-    case ALL_PRODUCT_SUCCESS:
+    case ALL_COFFEE_SUCCESS:
       return {
         loading: false,
         products: action.payload.products,
@@ -56,7 +56,7 @@ export const productsReducer = (state = { products: [] }, action) => {
         loading: false,
         products: action.payload,
       };
-    case ALL_PRODUCT_FAIL:
+    case ALL_COFFEE_FAIL:
     case ADMIN_PRODUCTS_FAIL:
       return {
         loading: false,

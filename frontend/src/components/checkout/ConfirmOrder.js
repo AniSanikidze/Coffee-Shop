@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import 'aos/dist/aos.css';
 import './ConfirmOrder.css'
 import styled from "styled-components";
@@ -9,13 +9,10 @@ import Navbar from '../navbar/Navbar';
 import Footer from '../footer/Footer';
 import { Typography } from "@material-ui/core";
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../UserContext';
-import axios from 'axios';
+
 
 function ConfirmOrder({match}) {
   const history = useHistory();
-  const {stripeApiKey,setStripeApiKey} = useContext(UserContext)
-  const [proceedToPaymentSubmitted, setProceedToPaymentSubmitted] = useState(false)
   const { shippingInfo,cartItems,loading} = useSelector((state) => state.cart);
 
     const shippingPrice = shippingInfo.city === "Tbilisi" ? 5 : 10
@@ -33,20 +30,9 @@ function ConfirmOrder({match}) {
 
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
     
-    setProceedToPaymentSubmitted(true);
     history.push("/payment/process");
   
   };
-  // async function getStripeApiKey() {
-  //   const { data } = await axios.get("/api/stripeapikey");
-  //     setStripeApiKey(data.stripeApiKey);
-  // }
-
-  // useEffect(() => {
-  //   if (stripeApiKey && proceedToPaymentSubmitted){
-  //     history.push("/payment/process");
-  //   }
-  // },[stripeApiKey,history,proceedToPaymentSubmitted])
 
 const SummaryTitle = styled.h1`
   font-weight: 200;
@@ -132,7 +118,15 @@ const Details = styled.div`
               </div>
               <div>
                 <p>Address: {shippingInfo &&
-                       `${shippingInfo.address}, ${shippingInfo.city}`}</p>
+                       `${shippingInfo.address}`}</p>
+              </div>
+              <div>
+                <p>City: {shippingInfo &&
+                       `${shippingInfo.city}`}</p>
+              </div>
+              <div>
+                <p>ZIP code: {shippingInfo &&
+                       `${shippingInfo.zipCode}`}</p>
               </div>
             </div>
           </div>
@@ -197,51 +191,24 @@ const Details = styled.div`
               <SummaryItemText>Subtotal</SummaryItemText>
               <SummaryItemPrice>₾{subTotal}</SummaryItemPrice>
             </SummaryItem>
-            <SummaryItem>
-                <SummaryItemText>Shipping</SummaryItemText>
-                </SummaryItem>
                 <SummaryItem>
-              <SummaryItemText><input type='radio' defaultChecked={shippingInfo.city === "Tbilisi" ? true : false}/>Tbilisi:</SummaryItemText>
+              <SummaryItemText>Shipping to {shippingInfo.city}:</SummaryItemText>
               {/* <input type="radio">Tbilisi</input>
               <input type="radio">Different City in Georgia</input> */}
-              <SummaryItemPrice>₾5</SummaryItemPrice>
+              <SummaryItemPrice>{shippingInfo.city === "Tbilisi" ? "5₾" : "10₾"}</SummaryItemPrice>
             </SummaryItem>
-            <SummaryItem>
+            {/* <SummaryItem>
             <SummaryItemText><input type='radio' defaultChecked={shippingInfo.city === "Tbilisi" ? false : true}/> Different city in Georgia:</SummaryItemText>
               {/* <input type="radio">Tbilisi</input>
               <input type="radio">Different City in Georgia</input> */}
-              <SummaryItemPrice>₾10</SummaryItemPrice>
-            </SummaryItem>
+              {/* <SummaryItemPrice>₾10</SummaryItemPrice>
+            </SummaryItem> */} 
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>₾{totalPrice}</SummaryItemPrice>
             </SummaryItem>
             <Button onClick={proceedToPayment}>PLACE ORDER</Button>
           </Summary>
-            {/* <Typography>Order Summery</Typography>
-            <div>
-              <div>
-                <p>Subtotal:</p>
-                <span>₹{subtotal}</span>
-              </div>
-              <div>
-                <p>checkout Charges:</p>
-                <span>₹{checkoutCharges}</span>
-              </div>
-              <div>
-                <p>GST:</p>
-                <span>₹{tax}</span>
-              </div>
-            </div>
-
-            <div className="orderSummaryTotal">
-              <p>
-                <b>Total:</b>
-              </p>
-              <span>₹{totalPrice}</span>
-            </div>
-
-            <button onClick={proceedToPayment}>Proceed To Payment</button> */}
           </div>
         </div>
       </div>}

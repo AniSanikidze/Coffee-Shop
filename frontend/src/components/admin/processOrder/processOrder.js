@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
 import MetaData from "../../MetaData";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Typography } from "@material-ui/core";
-import './ProcessOrder.css'
+import "./ProcessOrder.css";
 import {
   clearErrors,
   updateOrder,
@@ -13,49 +13,23 @@ import Loader from "../../loading/Loader";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import { UPDATE_ORDER_RESET } from "../../../constants/orderConstants";
-import { getUserDetails } from "../../../actions/userAction";
 import styled from "styled-components";
-import {loadUser} from '../../../actions/userAction'
-
-const PriceDetail = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
+import { loadUser } from "../../../actions/userAction";
+import "../newproduct/newProduct.css";
+import "../../user/OrderDetails.css";
 
 const ProductSize = styled.span`
-color: #333333
-`;
-
-const ProductDetail = styled.div`
-  flex: 2;
-  display: flex;
+  color: #333333;
 `;
 
 const ProductName = styled.span`
-    color: #333333
-`;
-
-const Product = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 30px 0;
-  height: 200px
-`;
-
-const Details = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  color: #333333;
 `;
 
 const ProcessOrder = ({ match }) => {
   const { order, error, loading } = useSelector((state) => state.specificOrder);
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
-  const [status,setStatus] = useState("")
+  const [status, setStatus] = useState("");
 
   const updateOrderSubmitHandler = (e) => {
     e.preventDefault();
@@ -68,11 +42,10 @@ const ProcessOrder = ({ match }) => {
 
   useEffect(() => {
     if (error) {
-      if (error === "Token Expired"){
-        alert.error("Session Expired")
-        dispatch(loadUser())
-      }
-      else {
+      if (error === "Token Expired") {
+        alert.error("Session Expired");
+        dispatch(loadUser());
+      } else {
         alert.error(error);
         dispatch(clearErrors());
       }
@@ -83,28 +56,29 @@ const ProcessOrder = ({ match }) => {
     }
     if (isUpdated) {
       alert.success("Order Updated Successfully");
-      history.push('/admin/orders');
+      history.push("/admin/orders");
       dispatch({ type: UPDATE_ORDER_RESET });
     }
     dispatch(getOrderAdmin(match.params.id));
-    
-  }, [dispatch, alert, error, match.params.id, isUpdated, updateError,history]);
+  }, [
+    dispatch,
+    alert,
+    error,
+    match.params.id,
+    isUpdated,
+    updateError,
+    history,
+  ]);
 
   useEffect(() => {
-    if (!loading){
-      setStatus(order.status)
+    if (!loading) {
+      setStatus(order.status);
     }
-  },[order,loading])
-
-  useEffect(() => {
-      if(order){
-        dispatch(getUserDetails(order.userId))  
-      }
-  },[dispatch,order])
+  }, [order, loading]);
 
   return (
     <Fragment>
-      <MetaData title="Process Order" />
+      <MetaData title="Update Order Status - Admin Panel" />
       <div className="process-order">
         <div className="newProductContainer">
           {loading ? (
@@ -117,8 +91,9 @@ const ProcessOrder = ({ match }) => {
               }}
             >
               <div>
+                <h1 className="newUserTitle">Order Details</h1>
                 <div className="confirmshippingArea">
-                  <Typography>Shipping Info</Typography>
+                  <Typography>Shipping Information</Typography>
                   <div className="orderDetailsContainerBox">
                     <div>
                       <p>User ID:</p>
@@ -126,23 +101,33 @@ const ProcessOrder = ({ match }) => {
                     </div>
                     <div>
                       <p>Phone:</p>
-                      <span>
-                        {order.phoneNumber && order.phoneNumber}
-                      </span>
+                      <span>{order.phoneNumber && order.phoneNumber}</span>
                     </div>
                     <div>
                       <p>Address:</p>
                       <span>
-                        {order.shippingAddress &&
-                          `${order.shippingAddress.address}, ${order.shippingAddress.city}`}
+                        {order.shippingAddress && order.shippingAddress.address}
+                      </span>
+                    </div>
+                    <div>
+                      <p>City:</p>
+                      <span>
+                        {order.shippingAddress && order.shippingAddress.city}
+                      </span>
+                    </div>
+                    <div>
+                      <p>ZIP Code:</p>
+                      <span>
+                        {order.shippingAddress && order.shippingAddress.zipCode}
                       </span>
                     </div>
                   </div>
 
-                  <Typography>Payment</Typography>
+                  <Typography>Payment Information</Typography>
                   <div className="orderDetailsContainerBox">
                     <div>
-                      <p
+                      <p>Payment status: </p>
+                      <span
                         className={
                           order.paymentInfo &&
                           order.paymentInfo.status === "succeeded"
@@ -154,68 +139,117 @@ const ProcessOrder = ({ match }) => {
                         order.paymentInfo.status === "succeeded"
                           ? "PAID"
                           : "NOT PAID"}
-                      </p>
+                      </span>
                     </div>
 
                     <div>
-                      <p>Amount:</p>
-                      <span>{order.totalPrice && order.totalPrice}</span>
+                      <p>Subtotal:</p>
+                      <span>₾{order.subTotal && order.subTotal}</span>
+                    </div>
+                    <div>
+                      <p>Shipping price:</p>
+                      <span>₾{order.shippingPrice && order.shippingPrice}</span>
+                    </div>
+                    <div>
+                      <p>Total Amount:</p>
+                      <span>₾{order.totalPrice && order.totalPrice}</span>
                     </div>
                   </div>
 
                   <Typography>Order Status</Typography>
                   <div className="orderDetailsContainerBox">
                     <div>
-                      <p
-                        className={
-                          order.status && order.status === "delivered"
-                            ? "greenColor"
-                            : "redColor"
-                        }
+                      <p>Status:</p>
+                      <span
+                        style={{
+                          color:
+                            order.status && order.status === "delivered"
+                              ? "green"
+                              : "red",
+                        }}
                       >
-                        {order.status && order.status}
-                      </p>
+                        {order.status}
+                      </span>
                     </div>
+                    <div>
+                      <p>Purchase date:</p>
+                      <span>
+                        {order.createdAt && order.createdAt.split("T")[0]}
+                      </span>
+                    </div>
+                    {order.status && order.status !== "delivered" && (
+                      <div>
+                        <p>Estimated delivery period:</p>
+                        <span>
+                          {order.shippingAddress.city === "Tbilisi"
+                            ? "1 day"
+                            : "2-3 days"}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="confirmCartItems">
-            <Typography>Ordered Items:</Typography>
-            <div className="confirmCartItemsContainer">
-              {order.products &&
-                order.products.map((item) => (
-                    <Product>
-                    <ProductDetail>
-                    <Link to={`/product/${item.productId}`}>
-                      <div style={{'position':'relative','background-repeat': 'no-repeat','width':'200px','height':'200px','background-size': 'contain',
- backgroundImage:`url(${item.img})`}}>
-                      </div>
-                      </Link>
-                      <Details>
-                        <ProductName>
-                          <b>Product:</b> {item.productName}
-                        </ProductName>
-                        <ProductSize>
-                          <b>Whole Beans or Ground:</b> {item.coffeeType}
-                        </ProductSize>
-                      </Details>
-                    </ProductDetail>
-                    <PriceDetail>
-                      <div className="detailsBlock-3-1-1">
-                        <input readOnly type="number" 
-                        value={item.quantity}
-                        />
-                      </div>
-                      <h1 style={{'color': '#555555',
-          fontSize: '1.3vmax',
-          'margin': '1vmax 0',
-          'font-weight': '400'}}>₾{item.price * item.quantity}</h1>
-                    </PriceDetail>
-                  </Product>
-                ))}
-            </div>
-          </div>
-        </div>
-          
+                  <div className="orderDetailsCartItems" style={{ padding: 0 }}>
+                    <Typography>Ordered Items:</Typography>
+                    <div className="cart-info">
+                      {order.products &&
+                        order.products.map((item) => (
+                          <div className="cart-product">
+                            <div className="cart-product-detail">
+                              <div
+                                style={{
+                                  position: "relative",
+                                  backgroundRepeat: "no-repeat",
+                                  width: "200px",
+                                  height: "200px",
+                                  backgroundSize: "contain",
+                                  backgroundPosition: "50% 50%",
+                                  backgroundImage: `url(${item.img})`,
+                                }}
+                              ></div>
+                              <div className="cart-details">
+                                <ProductName>
+                                  <b>Product:</b> {item.productName}
+                                </ProductName>
+                                <ProductSize>
+                                  <b>Whole Beans or Ground:</b>{" "}
+                                  {item.coffeeType}
+                                </ProductSize>
+                              </div>
+                              <div className="cart-details">
+                                {/* <Add /> */}
+                                {/* <ProductAmount>2</ProductAmount> */}
+                                <div className="detailsBlock-3-1-1">
+                                  <div
+                                    style={{
+                                      color: "#555555",
+                                      fontSize: "1rem",
+                                      fontWeight: "400",
+                                    }}
+                                  >
+                                    ₾{item.price} x {item.quantity}
+                                  </div>
+                                </div>
+                                <h1
+                                  style={{
+                                    color: "#555555",
+                                    fontSize: "1rem",
+                                    fontWeight: "400",
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  ₾{item.price * item.quantity}
+                                </h1>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div
                 style={{
                   display: order.status === "delivered" ? "none" : "block",
@@ -228,10 +262,13 @@ const ProcessOrder = ({ match }) => {
                   <h1>Update Order Status</h1>
 
                   <div>
-                    <select value={status}onChange={(e) => setStatus(e.target.value)}>
-                        <option value="pending">Pending</option>
-                        <option value="shipped">Shipped</option>
-                        <option value="delivered">Delivered</option>
+                    <select
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="shipped">Shipped</option>
+                      <option value="delivered">Delivered</option>
                     </select>
                   </div>
 
@@ -242,7 +279,7 @@ const ProcessOrder = ({ match }) => {
                       loading ? true : false || status === "" ? true : false
                     }
                   >
-                    Process
+                    Update
                   </Button>
                 </form>
               </div>

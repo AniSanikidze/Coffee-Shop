@@ -1,4 +1,3 @@
-
 /* General button styling*/
 
 .btn {
@@ -48,7 +47,8 @@
 
 /* Search and Signup/Login form buttons*/
 
-.btn--search, .btn--form {
+.btn--search,
+.btn--form {
   background-color: #f44336;
   border-radius: 0px 7px 7px 0px;
   color: #fff;

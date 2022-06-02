@@ -6,7 +6,11 @@ import { Link, useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@material-ui/core";
 import MetaData from "../../MetaData";
-import { deleteUser, getAllUsers, clearErrors } from "../../../actions/userAction";
+import {
+  deleteUser,
+  getAllUsers,
+  clearErrors,
+} from "../../../actions/userAction";
 import { DELETE_USER_RESET } from "../../../constants/userConstants";
 import { UserContext } from "../../../UserContext";
 import DeleteDialog from "../../deleteConfirmation/DeleteDialog";
@@ -23,14 +27,15 @@ const UserList = () => {
     (state) => state.account
   );
 
-  const {deleteUserSubmitted,setDeleteUserSubmitted} = useContext(UserContext)
+  const { deleteUserSubmitted, setDeleteUserSubmitted } =
+    useContext(UserContext);
 
   useEffect(() => {
-    if (deleteUserSubmitted){
-      dispatch(deleteUser(deleteUserSubmitted))
-      setDeleteUserSubmitted(false)
+    if (deleteUserSubmitted) {
+      dispatch(deleteUser(deleteUserSubmitted));
+      setDeleteUserSubmitted(false);
     }
-  },[deleteUserSubmitted,dispatch,setDeleteUserSubmitted])
+  }, [deleteUserSubmitted, dispatch, setDeleteUserSubmitted]);
 
   useEffect(() => {
     if (error) {
@@ -86,15 +91,18 @@ const UserList = () => {
         return (
           <Fragment>
             <Button>
-            <Link to={`/admin/user/${params.getValue(params.id, "id")}`} style={{textDecoration: 'none', color: '#555555'}}>
-              update
-            </Link>
+              <Link
+                to={`/admin/user/${params.getValue(params.id, "id")}`}
+                style={{ textDecoration: "none", color: "#214f09" }}
+              >
+                update
+              </Link>
             </Button>
             <DeleteDialog
-              id={params.getValue(params.id,"id")}
+              id={params.getValue(params.id, "id")}
               deleteItem="user"
               name={params.getValue(params.id, "username")}
-              />
+            />
           </Fragment>
         );
       },
@@ -115,13 +123,10 @@ const UserList = () => {
 
   return (
     <Fragment>
-      <MetaData title={`ALL USERS - Admin`} />
-
+      <MetaData title={`All Users - Admin Panel`} />
       <div className="dashboard">
-        {/* <SideBar /> */}
         <div className="productListContainer">
           <h1 id="productListHeading">ALL USERS</h1>
-
           <DataGrid
             rows={rows}
             columns={columns}
@@ -129,6 +134,7 @@ const UserList = () => {
             disableSelectionOnClick
             className="productListTable"
             autoHeight
+            checkboxSelection
           />
         </div>
       </div>

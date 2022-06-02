@@ -7,6 +7,7 @@ import PaymentProcessing from '../components/checkout/PaymentProcess';
 import axios from 'axios';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import Loader from '../components/loading/Loader';
 
 function Payment() {
   const {stripeApiKey,setStripeApiKey} = useContext(UserContext)
@@ -17,17 +18,17 @@ function Payment() {
   useEffect(() => {
     getStripeApiKey();
   })
-  console.log(stripeApiKey)
 
   return (
     <>
     <MetaData title="Payment Page - Coffee Berry"/>
     <Navbar/>
-    {stripeApiKey && <Elements
+    {stripeApiKey ? <Elements
               stripe={loadStripe(stripeApiKey)}
               > 
                 <PaymentProcessing/>
-              </Elements>}
+              </Elements> : 
+            <Loader/>  }
       <Footer/>
     </>
   );

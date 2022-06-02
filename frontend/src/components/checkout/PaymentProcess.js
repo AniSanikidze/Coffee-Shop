@@ -13,8 +13,6 @@ import styled from "styled-components";
 import axios from "axios";
 import "./PaymentProcessing.css";
 import { createOrder } from "../../actions/orderAction";
-import Navbar from "../navbar/Navbar";
-import Footer from "../footer/Footer";
 import Loader from "../loading/Loader";
 import { clearCart } from "../../actions/cartAction";
 import { useHistory } from "react-router-dom";
@@ -44,7 +42,8 @@ const PaymentProcessing = () => {
     totalPrice: orderInfo.totalPrice,
     shippingAddress: {
       address: shippingInfo.address,
-      city: shippingInfo.city
+      city: shippingInfo.city,
+      zipCode: shippingInfo.zipCode
     },
     phoneNumber: shippingInfo.phoneNumber,
     status: "pending"

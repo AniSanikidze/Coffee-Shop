@@ -1,21 +1,30 @@
-import React,{ useEffect, useState} from 'react';
+import React,{  useState} from 'react';
 import 'aos/dist/aos.css';
 import './ShippingForm.css'
 import styled from "styled-components";
-import {useSelector, useDispatch} from 'react-redux'
+import { useDispatch} from 'react-redux'
 import MetaData from '../MetaData';
 import { saveShippingInfo } from '../../actions/cartAction';
 import { useHistory } from 'react-router-dom';
+import { City}  from 'country-state-city';
 
-function ShippingForm({match}) {
+
+function ShippingForm() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { shippingInfo,loading } = useSelector((state) => state.cart);
 
-  const [address, setAddress] = useState(shippingInfo.address);
-  const [city, setCity] = useState(shippingInfo.city);
-  const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("Tbilisi");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [zipCode, setZipCode] = useState("")
 
+  const cities = City.getCitiesOfCountry("GE").filter((item) => {
+    return !item.name.includes("’") && 
+    !item.name.includes("'") 
+    && !item.name.includes("Municipality")
+    && !item.name.includes("Stan")
+  })
+  console.log(cities)
   const TopButton = styled.button`
   padding: 10px;
   font-weight: 600;
@@ -26,19 +35,20 @@ function ShippingForm({match}) {
   color: ${(props) => props.type === "filled" && "white"};
 `;
 
-useEffect(() => {
-  if(!loading){
-      if (shippingInfo){
-      setAddress(shippingInfo.address);
-      setCity(shippingInfo.city);
-      setPhoneNo(shippingInfo.phoneNo);
-   }
-  }
-},[loading,shippingInfo])
+// useEffect(() => {
+//   if(!loading){
+//       if (shippingInfo){
+//       setAddress(shippingInfo.address);
+//       setCity(shippingInfo.city);
+//       setPhoneNo(shippingInfo.phoneNo);
+//       setZipCode(shippingInfo.zipCode)
+//    }
+//   }
+// },[loading,shippingInfo])
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      dispatch(saveShippingInfo(address,city,phoneNo))
+      dispatch(saveShippingInfo(address,city,phoneNo,zipCode))
       history.push('/confirm-order')
     }
 
@@ -70,7 +80,23 @@ useEffect(() => {
                 <label className="old-password">
                     Town / City
                 </label>
-                <input
+                <select
+                  className={
+                    "form-input"}
+                    
+                required
+                value={city}
+                readAndWrite
+                onChange={(e) => setCity(e.target.value)}
+              >
+                  {cities && cities.map((item) => (
+                    <option key={item.isoCode} value={item.isoCode}>
+                      {!item.name.includes("’") && item.name}
+                    </option>
+                  ))}
+              </select>
+              <span className='shipping-info-note'>Shipping Information: Shipping fee in Tbilisi - 5₾, other cities - 10₾.</span>
+                {/* <input
                     className={
                         "form-input"}
                     name='city'
@@ -80,6 +106,21 @@ useEffect(() => {
                     required
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
+                /> */}
+                </div>
+                <div className="form-inputs">
+                <label className="old-password">
+                    Zip code
+                </label>
+                <input
+                    className={
+                        "form-input"}
+                    name='zip'
+                    autocomplete="postal-code"
+                    placeholder='Enter your ZIP code'
+                    required
+                    value={zipCode}
+                    onChange={(e) => setZipCode(e.target.value)}
                 />
                 </div>
                 <div className='fomr-inputs'>
@@ -98,7 +139,7 @@ useEffect(() => {
                     onChange={(e) => setPhoneNo(e.target.value)}
                 /></div>
                 <div style={{marginTop:'38px',display:'flex',justifyContent:'center'}}>
-                <TopButton type="filled" style={{backgroundColor: '#afa483', width: '30%'}}>Continue</TopButton>
+                <TopButton className="shipping-button" type="filled" style={{backgroundColor: '#afa483', width: '30%'}}>Continue</TopButton>
                 </div>
             </div>
             </form>

@@ -39,6 +39,7 @@ const Product = (props) => {
         size: "large",
         value: props.rating,
         readOnly: true,
+        name: 'review',
         precision: 0.5,
         ishalf: 'true'
       };
@@ -145,9 +146,7 @@ const Product = (props) => {
                   Add to Cart
                 </button>
               </div>
-              <p style={{'color': props.stock > 0 ? "green" : "red"}}>
-                <p>{props.stock > 0 ? "InStock" : "Out of Stock"}</p>
-              </p>
+                <p style={{'color': props.stock > 0 ? "green" : "red"}}>{props.stock > 0 ? "InStock" : "Out of Stock"}</p>
               <div className="extra-info" onClick={() => setDescriptionClicked(!descriptionClicked)}>
                       <div className="product-description">
                         <div style={{'display':'flex'}}>

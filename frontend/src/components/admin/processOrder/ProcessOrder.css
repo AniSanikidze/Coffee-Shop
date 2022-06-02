@@ -1,62 +1,70 @@
 .updateOrderForm {
-    margin: 5vmax 0;
-    padding: 3vmax;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  margin: 5vmax 0;
+  padding: 3vmax;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ordered-item-details {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.updateOrderForm > div {
+  display: flex;
+  width: 60%;
+  align-items: center;
+}
+.updateOrderForm > div > select {
+  padding: 10px 20px;
+  height: 40px;
+  margin: 2rem 0;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.267);
+  border-radius: 4px;
+  /* font: 300 0.9vmax cursive; */
+  outline: none;
+}
+
+.process-order .confirmshippingArea {
+  padding: 0 3vmax;
+}
+
+.process-order .confirmCartItems {
+  padding: 0 3vmax;
+}
+.process-order .confirmCartItems .MuiTypography-root.MuiTypography-body1 {
+  font-size: 1rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}
+
+.updateOrderForm > div > svg {
+  position: absolute;
+  transform: translateX(1vmax);
+  font-size: 1.6vmax;
+  color: rgba(0, 0, 0, 0.623);
+}
+
+@media screen and (max-width: 600px) {
+  .updateOrderForm {
+    padding: 5vmax;
   }
-  
-  .updateOrderForm > div {
-    display: flex;
-    width: 60%;
-    align-items: center;
-  }
+
   .updateOrderForm > div > select {
-    padding: 0.7vmax 2vmax;
-    margin: 2rem 0;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.267);
-    border-radius: 4px;
-    /* font: 300 0.9vmax cursive; */
-    outline: none;
+    padding: 2.5vmax 5vmax;
+    font: 300 1.7vmax cursive;
   }
 
-  .process-order .confirmshippingArea{
-    padding:  0 3vmax;
-  }
-
-  .process-order .confirmCartItems{
-    padding: 0 3vmax;
-  }
-  .process-order .confirmCartItems .MuiTypography-root.MuiTypography-body1 {
-      font-size: 1rem;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-    line-height: 1.5;
-    letter-spacing: 0.00938em;
-  }
-  
   .updateOrderForm > div > svg {
-    position: absolute;
-    transform: translateX(1vmax);
-    font-size: 1.6vmax;
-    color: rgba(0, 0, 0, 0.623);
+    font-size: 2.8vmax;
   }
-  
-  @media screen and (max-width: 600px) {
-    .updateOrderForm {
-      padding: 5vmax;
-    }
-  
-    .updateOrderForm > div > select {
-      padding: 2.5vmax 5vmax;
-      font: 300 1.7vmax cursive;
-    }
-  
-    .updateOrderForm > div > svg {
-      font-size: 2.8vmax;
-    }
-  }
+}

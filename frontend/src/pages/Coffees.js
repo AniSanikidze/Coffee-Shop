@@ -6,13 +6,15 @@ import SelectStyle from '../components/search/SelectStyle';
 import SelectLogic from '../components/search/SelectLogic';
 import './Coffee.css'
 import { UserContext } from '../UserContext';
-import {getProduct} from '../actions/productAction'
+import {getCoffee} from '../actions/productAction'
 import {useSelector, useDispatch} from 'react-redux'
 import Loader from '../components/loading/Loader';
 import CardItem from '../components/cards/CardItem';
 import {clearErrors} from '../actions/productAction'
 import MetaData from '../components/MetaData';
 import Footer from '../components/footer/Footer';
+import Searchbox from '../components/search/Searchbox';
+import MobileNavbar from '../components/navbar/MobileNavbar';
 
 export default function Coffees() {
   const dispatch = useDispatch()
@@ -22,13 +24,20 @@ export default function Coffees() {
   const {singleOriginFilter} = useContext(UserContext)
   const {origin} = useContext(UserContext)
   const { sortOptions, setSortResultHandler,sortResult } = SelectLogic();
+  const { button, showButton}
+  = MobileNavbar();
+
   useEffect(() => {
     if(error){
       alert.error(error)
       dispatch(clearErrors())
     }
-    dispatch(getProduct(searchInput,price,singleOriginFilter,origin,sortResult))
+    dispatch(getCoffee(searchInput,price,singleOriginFilter,origin,sortResult))
   },[dispatch,error,searchInput,price,singleOriginFilter,origin,sortResult])
+
+  useEffect(() => {
+    showButton();
+   }, [showButton]);
 
   
   const { customThemes, customStyles } = SelectStyle();
@@ -38,6 +47,7 @@ export default function Coffees() {
     <Navbar/>
       <div className="coffee-hero-container" >
       <div className="coffee-cards-header" style={{'display':'flex','flexDirection':'row'}}>
+      {button && <Searchbox style={{'marginTop': '1rem'}}/>}
               <Select
                 defaultValue="Sort by"
                 options={sortOptions}

@@ -6,6 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { UserContext } from "../../UserContext";
+import { DeleteOutline } from "@material-ui/icons";
 
 const DeleteDialog = (props) => {
 
@@ -42,7 +43,7 @@ const DeleteDialog = (props) => {
 
     return (
       <div>
-        <Button onClick={handleClickOpen}>Delete</Button>
+        <Button onClick={handleClickOpen}><DeleteOutline style={{color:'red'}}/></Button>
         <Dialog
           open={state.open}
           onClose={handleClose}

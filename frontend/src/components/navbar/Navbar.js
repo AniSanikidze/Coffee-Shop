@@ -8,7 +8,7 @@ import { ShoppingCartOutlined, PersonOutline, SearchOutlined } from "@material-u
 import { Badge } from "@material-ui/core";
 
 function Navbar() {
-  const { button, showButton, closeMenuDiscardChanges }
+  const { button, showButton, closeMenuDiscardChanges,showAboutUsHandler,showAboutUs }
     = MobileNavbar();
   const [click, setClick] = useState(false)
   const {isAuthenticated} = useSelector(state=>state.user)
@@ -22,7 +22,8 @@ function Navbar() {
 
   useEffect(() => {
    showButton();
-  }, [showButton]);
+   showAboutUsHandler();
+  }, [showButton,showAboutUsHandler]);
 
   window.addEventListener('resize', showButton);
 
@@ -35,6 +36,7 @@ function Navbar() {
             <img src='/images/Home/1.png' alt='hero-background' style={{'width':'70px','height':'60px',}}/>
           </Link>
           <div className='menu-icon' onClick={handleClick}>
+            
             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
           </div>
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
@@ -51,37 +53,47 @@ function Navbar() {
                 SHOP
               </Link>
             </li>
-            <li className='nav-item'>
-              {window.location.pathname === '/' &&
+            {showAboutUs && <li className='nav-item'>
+              {window.location.pathname === '/' && 
               <Link to='/' className='nav-links'     onClick={() => {
                 const anchor = document.querySelector('#company-section')
                 anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 }}>
                 ABOUT US
               </Link>}
-            </li>
-            <li className='nav-links-mobile'>
-              Log In
-            </li>
-            <li className='nav-links-mobile'>
-                Sign Up
-            </li>
+            </li>}
+            {button && 
+            <>
+                        <li className='nav-item' onClick={closeMenuDiscardChanges}>
+                          <Link to='/cart' className='nav-links'>CART</Link>
+                        
+                    </li>
+                                <li className='nav-item' onClick={closeMenuDiscardChanges}>
+                                  <Link to={isAuthenticated ?  '/user-account' : '/login'} className='nav-links'>
+                                USER
+                                </Link>
+                            </li>
+                            </>
+          }
           </ul>
           <div className='nav-menu'>
-            {window.location.pathname === "/coffee" ? <Searchbox/> :
+            {window.location.pathname === "/coffee" ? 
+            <Searchbox/> :
             <SearchOutlined onClick={() => history.push('/coffee')} style={{'marginTop':'30%', 'fontSize': '30px', 'cursor':'pointer','color': '#555555'}}/>}
+            {/* {showAboutUs &&  */}
+            <>
             <Link to='/cart' style={{'color': '#555555'}}>
               <Badge badgeContent={cartItems.length > 0  ? cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0) : "0"} color='primary' style={{'marginTop':'30%'}}>
                 <ShoppingCartOutlined style={{'marginTop':'30%', 'cursor':'pointer'}}/>
               </Badge>
             </Link>
-            {button &&
             <Link to={isAuthenticated ?  '/user-account' : '/login'}>
               <div style={{'display': 'flex'}}>
               <PersonOutline  style={{'marginTop':'30%', 'fontSize': '30px', 'cursor':'pointer','color': '#555555'}}/>
             </div>
             </Link>
-            }
+            </>
+            {/* } */}
           </div>
         </div>
       </nav>

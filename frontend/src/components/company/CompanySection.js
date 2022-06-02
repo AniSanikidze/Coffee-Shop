@@ -8,7 +8,7 @@ function CompanySection() {
   const [image, setImage] = useState(true);
 
   const showImage = () => {
-    if (window.innerWidth <= 1024) {
+    if (window.innerWidth <= 800) {
       setImage(false);
     } else {
       setImage(true);

@@ -24,19 +24,19 @@ const NavbarLogic = () => {
         }
     }
 
-    function setNavMenuClassName () {
-        switch(window.location.pathname){
-            case '/restaurants':
-                return "nav-menu-updated";
-            default:
-                return "nav-menu";
-        }
-    }
+    // function setNavMenuClassName () {
+    //     switch(window.location.pathname){
+    //         case '/restaurants':
+    //             return "nav-menu-updated";
+    //         default:
+    //             return "nav-menu";
+    //     }
+    // }
 
     return {
         navMenuClassName, searchbox, showLogInModal,
         showSignUpModal, openLogInModal, openSignUpModal,
-        setShowLogInModal, setShowSignUpModal
+        setShowLogInModal, setShowSignUpModal,
     }
 }
 

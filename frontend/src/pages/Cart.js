@@ -8,18 +8,7 @@ import { useDispatch } from "react-redux";
 import { addItemsToCart, removeItemsFromCart } from "../actions/cartAction";
 import { useHistory } from "react-router-dom";
 import { loadUser } from "../actions/userAction";
-
-const Wrapper = styled.div`
-  padding: 20px;
-
-`;
-
-const Top = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-`;
+import './Cart.css'
 
 const TopButton = styled.button`
   padding: 10px;
@@ -31,39 +20,6 @@ const TopButton = styled.button`
   color: ${(props) => props.type === "filled" && "white"};
 `;
 
-const TopText = styled.span`
-  text-decoration: underline;
-  margin: 0px 10px;
-`;
-
-const Bottom = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 50px  
-`;
-
-const Info = styled.div`
-  flex: 3;
-`;
-
-const Product = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 30px 0;
-  height: 200px
-`;
-
-const ProductDetail = styled.div`
-  flex: 2;
-  display: flex;
-`;
-
-const Details = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-`;
 
 const ProductName = styled.span`
     color: #333333
@@ -71,24 +27,6 @@ const ProductName = styled.span`
 
 const ProductSize = styled.span`
 color: #333333
-`;
-
-const PriceDetail = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Summary = styled.div`
-  flex: 1;
-  border: 0.5px solid lightgray;
-  border-radius: 10px;
-  padding: 20px;
-  height: fit-content;
-  background-color: #fff;
-  margin: 30px 0px;
 `;
 
 const SummaryTitle = styled.h1`
@@ -152,7 +90,7 @@ const Cart = () => {
   return (
     <>
       <Navbar />
-      <Wrapper>
+      <div className="cart-wrapper">
       {cartItems.length === 0 ? 
       <div style={{'height': '80vh', 'width': '100%', 'alignItems': 'center', 'display': 'flex',flexDirection: 'column', padding:'50px',justifyContent: 'center'}}>
         <RemoveShoppingCartOutlined style={{'cursor':'pointer', fontSize: '5rem', 'color': '#555555'}}/>
@@ -160,20 +98,26 @@ const Cart = () => {
         <Link to='/coffee'><TopButton type="filled" style={{backgroundColor: '#afa483'}}>RETURN TO SHOP</TopButton></Link>
       </div>
       :
-      <>
-        <Top>
+      <div className="cart-container">
+        <div className="cart-top-bar">
           <Link to='/coffee'><TopButton>CONTINUE SHOPPING</TopButton></Link>
-            <TopText>Shopping Cart({cartItems && (cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0))})</TopText>
-        </Top>
-        <Bottom>
-          <Info>
+            <span className="top-text">Shopping Cart({cartItems && (cartItems.reduce((total, currentValue) => total = total + currentValue.quantity,0))})</span>
+        </div>
+        <div className="cart-bottom">
+          <div className="cart-info">
             {cartItems && cartItems.map((item) => (
-              <Product>
-              <ProductDetail>
-                <div style={{'position':'relative',backgroundRepeat: 'no-repeat','width':'200px','height':'200px',backgroundSize: 'contain',
-                backgroundPosition: '50% 50%', backgroundImage:`url(${item.img})`}}>
+              <div className="cart-product">
+              <div className="cart-product-detail">
+                <div 
+                style={{'position':'relative',
+                        backgroundRepeat: 'no-repeat',
+                        width:'200px',
+                        height:'200px',
+                        backgroundSize: 'contain',
+                        backgroundPosition: '50% 50%',
+                        backgroundImage:`url(${item.img})`}}>
                 </div>
-                <Details>
+                <div className="cart-details">
                   <ProductName>
                     <b>Product:</b> {item.productName}
                   </ProductName>
@@ -183,9 +127,9 @@ const Cart = () => {
                   <ProductSize>
                     <b style={{'color':'#555555','cursor':'pointer'}} onClick={() => deleteCartItem(item.productId, item.coffeeType)}>Remove Item</b>
                   </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
+                </div>
+              </div>
+              <div className="price-detail">
                 <div className="detailsBlock-3-1-1">
                   <button 
                   onClick={() => decreaseProductQuantity(item.productId,item.quantity,item.coffeeType)}
@@ -198,23 +142,23 @@ const Cart = () => {
                   >+</button>
                 </div>
                 <h1 style={{'color': '#555555',
-                          fontSize: '1.3vmax',
+                          fontSize: '1.3rem',
                           'margin': '1vmax 0',
                           fontWeight: '400'}}>₾{item.price * item.quantity}</h1>
-              </PriceDetail>
-            </Product>
+              </div>
+            </div>
             ))}
-          </Info>
-          <Summary>
+          </div>
+          <div className="summary">
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>₾{cartItems && cartItems.reduce((total, currentValue) => total = total + (currentValue.quantity * currentValue.price),0)}</SummaryItemPrice>
             </SummaryItem>
             <Button onClick={checkOutHandler}>CHECKOUT NOW</Button>
-          </Summary>
-        </Bottom></>}
-      </Wrapper>
+          </div>
+        </div></div>}
+      </div>
       <Footer />
     </>
   );

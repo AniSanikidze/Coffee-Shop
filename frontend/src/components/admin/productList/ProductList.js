@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect,useContext } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "./ProductList.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,20 +21,21 @@ const ProductList = () => {
   const alert = useAlert();
   const history = useHistory();
 
-  const { error, products,loading } = useSelector((state) => state.products);
+  const { error, products, loading } = useSelector((state) => state.products);
 
   const { error: deleteError, isDeleted } = useSelector(
     (state) => state.adminProduct
   );
 
-  const {deleteProductSubmitted,setDeleteProductSubmitted} = useContext(UserContext)
+  const { deleteProductSubmitted, setDeleteProductSubmitted } =
+    useContext(UserContext);
 
   useEffect(() => {
-    if (deleteProductSubmitted){
-      dispatch(deleteProduct(deleteProductSubmitted))
-      setDeleteProductSubmitted(false)
+    if (deleteProductSubmitted) {
+      dispatch(deleteProduct(deleteProductSubmitted));
+      setDeleteProductSubmitted(false);
     }
-  },[deleteProductSubmitted,dispatch,setDeleteProductSubmitted])
+  }, [deleteProductSubmitted, dispatch, setDeleteProductSubmitted]);
 
   useEffect(() => {
     if (error) {
@@ -64,6 +65,19 @@ const ProductList = () => {
       headerName: "Name",
       minWidth: 200,
       flex: 0.5,
+      renderCell: (params) => {
+        return (
+          <div className="userListUser">
+            <img
+              className="userListImg"
+              src={params.row.avatar}
+              alt=""
+              style={{ width: "40px", height: "48px", borderRadius: 0 }}
+            />
+            {params.row.name}
+          </div>
+        );
+      },
     },
     {
       field: "stock",
@@ -92,16 +106,19 @@ const ProductList = () => {
         return (
           <Fragment>
             <Button>
-            <Link to={`/admin/product/${params.getValue(params.id, "id")}`} style={{textDecoration: 'none', color: '#555555'}}>
-              update
-            </Link>
+              <Link
+                to={`/admin/product/${params.getValue(params.id, "id")}`}
+                style={{ textDecoration: "none", color: "#214f09" }}
+              >
+                update
+              </Link>
             </Button>
 
             <DeleteDialog
-              id={params.getValue(params.id,"id")}
+              id={params.getValue(params.id, "id")}
               deleteItem="product"
               name={params.getValue(params.id, "name")}
-              />
+            />
           </Fragment>
         );
       },
@@ -111,17 +128,17 @@ const ProductList = () => {
   const rows = [];
 
   if (!loading && products) {
-        products.map((item) => {
+    products.map((item) => {
       rows.push({
         id: item._id,
         stock: item.stock,
         price: item.price,
         name: item.productName,
+        avatar: item.img,
       });
       return null;
     });
   }
-
 
   return (
     <Fragment>
@@ -129,9 +146,7 @@ const ProductList = () => {
 
       <div className="dashboard">
         {/* <SideBar /> */}
-        <div className="productListContainer">
-          <h1 id="productListHeading">All Coffee</h1>
-
+        <div className="productListContainer" style={{ padding: "20px" }}>
           <DataGrid
             rows={rows}
             columns={columns}
@@ -139,6 +154,7 @@ const ProductList = () => {
             disableSelectionOnClick
             className="productListTable"
             autoHeight
+            checkboxSelection
           />
         </div>
       </div>

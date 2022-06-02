@@ -1,9 +1,9 @@
 import axios from "axios";
 
 import {
-  ALL_PRODUCT_FAIL,
-  ALL_PRODUCT_REQUEST,
-  ALL_PRODUCT_SUCCESS,
+  ALL_COFFEE_FAIL,
+  ALL_COFFEE_REQUEST,
+  ALL_COFFEE_SUCCESS,
   ADMIN_PRODUCT_REQUEST,
   ADMIN_PRODUCT_SUCCESS,
   ADMIN_PRODUCT_FAIL,
@@ -28,12 +28,12 @@ import {
   CLEAR_ERRORS,
 } from "../constants/productConstants";
 
-// Get All Products
-export const getProduct =
+
+export const getCoffee =
   (keyword = "", price = [20, 50], singleOrigin = null, origin = null, sort) =>
   async (dispatch) => {
     try {
-      dispatch({ type: ALL_PRODUCT_REQUEST });
+      dispatch({ type: ALL_COFFEE_REQUEST });
 
       let link = `api/coffee`;
 
@@ -51,12 +51,12 @@ export const getProduct =
       const { data } = await axios.get(link);
 
       dispatch({
-        type: ALL_PRODUCT_SUCCESS,
+        type: ALL_COFFEE_SUCCESS,
         payload: data,
       });
     } catch (error) {
       dispatch({
-        type: ALL_PRODUCT_FAIL,
+        type: ALL_COFFEE_FAIL,
         payload: error.response.data.message,
       });
     }
@@ -98,7 +98,6 @@ export const getAdminProduct = (id) => async (dispatch) => {
   }
 };
 
-// Create Product
 export const createProduct = (productName,singleOrigin,origin,desc,bagSize,stock,price,roastLevel,img,aroma,flavor,finish) => async (dispatch) => {
   try {
     dispatch({ type: NEW_PRODUCT_REQUEST });
@@ -125,7 +124,6 @@ export const createProduct = (productName,singleOrigin,origin,desc,bagSize,stock
   }
 };
 
-// Update Product
 export const updateProduct = (id,price,roastLevel,singleOrigin,origin,desc,stock,bagSize,productName,img) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PRODUCT_REQUEST });
@@ -152,7 +150,6 @@ export const updateProduct = (id,price,roastLevel,singleOrigin,origin,desc,stock
   }
 };
 
-// Delete Product
 export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_PRODUCT_REQUEST });
@@ -171,7 +168,6 @@ export const deleteProduct = (id) => async (dispatch) => {
   }
 };
 
-// Get Products Details
 export const getProductInfo = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
@@ -190,7 +186,6 @@ export const getProductInfo = (id) => async (dispatch) => {
   }
 };
 
-// NEW REVIEW
 export const newReview = (rating,comment,coffeeId) => async (dispatch) => {
   try {
     dispatch({ type: NEW_REVIEW_REQUEST });
@@ -214,7 +209,6 @@ export const newReview = (rating,comment,coffeeId) => async (dispatch) => {
 };
 
 
-// Clearing Errors
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 };

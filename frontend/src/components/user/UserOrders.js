@@ -1,21 +1,20 @@
-import React,{useEffect } from 'react'
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Loader from '../loading/Loader';
-import { useAlert } from 'react-alert';
-import MetaData from '../MetaData';
-import { Link} from 'react-router-dom';
+import Loader from "../loading/Loader";
+import { useAlert } from "react-alert";
+import MetaData from "../MetaData";
+import { Link } from "react-router-dom";
 import LaunchIcon from "@material-ui/icons/Launch";
 import { clearErrors, userOrders } from "../../actions/orderAction";
 import { DataGrid } from "@material-ui/data-grid";
-import './UserOrders.css'
-import { loadUser } from '../../actions/userAction';
+import "./UserOrders.css";
+import { loadUser } from "../../actions/userAction";
 
 function UserOrders() {
   const dispatch = useDispatch();
   const alert = useAlert();
 
   const { loading, error, orders } = useSelector((state) => state.userOrders);
-  const { user } = useSelector((state) => state.user);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 80, flex: 0.5 },
@@ -75,46 +74,41 @@ function UserOrders() {
 
   useEffect(() => {
     if (error) {
-      if (error === "Token Expired"){
-        alert.error("Session Expired")
-        dispatch(loadUser())
-      }
-      else{
-      alert.error(error);
-      dispatch(clearErrors()); 
+      if (error === "Token Expired") {
+        alert.error("Session Expired");
+        dispatch(loadUser());
+      } else {
+        alert.error(error);
+        dispatch(clearErrors());
       }
     }
     dispatch(userOrders());
   }, [dispatch, alert, error]);
 
-  useEffect(() => {
+  useEffect(() => {}, [error]);
 
-  },[error])
-
-    return (
-        
-          <>
-        <form
-            className='form' >
-            <MetaData title={`${user.name} - Orders`} />
-
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="myOrdersPage">
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            rowsPerPageOptions={[10]}
-            pageSize={10}
-            disableSelectionOnClick
-            className="myOrdersTable"
-            // rowsPerPageOptions={10}
-            autoHeight
-          /> </div>)}
-        </form>
-        </>
-    )
+  return (
+    <>
+      <form className="form">
+        <MetaData title={`User Account - Orders`} />
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="myOrdersPage">
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              rowsPerPageOptions={[10]}
+              pageSize={10}
+              disableSelectionOnClick
+              className="myOrdersTable"
+              autoHeight
+            />{" "}
+          </div>
+        )}
+      </form>
+    </>
+  );
 }
 
-export default UserOrders
+export default UserOrders;

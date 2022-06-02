@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect,useContext } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import "./OrderList.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,28 +24,26 @@ const OrderList = () => {
 
   const { error, orders } = useSelector((state) => state.allOrders);
 
-  const { error: deleteError, isDeleted } = useSelector(
-    (state) => state.order
-  );
+  const { error: deleteError, isDeleted } = useSelector((state) => state.order);
 
-  const {deleteOrderSubmitted,setDeleteOrderSubmitted} = useContext(UserContext)
+  const { deleteOrderSubmitted, setDeleteOrderSubmitted } =
+    useContext(UserContext);
 
   useEffect(() => {
-    if (deleteOrderSubmitted){
-      dispatch(deleteOrder(deleteOrderSubmitted))
-      setDeleteOrderSubmitted(false)
+    if (deleteOrderSubmitted) {
+      dispatch(deleteOrder(deleteOrderSubmitted));
+      setDeleteOrderSubmitted(false);
     }
-  },[deleteOrderSubmitted,dispatch])
+  }, [deleteOrderSubmitted, dispatch, setDeleteOrderSubmitted]);
 
   useEffect(() => {
     if (error) {
-      if (error === "Token Expired"){
+      if (error === "Token Expired") {
         alert.error("Session Expired");
-        dispatch(loadUser())
-      }
-      else{
-      alert.error(error);
-      dispatch(clearErrors());
+        dispatch(loadUser());
+      } else {
+        alert.error(error);
+        dispatch(clearErrors());
       }
     }
 
@@ -68,20 +66,19 @@ const OrderList = () => {
     {
       field: "status",
       headerName: "Status",
-      type: "text",
       minWidth: 100,
       flex: 0.3,
     },
     {
       field: "productsQty",
-      headerName: "ProductsQty",
+      headerName: "Products Quantity",
       type: "number",
       minWidth: 220,
       flex: 0.5,
     },
     {
       field: "amount",
-      headerName: "Amount",
+      headerName: "Total Amount",
       type: "number",
       minWidth: 220,
       flex: 0.5,
@@ -97,15 +94,18 @@ const OrderList = () => {
         return (
           <Fragment>
             <Button>
-            <Link to={`/admin/order/${params.getValue(params.id, "id")}`} style={{textDecoration: 'none', color: '#555555'}}>
-              update
-            </Link>
+              <Link
+                to={`/admin/order/${params.getValue(params.id, "id")}`}
+                style={{ textDecoration: "none", color: "#214f09" }}
+              >
+                update
+              </Link>
             </Button>
-            <DeleteDialog 
-              id={params.getValue(params.id,"id")}
+            <DeleteDialog
+              id={params.getValue(params.id, "id")}
               deleteItem="order"
               name={params.getValue(params.id, "id")}
-              />
+            />
           </Fragment>
         );
       },
@@ -128,7 +128,6 @@ const OrderList = () => {
   return (
     <Fragment>
       <MetaData title={`ALL ORDERS - Admin`} />
-
       <div className="dashboard">
         <div className="productListContainer">
           <h1 id="productListHeading">ALL ORDERS</h1>
@@ -139,6 +138,7 @@ const OrderList = () => {
             disableSelectionOnClick
             className="productListTable"
             autoHeight
+            checkboxSelection
           />
         </div>
       </div>

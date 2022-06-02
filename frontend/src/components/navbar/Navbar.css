@@ -12,13 +12,6 @@
   color: #555555;
   box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 2px 2px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 7%);
   font-family: 'firago' !important;
-  /* background: linear-gradient(
-    rgba(179, 179, 179, 0.5),
-    rgba(147, 147, 147, 0.5)
-  ), */
-  /* box-shadow: rgb(0 0 0 / 7%); */
-
-  /* background-color: transparent; */
 }
 
 .hidden {
@@ -26,7 +19,7 @@
 }
 
 .navbar.active{
-  background: #242222;
+  background: #fff;
   box-shadow: none;
   position: sticky;
 }
@@ -39,8 +32,7 @@
   width: 100%;
   margin-right: 10px;
   margin-left: 10px;
-  padding: 0 24px;
-  max-width: 1200px;
+  padding: 0 5%;
 }
 
 .navbar-logo {
@@ -121,48 +113,12 @@
   margin-right: 3%;
 }
 
-@media screen and (max-width: 1444px) {
-  .nav-links.hover.mobile {
-    margin-left: 1.9%;
-  }
-}
-
-@media screen and (max-width: 1225px) {
-  .nav-menu {
-    margin-right: 0.5rem;
-  }
-    .navbar-logo {
-    font-size: 1.35rem;
-    /* margin-bottom: 20px; */
-  }
-  .nav-links {
-    color: #555555;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    padding: 0.4rem 0.8rem;
-    height: 100%;
-  }
-}
-
-@media screen and (max-width: 1120px) {
+@media screen and (max-width: 900px) {
   .nav-menu {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 90vh;
-    position: absolute;
-    top: 80px;
-    left: -100%;
-    opacity: 1;
-    transition: all 0.5s ease;
-  }
-
-  .nav-menu-updated {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 90vh;
+    /* height: 100vh; */
     position: absolute;
     top: 80px;
     left: -100%;
@@ -171,7 +127,7 @@
   }
 
   .nav-menu.active {
-    background: #242222;
+    background: #fff;
     left: 0;
     opacity: 1;
     transition: all 0.5s ease;
@@ -185,21 +141,6 @@
     display: table;
   }
 
-  .navbar-logo {
-    position: absolute;
-    /* top: 0;
-    left: 0; */
-    /* transform: translate(10%, 50%); */
-    /* font-size: 1.5rem; */
-    margin-left: 10px;
-    /* margin-bottom: 20px; */
-  }
-
-  /* .fa-utensils {
-    margin-left: 0.5rem;
-    font-size: 2rem;
-  } */
-
   .menu-icon {
     display: block;
     position: absolute;
@@ -210,10 +151,11 @@
     cursor: pointer;
     color: #555555;
     margin-top: 1rem;
+    margin-right: 5%;
   }
 
   .fa-times {
-    color: #fff;
+    color: #afa483;
     font-size: 2rem;
   }
 

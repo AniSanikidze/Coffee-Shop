@@ -1,16 +1,16 @@
 import React,{useEffect} from 'react';
 import CardItem from './CardItem';
 import './Cards.css';
-import {clearErrors, getProduct} from '../../actions/productAction'
+import {clearErrors, getCoffee} from '../../actions/productAction'
 import {useSelector, useDispatch} from 'react-redux'
 import Loader from '../loading/Loader';
 import { useAlert } from 'react-alert';
 import Searchbox from '../search/Searchbox'
 
-function Cards({match}) {
+function Cards() {
   const alert = useAlert()
   const dispatch = useDispatch()
-  let {loading,error,products} = useSelector(state=>state.products)
+  let { loading,error,products } = useSelector((state) => state.products)
   const { input } = Searchbox();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function Cards({match}) {
       alert.error(error)
       dispatch(clearErrors())
     }
-    dispatch(getProduct())
+    dispatch(getCoffee())
   },[dispatch,error,input,alert])
 
   function setFeaturedCoffee () {
@@ -36,19 +36,23 @@ function Cards({match}) {
     <div className='cards'>
       <h1>Featured Products </h1>
       <div className='products-container'>
-      {loading ? <Loader/> : 
-      products && products.map(product => (
-      <CardItem 
-      key={product._id}
-      productName={product.productName}
-      id={product._id}
-      price={product.price}
-      numOfReviews={product.numOfReviews}
-      stock={product.stock} 
-      rating={product.rating}
-      img={product.img}
-      />
-      ))}
+      {loading ? 
+        <Loader/> 
+        : 
+        products && 
+        products.map(product => (
+          <CardItem 
+            key={product._id}
+            productName={product.productName}
+            id={product._id}
+            price={product.price}
+            numOfReviews={product.numOfReviews}
+            stock={product.stock} 
+            rating={product.rating}
+            img={product.img}
+          />
+        ))
+      }
       </div>
     </div>
   );

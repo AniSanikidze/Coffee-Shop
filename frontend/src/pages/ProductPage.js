@@ -27,7 +27,8 @@ function ProductPage({match}) {
      (
       <Loader />
     ) :
-     ( <Product  reviews={product.reviews}
+     ( <Product  
+      reviews={product.reviews}
       productName={product.productName}
       id={product._id}
       numOfReviews={product.numOfReviews}

@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useEffect, useState } from "react";
 import {useSelector, useDispatch} from 'react-redux'
 import Loader from '../loading/Loader';
@@ -6,54 +5,7 @@ import { useAlert } from 'react-alert';
 import {clearErrors, forgotPassword} from '../../actions/userAction'
 import MetaData from "../MetaData";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  background:
-    url("/images/Home/EDIT2-6723.jpg")
-      center;
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'firago'
-`;
-
-const Wrapper = styled.div`
-  width: 35%;
-  padding: 20px;
-  background-color: white;
-
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: 300;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 10px 0;
-  padding: 10px;
-`;
-
-const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 15px 20px;
-  background-color: #afa483;
-  color: white;
-  cursor: pointer;
-  margin-bottom: 10px;
-`;
-
-const ForgotPasswordForm = ({ submitForm}) => {
+const ForgotPasswordForm = () => {
     const [email,setEmail] = useState("")
     const alert = useAlert()
     const dispatch = useDispatch()
@@ -84,14 +36,14 @@ const ForgotPasswordForm = ({ submitForm}) => {
 
   return (
     
-    <Container>
-      {loading ? <Loader/> : <Wrapper >
+    <div className="form-container" style={{background: 'url("/images/Home/EDIT2-6723.jpg") center'}}>
+      {loading ? <Loader/> : <div className="form-wrapper">
         <MetaData title={"Forgot Password - Coffee Berry"}/>
-        <Title>FORGOT PASSWORD</Title>
-        <p style={{'color':'red', 'fontSize':'14px', "margin": '7px 0' }}>{error}</p>
+        <h1 className="form-title">FORGOT PASSWORD</h1>
         <p style={{'font-size': '12px', 'color': '#555555'}}>Lost your password? Please enter your email address. You will receive a link to create a new password via email.</p>
-        <Form onSubmit={handleLogin}>
-          <Input 
+        <form  className="login-form" onSubmit={handleLogin}>
+          <input 
+          className="login-input"
           type='email'
             name='email'
             placeholder='Enter your email'
@@ -99,11 +51,10 @@ const ForgotPasswordForm = ({ submitForm}) => {
             onChange={(e) => setEmail(e.target.value)}
             required
            />
-          <Button >SEND</Button>
-        </Form>
-      </Wrapper>}
-    </Container>
-    
+          <button className="login-button">SEND</button>
+        </form>
+      </div>}
+    </div>
   );
 };
 

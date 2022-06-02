@@ -1,13 +1,13 @@
 import React from 'react';
 import Navbar from '../components/navbar/Navbar';
 import MetaData from '../components/MetaData';
-import Login from '../components/userForms/loginSignUp';
+import Login from '../components/userForms/Login';
 import Footer from '../components/footer/Footer';
 
 function Form() {
   return (
     <>
-    <MetaData title="Home Page - Coffee Berry"/>
+    <MetaData title="User - Coffee Berry"/>
     <Navbar/>
       <Login />
       <Footer/>

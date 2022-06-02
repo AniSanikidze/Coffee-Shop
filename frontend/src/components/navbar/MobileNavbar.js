@@ -3,6 +3,7 @@ import { useState } from 'react';
 const MobileNavbar = () => {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
+  const [showAboutUs, setShowAboutUs] = useState(false);
 
   const handleClick = () => setClick(!click);
 
@@ -18,12 +19,20 @@ const MobileNavbar = () => {
    }
 
   const showButton = () => {
-    if (window.innerWidth <= 1120) {
-      setButton(false);
-    } else {
+    if (window.innerWidth <= 900) {
       setButton(true);
+    } else {
+      setButton(false);
     }
   };
+
+  const showAboutUsHandler = () => {
+    if (window.innerWidth <= 900) {
+      setShowAboutUs(false);
+    } else {
+      setShowAboutUs(true);
+    }
+  }
 
   const showSearch = () => {
     if (window.innerWidth <= 820) {
@@ -36,7 +45,8 @@ const MobileNavbar = () => {
   return {
     click, button, showButton, handleClick,
     showSearch, closeMenuOpenRestaurants,
-    closeMenuOpenPCRestaurants, closeMenuDiscardChanges, setClick
+    closeMenuOpenPCRestaurants, closeMenuDiscardChanges, setClick,
+    showAboutUs,showAboutUsHandler
   }
 
 }

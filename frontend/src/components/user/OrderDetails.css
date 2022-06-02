@@ -1,11 +1,22 @@
-   .orderDetailsContainer > h1 {
-    font: 300 3vmax "Roboto";
-    margin: 0vmax 0 4vmax 0;
-    color: tomato;
+.orderDetailsPage {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.orderDetailsContainer > h1 {
+  font-weight: 300;
+  font-size: 2.2rem;
+  font-family: 'firago-regular';
+  margin: 0 0 3rem 0;
+  color: tomato;
+  }
+  .orderDetailsContainer.first-box{
+    border-right: 1px solid rgba(0, 0, 0, 0.164);
   }
   
   .orderDetailsContainer {
-    padding: 5vmax;
+    padding: 3rem;
     padding-bottom: 0%;
   }
   
@@ -13,23 +24,36 @@
     font: 400 1.8vmax "Roboto";
   }
   
-  .orderDetailsContainerBox,
-  .orderDetailsCartItemsContainer {
-    margin: 2vmax;
+  .orderDetailsCartItems {
+    padding: 0 1rem;
   }
-  
+
+  /* .orderDetailsCartItems .cart-info {
+    max-height: 430px;
+  } */
+  .order-details {
+    display: flex;
+    flex-direction: column;
+  }
+  .orderDetailsContainerBox {
+    margin: 0.7rem;
+  }
   .orderDetailsContainerBox > div {
     display: flex;
-    margin: 1vmax 0;
+    margin: 1rem 0;
   }
   
   .orderDetailsContainerBox > div > p {
-    font: 400 1vmax "Roboto";
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'firago-regular';
     color: black;
   }
   .orderDetailsContainerBox > div > span {
     margin: 0 1vmax;
-    font: 100 1vmax "Roboto";
+    font-size: 1rem;
+    font-weight: 100;
+    font-family: 'firago-regular';
     color: #575757;
   }
   
@@ -38,9 +62,7 @@
   }
   
   .orderDetailsCartItems {
-    padding: 2vmax 5vmax;
-    margin-bottom: 2vmax; 
-    border-top: 1px solid rgba(0, 0, 0, 0.164);
+    padding: 0 1rem;
   }
   
   .orderDetailsCartItemsContainer > div {
@@ -65,8 +87,22 @@
     font: 100 1vmax "Roboto";
     color: #5e5e5e;
   }
+
+  .greenColor {
+    color: green !important;
+  }
+
+  .redColor {
+    color: red !important;
+  }
   
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 900px) {
+
+    .orderDetailsPage {
+      display: flex;
+      flex-direction: column;
+    }
+/*     
     .orderDetailsContainer > p {
       font: 400 6vw "Roboto";
     }
@@ -102,5 +138,5 @@
   
     .orderDetailsCartItemsContainer > div > span {
       font: 100 4vw "Roboto";
-    }
+    } */
   }

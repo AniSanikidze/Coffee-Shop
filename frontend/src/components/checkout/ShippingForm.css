@@ -1,6 +1,6 @@
 .shipping-form {
     width: 100%;
-    /* height: 80vh; */
+    height: 80vh;
     display: flex;
     flex-direction: column;
     /* text-align: center; */
@@ -12,9 +12,38 @@
     align-items: center;
 }
 
+.shipping-info-note {
+   color: #555555;
+   margin: 0 !important; 
+
+}
+
 .shipping-form .change-password{
     width: 30% !important;
     margin:0;
     max-width: 100% !important;
-    
+}
+
+
+@media screen and (max-width: 1200px) {
+
+.shipping-form .change-password{
+    width: 50% !important;
+}
+}
+
+@media screen and (max-width: 900px) {
+    .shipping-form .change-password{
+        width: 55% !important;
+    }  
+
+    .shipping-button {
+        width: 40% !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .shipping-form .change-password{
+        width: 85% !important;
+    }  
 }

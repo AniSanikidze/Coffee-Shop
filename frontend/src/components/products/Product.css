@@ -456,7 +456,8 @@
   }
   .detailsBlock-3-1 {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    /* align-items: center; */
   }
   
   .detailsBlock-3-1-1 > button {
@@ -466,6 +467,10 @@
     cursor: pointer;
     color: white;
     transition: all 0.5s;
+    /* width: 15px;
+    height: 40px; */
+    font: 500 0.7vmax "Roboto";
+
   }
   .detailsBlock-3-1-1 > button:hover {
     background-color: rgba(0, 0, 0, 0.767);
@@ -489,11 +494,14 @@
     color: white;
     transition: all 0.5s;
     background-color: rgb(175, 164, 131);
-    font: 500 0.7vmax "Roboto";
-    border-radius: 20px;
-    padding: 0.5vmax 2vmax;
-    margin: 1vmax;
+    /* font: 500 0.7vmax "Roboto"; */
+    border-radius: 2px;
+    padding: 0.4rem 0.8rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     outline: none;
+    width: 25%;
+    font: 500 1rem "Roboto";
   }
   
   .detailsBlock-3-1 > button:last-child:hover {
@@ -535,16 +543,18 @@
   .submitReview {
     border: none;
     background-color: rgb(175, 164, 131) ;
-    font: 500 0.7vmax "Roboto";
-    border-radius: 20px;
-    padding: 0.6vmax 2vmax;
+    font: 500 0.8rem "Roboto";
+    /* border-radius: 20px; */
+    /* padding: 0.6vmax 2vmax; */
     margin: 1vmax 0;
     color: white;
     cursor: pointer;
     transition: all 0.5s;
     outline: none;
+    border-radius: 2px;
+    padding: 0.4rem 0.8rem;
   }
-  .submitReview:hover {
+  .submitReview:hover, .detailsBlock-3-1 > button:last-child:hover {
     background-color: rgb(142, 134, 113);
     transform: scale(1.1);
   }
