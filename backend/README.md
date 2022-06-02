@@ -1,7 +1,7 @@
 # Coffee Shop API
 
 ## Documentation
-API documentation can be seen in Swagger UI on http://localhost:8080/api-docs/
+API documentation can be seen in Swagger UI at https://coffee-berry.herokuapp.com/api-docs/.
 
 The API can be tested directly on that page by clicking on try out
 and inputing query parameters.
