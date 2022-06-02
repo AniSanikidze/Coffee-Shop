@@ -1,3 +1,4 @@
+# Coffee Shop UI
 
 The UI of the E-commerce prototype is fully
 based on JavaScript library – React and a state management library - Redux.
