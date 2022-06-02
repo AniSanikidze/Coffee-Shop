@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const MobileNavbar = () => {
   const [click, setClick] = useState(false);
@@ -7,16 +7,9 @@ const MobileNavbar = () => {
 
   const handleClick = () => setClick(!click);
 
-  const closeMenuOpenRestaurants = () => {
-    setClick(false);
-  }
-  const closeMenuOpenPCRestaurants = () => {
-    setClick(false);
-  }
-
   const closeMenuDiscardChanges = () => {
     setClick(false);
-   }
+  };
 
   const showButton = () => {
     if (window.innerWidth <= 900) {
@@ -32,7 +25,7 @@ const MobileNavbar = () => {
     } else {
       setShowAboutUs(true);
     }
-  }
+  };
 
   const showSearch = () => {
     if (window.innerWidth <= 820) {
@@ -43,12 +36,16 @@ const MobileNavbar = () => {
   };
 
   return {
-    click, button, showButton, handleClick,
-    showSearch, closeMenuOpenRestaurants,
-    closeMenuOpenPCRestaurants, closeMenuDiscardChanges, setClick,
-    showAboutUs,showAboutUsHandler
-  }
-
-}
+    click,
+    button,
+    showButton,
+    handleClick,
+    showSearch,
+    closeMenuDiscardChanges,
+    setClick,
+    showAboutUs,
+    showAboutUsHandler,
+  };
+};
 
 export default MobileNavbar;

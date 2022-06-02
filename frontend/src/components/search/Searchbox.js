@@ -2,15 +2,12 @@ import React, { useEffect, useContext, useRef} from 'react';
 import { Link } from 'react-router-dom';
 import './Searchbox.css';
 import MobileNavbar from '../navbar/MobileNavbar'
-import AdjustSearchbox from './AdjustSearchbox';
 import { UserContext } from '../../UserContext';
 import { useHistory } from "react-router-dom";
 
 function Searchbox() {
   const { searchInput,setSearchInput } = useContext(UserContext);
 
-   const { inputClassName, 
-          searchIconClassname } = AdjustSearchbox();
   const { button, showSearch } = MobileNavbar();
 
   const searchContainer = useRef(null);
@@ -34,12 +31,12 @@ function Searchbox() {
       <div className="main-search-container">
        <Link to='/coffee'>
          {button && 
-         <i className={searchIconClassname}/>}
+         <i className="fas fa-search"/>}
       </Link>
         <input
           type="text"
           value={searchInput}
-          className={inputClassName}
+          className="main-input"
           placeholder={"Search Coffee"}
           onChange={handleChange}
         />

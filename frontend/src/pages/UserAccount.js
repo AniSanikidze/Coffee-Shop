@@ -1,10 +1,10 @@
-import React from 'react';
-import UserProfile from '../components/user/UserProfile';
+import React from "react";
+import UserProfile from "../components/user/UserProfile";
 
-function UserAccount({user}) {
+function UserAccount({ user }) {
   return (
     <>
-        <UserProfile user={user}/>
+      <UserProfile user={user} />
     </>
   );
 }

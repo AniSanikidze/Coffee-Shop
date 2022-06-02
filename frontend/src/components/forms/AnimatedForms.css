@@ -6,21 +6,19 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: rgba(0,0,0,0.62);
+  background-color: rgba(0, 0, 0, 0.62);
 }
 
 .login-signup-wrapper {
   max-height: 575px !important;
   min-height: 70px;
-  /* height: 575px; */
   width: 450px;
   position: absolute;
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  /* border-radius: 5px; */
-  box-shadow: 0px 2px 7px rgba(0,0,0,1.2);
+  box-shadow: 0px 2px 7px rgba(0, 0, 0, 1.2);
   overflow: hidden;
   background: rgb(255, 255, 255);
 }
@@ -30,22 +28,18 @@
   opacity: 1;
   margin-bottom: 1em;
   margin-top: 2em;
-  /* margin: 0 2em; */
   text-align: center;
   justify-content: center;
 }
-/* .form-buttons h1 {
-  width: 100%;
-  text-align: center !important;
-} */
 
-#loginBtn, #signupBtn {
+#loginBtn,
+#signupBtn {
   font-size: 1.2em;
-  border:0px;
+  border: 0px;
   cursor: pointer;
   height: 50px;
   width: 50%;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 button:focus {
@@ -56,22 +50,20 @@ button.active {
   padding-bottom: 10px;
 }
 
-/*Form positioning and animation */
-
 .form-group {
   margin: 0 2em;
 }
 
 form {
   position: relative;
-  transition: all .3s ease;
-  top: - 100px;
+  transition: all 0.3s ease;
+  top: -100px;
 }
 
 form#signupform {
-  left:500px;
-  top:-280px;
-  position:relative;
+  left: 500px;
+  top: -280px;
+  position: relative;
 }
 
 @media screen and (max-width: 720px) {

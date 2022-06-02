@@ -10,15 +10,16 @@
   z-index: 10;
   background-color: #fff;
   color: #555555;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 2px 2px rgb(0 0 0 / 6%), 0 0 2px rgb(0 0 0 / 7%);
-  font-family: 'firago' !important;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 2px 2px rgb(0 0 0 / 6%),
+    0 0 2px rgb(0 0 0 / 7%);
+  font-family: "firago" !important;
 }
 
 .hidden {
   display: none;
 }
 
-.navbar.active{
+.navbar.active {
   background: #fff;
   box-shadow: none;
   position: sticky;
@@ -89,7 +90,7 @@
 }
 
 .nav-links.hover.mobile {
-  color:#242222;
+  color: #242222;
   margin-left: 5%;
 }
 
@@ -134,7 +135,8 @@
     z-index: 1;
   }
 
- #signup , .nav-links  {
+  #signup,
+  .nav-links {
     text-align: center;
     padding: 2rem;
     width: 100%;
@@ -179,7 +181,6 @@
   .navbar-logo {
     font-size: 1.3rem;
     margin-left: 5px;
-    /* margin-bottom: 20px; */
   }
 
   .fa-utensils {

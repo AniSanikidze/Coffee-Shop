@@ -110,7 +110,6 @@ const UpdateProduct = ({ match }) => {
         });
 
       const fileName = new Date().getTime() + img.name;
-      // const storage = getStorage(app);
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, img);
 
@@ -129,7 +128,6 @@ const UpdateProduct = ({ match }) => {
         },
 
         (error) => {
-          // Handle unsuccessful uploads
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -170,18 +168,18 @@ const UpdateProduct = ({ match }) => {
   const roastLevels = ["Light", "Medium", "Dark"];
 
   return (
-    <div className="newUser">
+    <div className="newProduct">
       {loading ? (
         <Loader />
       ) : (
         <div>
-          <h1 className="newUserTitle">Update Product</h1>
+          <h1 className="newProductTitle">Update Product</h1>
           <form
-            className="newUserForm"
+            className="newProductForm"
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Product Name</label>
               <input
                 type="text"
@@ -191,7 +189,7 @@ const UpdateProduct = ({ match }) => {
                 onChange={(e) => setProductName(e.target.value)}
               />
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Origin</label>
               <input
                 type="text"
@@ -200,7 +198,7 @@ const UpdateProduct = ({ match }) => {
                 onChange={(e) => setOrigin(e.target.value)}
               />
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Select coffee type</label>
               <select
                 value={singleOrigin ? true : false}
@@ -210,7 +208,7 @@ const UpdateProduct = ({ match }) => {
                 <option value={false}>Blend</option>
               </select>
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Aroma</label>
               <input
                 type="text"
@@ -220,7 +218,7 @@ const UpdateProduct = ({ match }) => {
                 onChange={(e) => setAroma(e.target.value)}
               />
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Flavor</label>
               <input
                 type="text"
@@ -230,7 +228,7 @@ const UpdateProduct = ({ match }) => {
                 onChange={(e) => setFlavor(e.target.value)}
               />
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Finish</label>
               <input
                 type="text"
@@ -240,7 +238,7 @@ const UpdateProduct = ({ match }) => {
                 onChange={(e) => setFinish(e.target.value)}
               />
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Roast Level</label>
               <select
                 value={roastLevel}
@@ -253,7 +251,7 @@ const UpdateProduct = ({ match }) => {
                 ))}
               </select>
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Price</label>
               <input
                 type="number"
@@ -263,7 +261,7 @@ const UpdateProduct = ({ match }) => {
                 onChange={(e) => setPrice(e.target.value)}
               />
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Bag size</label>
               <input
                 type="number"
@@ -273,7 +271,7 @@ const UpdateProduct = ({ match }) => {
                 onChange={(e) => setBagSize(e.target.value)}
               />
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Product Description</label>
               <textarea
                 placeholder="Description..."
@@ -284,7 +282,7 @@ const UpdateProduct = ({ match }) => {
                 required
               ></textarea>
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Stock</label>
               <input
                 type="number"
@@ -294,7 +292,7 @@ const UpdateProduct = ({ match }) => {
                 onChange={(e) => setStock(e.target.value)}
               />
             </div>
-            <div className="newUserItem">
+            <div className="newProductItem">
               <label>Update Image</label>
               <div
                 className="custom-file-upload"

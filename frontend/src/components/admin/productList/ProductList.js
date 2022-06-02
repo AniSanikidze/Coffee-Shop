@@ -145,7 +145,6 @@ const ProductList = () => {
       <MetaData title={`ALL COFFEE - Admin`} />
 
       <div className="dashboard">
-        {/* <SideBar /> */}
         <div className="productListContainer" style={{ padding: "20px" }}>
           <DataGrid
             rows={rows}

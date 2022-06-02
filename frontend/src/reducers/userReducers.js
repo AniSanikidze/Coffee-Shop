@@ -118,7 +118,6 @@ import {
           ...state,
           loading: false,
           isDeleted: action.payload,
-          // message: action.payload.message,
         };
   
       case UPDATE_PROFILE_FAIL:

@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect} from "react";
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../MetaData";
 import { useAlert } from "react-alert";
@@ -27,7 +27,7 @@ const PaymentProcessing = () => {
   const payBtn = useRef(null);
   const history = useHistory();
 
-  const { shippingInfo,cartItems} = useSelector((state) => state.cart);
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
 
   const paymentData = {
@@ -43,28 +43,30 @@ const PaymentProcessing = () => {
     shippingAddress: {
       address: shippingInfo.address,
       city: shippingInfo.city,
-      zipCode: shippingInfo.zipCode
+      zipCode: shippingInfo.zipCode,
     },
     phoneNumber: shippingInfo.phoneNumber,
-    status: "pending"
+    status: "pending",
   };
 
   const TopButton = styled.button`
-  padding: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  border: ${(props) => props.type === "filled" && "none"};
-  background-color: ${(props) =>
-    props.type === "filled" ? "black" : "transparent"};
-  color: ${(props) => props.type === "filled" && "white"};
-`;
+    padding: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: ${(props) => props.type === "filled" && "none"};
+    background-color: ${(props) =>
+      props.type === "filled" ? "black" : "transparent"};
+    color: ${(props) => props.type === "filled" && "white"};
+  `;
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     payBtn.current.disabled = true;
-    
-    alert.info("Order request submitted. Please wait while we are processing your request.")
+
+    alert.info(
+      "Order request submitted. Please wait while we are processing your request."
+    );
 
     try {
       const config = {
@@ -106,7 +108,7 @@ const PaymentProcessing = () => {
           };
 
           dispatch(createOrder(order));
-          dispatch(clearCart())
+          dispatch(clearCart());
 
           history.push("/success");
         } else {
@@ -118,47 +120,56 @@ const PaymentProcessing = () => {
       alert.error(error.response.data.message);
     }
   };
-  const [stripeLoaded,setStripeLoaded] = useState(false);
+  const [stripeLoaded, setStripeLoaded] = useState(false);
 
   useEffect(() => {
-    if (stripe){
-      setStripeLoaded(true)
+    if (stripe) {
+      setStripeLoaded(true);
     }
-  },[stripe])
+  }, [stripe]);
 
   return (
-      <>
-    <Fragment>
-      <MetaData title="Payment - Coffee Berry" />
-      <div className='checkout-form' style={{padding: '3rem'}}>
-      {stripeLoaded ?  
-        <form className="form" onSubmit={(e) => submitHandler(e)}>
-            <div className="change-password">
-            <div className='form-inputs'>
-                <label className="old-password">
-                    Card number
-                </label>
-            <CardNumberElement className='paymentInput' />
-          </div>
-          <div className='form-inputs'>
-                <label className="old-password">
-                    Card expiration
-                </label>
-            <CardExpiryElement className="paymentInput" />
-          </div>
-          <div className='form-inputs'>
-                <label className="old-password">
-                    Security code
-                </label>
-            <CardCvcElement className="paymentInput" />
-          </div>
-          <div style={{marginTop:'38px',display:'flex',justifyContent:'center'}}>
-                <TopButton type="filled" style={{backgroundColor: '#afa483', width: '30%'}} ref={payBtn}>Pay ₾{orderInfo.totalPrice}</TopButton>
-                </div></div>
-        </form> : 
-        <Loader/>}
-      </div> 
-    </Fragment>
+    <>
+      <Fragment>
+        <MetaData title="Payment - Coffee Berry" />
+        <div className="checkout-form" style={{ padding: "3rem" }}>
+          {stripeLoaded ? (
+            <form className="form" onSubmit={(e) => submitHandler(e)}>
+              <div className="change-password">
+                <div className="form-inputs">
+                  <label className="input-field">Card number</label>
+                  <CardNumberElement className="paymentInput" />
+                </div>
+                <div className="form-inputs">
+                  <label className="input-field">Card expiration</label>
+                  <CardExpiryElement className="paymentInput" />
+                </div>
+                <div className="form-inputs">
+                  <label className="input-field">Security code</label>
+                  <CardCvcElement className="paymentInput" />
+                </div>
+                <div
+                  style={{
+                    marginTop: "38px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <TopButton
+                    type="filled"
+                    style={{ backgroundColor: "#afa483", width: "30%" }}
+                    ref={payBtn}
+                  >
+                    Pay ₾{orderInfo.totalPrice}
+                  </TopButton>
+                </div>
+              </div>
+            </form>
+          ) : (
+            <Loader />
+          )}
+        </div>
+      </Fragment>
     </>
   );
 };

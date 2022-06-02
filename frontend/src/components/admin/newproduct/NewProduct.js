@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import "./NewProduct.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, createProduct } from "../../../actions/productAction";
 import { useAlert } from "react-alert";
@@ -55,7 +54,6 @@ const NewProduct = () => {
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(loadUser());
-    console.log(userError);
     if (!loading && userError !== "Token Expired") {
       if (img !== null) {
         const fileName = new Date().getTime() + img.name;

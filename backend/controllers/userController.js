@@ -78,10 +78,7 @@ const updateUser = async(req, res) => {
   let username
   let role
   let email
-  // const role = req.body.role
-  // if (!role) {
-  //   res.status(400).json({message: "Role was not provided in the request body"})
-  // }
+
   if (retrievedUser.username !== req.body.username) {
     username = req.body.username
   }

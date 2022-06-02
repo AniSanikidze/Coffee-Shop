@@ -31,25 +31,7 @@ const SearchboxStyle = () => {
           height: '30px',
         }),
       };
-
-    // const customStyles = {
-    //     control: (base, state) => ({
-    //         ...base,
-    //         borderRadius: 0,
-    //         height: selectHeight,
-    //         cursor: 'pointer',
-    //         color: 'rgb(185, 185, 185)',
-    //         border: state.isFocused ? `1px solid rgb(185, 185, 185)` :
-    //                                   `1px solid rgb(185, 185, 185)`,
-    //         boxShadow: state.isFocused ? `1px solid rgb(185, 185, 185)` :
-    //                                      `1px solid rgb(185, 185, 185)`,
-    //         '&:hover': {
-    //             border: state.isFocused ? `1px solid rgb(185, 185, 185)` :
-    //                                       `1px solid rgb(185, 185, 185)`
-    //         }
-    //     })
-    // };
-
+      
     function customThemes (theme){
         return {
             ...theme,

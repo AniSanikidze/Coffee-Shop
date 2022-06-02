@@ -1,11 +1,5 @@
 # Coffee Shop API
 
-## Documentation
-API documentation can be seen in Swagger UI at https://coffee-berry.herokuapp.com/api-docs/.
-
-The API can be tested directly on that page by clicking on try out
-and inputing query parameters.
-
 ## .env configuration
 .env file should be created in the config folder of the backend directory.
 
@@ -31,6 +25,22 @@ The following are required .env variables and example values
 `SMPT_HOST` = `smpt.gmail.com`
 
 `SMPT_PORT` = `465`
+
+`FRONTEND_URL` = `http://localhost:3000`
+
+`STRIPE_API_KEY` = `<api-key>`
+
+`STRIPE_SECRET_KEY` = `<secret-key>`
+
+`REACT_APP_FIREBASE_API_KEY` = `<firebase-api-key>`
+
+`REACT_APP_AUTH_DOMAIN` = `<firebase-auth-domain>`
+
+`REACT_APP_PROJECT_ID` = `<firebase-project-id>`
+
+`REACT_APP_MESSAGING_SENDER_ID` = `<firebase-message-sender-id>`
+
+`REACT_APP_APP_ID` = `<firebase-app-id>`
 
 ## Starting the server
 

@@ -72,15 +72,14 @@ const UpdateUser = ({ match }) => {
   };
 
   return (
-    <div className="newUser">
-      <h1 className="newUserTitle">New Product</h1>
+    <div className="newProduct">
+      <h1 className="newProductTitle">New Product</h1>
       <form
-        className="newUserForm"
+        className="newProductForm"
         encType="multipart/form-data"
         onSubmit={updateuserSubmitHandler}
-        // style={{display:'flex', flexDirection:'column'}}
       >
-        <div className="newUserItem">
+        <div className="newProductItem">
           <label>Username</label>
           <input
             type="text"
@@ -90,7 +89,7 @@ const UpdateUser = ({ match }) => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className="newUserItem">
+        <div className="newProductItem">
           <label>Email</label>
           <input
             type="text"
@@ -100,7 +99,7 @@ const UpdateUser = ({ match }) => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="newUserItem">
+        <div className="newProductItem">
           <label>User role</label>
           <select value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="admin">Admin</option>

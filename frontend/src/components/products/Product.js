@@ -8,7 +8,7 @@ import {
 } from "../../actions/productAction";
 import { useAlert } from "react-alert";
 import Select from 'react-select'
-import SelectStyle from '../search/SelectStyle';
+import SelectStyle from '../search/SearchboxStyle';
 import SelectLogic from '../search/SelectLogic';
 import { addItemsToCart } from "../../actions/cartAction";
 import { ArrowDropDown, ArrowDropUp } from "@material-ui/icons";

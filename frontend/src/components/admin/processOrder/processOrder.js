@@ -218,8 +218,6 @@ const ProcessOrder = ({ match }) => {
                                 </ProductSize>
                               </div>
                               <div className="cart-details">
-                                {/* <Add /> */}
-                                {/* <ProductAmount>2</ProductAmount> */}
                                 <div className="detailsBlock-3-1-1">
                                   <div
                                     style={{

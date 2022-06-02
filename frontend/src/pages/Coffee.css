@@ -1,46 +1,48 @@
 body {
-    background-color:#fff;
+  background-color: #fff;
 }
 
 .coffee-hero-container {
-    width: 100%;
-    margin-bottom: 2rem;
+  width: 100%;
+  margin-bottom: 2rem;
 }
 
-.coffee-cards-container{
-    margin: 2rem;
+.coffee-cards-container {
+  margin: 2rem;
 }
-.coffee-cards-header .main-search-container{
-    margin-top: 1rem !important;
-    margin-left: 2rem !important;
+.coffee-cards-header .main-search-container {
+  margin-top: 1rem !important;
+  margin-left: 2rem !important;
 }
 
-.coffee-cards-header .main-input, .main-input-updated {
-    height: 30px;
+.coffee-cards-header .main-input,
+.main-input-updated {
+  height: 30px;
 }
 
 .coffee-cards-header {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .sort {
-    position: absolute !important;
-    right: 2vmax;
-    margin-right: 2vmax;
-    margin-top: 1rem;
-    width: 170px;
-    font-size: 14px;
-    justify-self: end !important;
-    font-family: 'firago' !important;
-    color:#555555 !important
+  position: absolute !important;
+  right: 2vmax;
+  margin-right: 2vmax;
+  margin-top: 1rem;
+  width: 170px;
+  font-size: 14px;
+  justify-self: end !important;
+  font-family: "firago" !important;
+  color: #555555 !important;
 }
 
-.sort .css-1353rn1-control, .sort .css-z21ypx-control {
-    border-radius: 5px !important;
-    height: 5px !important;
+.sort .css-1353rn1-control,
+.sort .css-z21ypx-control {
+  border-radius: 5px !important;
+  height: 5px !important;
 }
 .coffee-cards-header h1 {
-    font-size: 1.75rem;
-    margin-bottom: 1rem;
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
 }

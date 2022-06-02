@@ -10,7 +10,8 @@
   align-items: center;
   max-width: 1520px;
   width: 100%;
-  margin: 0 auto;justify-content: center;
+  margin: 0 auto;
+  justify-content: center;
   align-items: center;
 }
 
@@ -52,7 +53,7 @@
   font-size: 28px;
   line-height: 1.1;
   text-align: start;
-  color: #555555
+  color: #555555;
 }
 
 .description {
@@ -97,7 +98,9 @@
     width: inherit;
   }
 
-  .text-wrapper, .description, .text-wrapper h1 {
+  .text-wrapper,
+  .description,
+  .text-wrapper h1 {
     align-items: center;
     text-align: center;
     max-width: none;

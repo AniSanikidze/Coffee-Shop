@@ -35,8 +35,12 @@ For admin panel:
 
 ## Running the application
 
-The detailed insturctions for running the application
+Important: The application is integrated with Firebase, MongoDB Atlas, Emailing system, and Stripe. All the enviornment variables needed for integration, as well as variables defined for JWT token configration should be provided in a correct format and with valid values. Otherwise, the application won't run. The values and the secret keys used in the application are not shared due to the security reasons.
+
+The detailed instructions for running the application
 can be seen in the following README files:
+
+For testing purposes, the application can be accessed at https://coffee-berry.herokuapp.com. 
 
 #### Frontend
 https://github.com/AniSanikidze/Coffee-Shop/tree/main/frontend#readme

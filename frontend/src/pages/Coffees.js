@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { VerticalFilter } from "../components/filtration/VerticalFilter";
 import Select from "react-select";
 import Navbar from "../components/navbar/Navbar";
-import SelectStyle from "../components/search/SelectStyle";
+import SelectStyle from "../components/search/SearchboxStyle";
 import SelectLogic from "../components/search/SelectLogic";
 import "./Coffee.css";
 import { UserContext } from "../UserContext";

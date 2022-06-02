@@ -6,7 +6,7 @@ const firebaseConfig = {
   projectId: process.env.REACT_APP_PROJECT_ID,
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
-  storageBucket: "coffee-shop-16ba6.appspot.com"
+  storageBucket: "coffee-shop-16ba6.appspot.com",
 };
 
 const app = initializeApp(firebaseConfig);

@@ -52,9 +52,6 @@ const registerUser = async (req, res) => {
 
 
 const logIn = async (req, res) => {
-    // if (!req.body.email || !req.body.password){
-    //     return res.status(400).json({message: 'Please enter email and password'})
-    // }
     const user = await User.findOne({email: req.body.email})
     if(req.body.email != "" && req.body.password != ""){
         if (user == null) {

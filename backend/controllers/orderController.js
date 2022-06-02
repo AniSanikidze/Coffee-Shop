@@ -38,7 +38,6 @@ const createOrder = async (req, res) => {
     try{
         const newOrder = new order(req.body)
         const customer = await user.findById(req.user.id)
-        // const admin = await user.find({role: "admin"})
         const boughtProducts = req.body.products
         boughtProducts.forEach((boughtProduct) => {
             updateStock(res,boughtProduct.productId,boughtProduct.quantity)
@@ -159,7 +158,6 @@ const deleteOrder = async (req, res) => {
             message: "Order was deleted"})
     }
     catch (err) {
-        console.log(err)
         res.status(500).json({message: err.message})
     }
 }
@@ -240,11 +238,9 @@ const getMyOrder = async (req,res) => {
                 order: myOrder}) 
             }
         }
-        console.log(myOrder)
         return res.status(400).json({message: "User does not have access to this order"})
     }
     catch (err) {
-        console.log(err)
         res.status(500).json({message: err.message})
     }
 }

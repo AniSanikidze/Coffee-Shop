@@ -14,15 +14,6 @@ const swaggerUi = require('swagger-ui-express')
 const cookieParser = require('cookie-parser')
 const path = require("path");
 
-// // Handling Uncaught Exception
-// process.on("uncaughtException", (err) => {
-// 	console.log(`Error: ${err.message}`);
-// 	console.log(`Shutting down the server due to Uncaught Exception`);
-// 	process.exit(1);
-//   });
-
-//   app.use(bodyParser.urlencoded({parameterLimit: '100000',limit:'500mb', extended: true }))
-
 const options = {
 	definition: {
 		openapi: "3.0.0",
@@ -63,13 +54,3 @@ app.get("*", (req, res) => {
 });
 
 const server = app.listen(port, () => console.log(`Server running on port ${port}`))
-
-// // Unhandled Promise Rejection
-// process.on("unhandledRejection", (err) => {
-// 	console.log(`Error: ${err.message}`);
-// 	console.log(`Shutting down the server due to Unhandled Promise Rejection`);
-  
-// 	server.close(() => {
-// 	  process.exit(1);
-// 	});
-//   });
