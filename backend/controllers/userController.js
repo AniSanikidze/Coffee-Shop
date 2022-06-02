@@ -73,7 +73,7 @@ const updateUserPassword = async (req, res) => {
     }
 }
 
-const updateUserRole = async(req, res) => {
+const updateUser = async(req, res) => {
   retrievedUser = res.foundItem
   let username
   let role
@@ -179,6 +179,6 @@ module.exports = {
     deleteUser,
     getUserStats,
     getProfileDetails,
-    updateUserRole,
+    updateUser,
     deleteUserByAdmin
 }

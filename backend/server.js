@@ -8,7 +8,6 @@ const coffeeRoutes = require('./routes/coffeeRoutes')
 const authRoutes = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
 const orderRoutes = require('./routes/orderRoutes')
-const cartRoutes = require('./routes/cartRoutes')
 const paymentRoute = require('./routes/paymentRoute')
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
@@ -57,7 +56,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-app.use('/api', coffeeRoutes, authRoutes, userRoutes, orderRoutes, cartRoutes,paymentRoute)
+app.use('/api', coffeeRoutes, authRoutes, userRoutes, orderRoutes, paymentRoute)
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));

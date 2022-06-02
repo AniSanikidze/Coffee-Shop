@@ -2,7 +2,7 @@ const express = require('express')
 const  {getAllUsers, getUser, deleteUser,
         getUserStats, getProfileDetails,
         updateUserPassword, updateUserDetails,
-        deleteUserByAdmin, updateUserRole } = require('../controllers/userController')
+        deleteUserByAdmin, updateUser } = require('../controllers/userController')
 const {isAuthenticatedAdmin, verifyToken} = require('../middleware/authMiddleware')
 const findMiddleware = require('../middleware/findMiddleware')
 const router = express.Router()
@@ -120,7 +120,7 @@ router.route('/users/:id').get(isAuthenticatedAdmin,findMiddleware(User),getUser
  *      500:
  *        description: Internal Server Error
  */
-.put(isAuthenticatedAdmin,findMiddleware(User),updateUserRole)
+.put(isAuthenticatedAdmin,findMiddleware(User),updateUser)
 
 /**
  * @swagger

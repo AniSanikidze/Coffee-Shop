@@ -1,5 +1,7 @@
 const order = require('../models/order')
 const coffee = require('../models/coffee')
+const user = require('../models/user')
+const sendEmail = require('../utils/sendEmail')
 
 const getAllOrders = async (req, res) => {
     try{
@@ -35,47 +37,100 @@ const updateStock = async(res,productId,quantity) => {
 const createOrder = async (req, res) => {
     try{
         const newOrder = new order(req.body)
-        // const customer = await user.findById(req.user.id)
+        const customer = await user.findById(req.user.id)
+        // const admin = await user.find({role: "admin"})
         const boughtProducts = req.body.products
         boughtProducts.forEach((boughtProduct) => {
             updateStock(res,boughtProduct.productId,boughtProduct.quantity)
         })
         await newOrder.save()
-        // const message = `
+        const message = `
+        Hello ${customer.username},
 
-        // Confirmation Number: ${placedOrder._id}
+        We’re happy to let you know that we’ve received your order.
 
-        // Hello ${customer.username},
+        Confirmation Number: ${newOrder._id}
 
-        // We’re happy to let you know that we’ve received your order.
+        Ordered items: 
+        ${boughtProducts.map((boughtProduct) => {
+            return `
+            Product name: ${boughtProduct.productName},
+            Product price: ${boughtProduct.price},
+            Product quantity: ${boughtProduct.quantity},
+            Product type: ${boughtProduct.coffeeType} 
+            \n`
+        })}
 
-        // Ordered items: ${boughtProducts.forEach((boughtProduct) => {
-        //     boughtProduct.productName,
-        //     boughtProduct.price,
-        //     boughtProduct.quantity,
-        //     boughtProduct.coffeeType
-        // })}
+        Subtotal: ${newOrder.subTotal}gel
+        Shipping Price: ${newOrder.shippingPrice}gel
+        Total: ${newOrder.totalPrice}gel
 
-        // Once your package ships, we will send you an email with a tracking number and link so you can see the movement of your package.
+        userID: ${newOrder.userId},
+        user: ${customer.username},
+        email: ${customer.email},
+        Phone number: ${newOrder.phoneNumber} ,
+        Shipping address: ${newOrder.shippingAddress.address},
+        Shipping city: ${newOrder.shippingAddress.city}
+        ZIP code: ${newOrder.shippingAddress.zipCode},
 
-        // If you have any questions, contact us here or call us on +995599080831!
+        Purchase date: ${newOrder.createdAt},
+        Estimated delivery period: ${newOrder.shippingAddress.city === "Tbilisi" ? "1 day" : "2-3 days"}
 
-        // Coffee Berry
-        // `
-        // console.log(customer)
-        // console.log(boughtProducts)
-        // await sendEmail({
-        //     email: customer.email,
-        //     subject: 'Order Confirmation - Coffee Berry',
-        //     message
-        // })
+
+        If you have any questions, contact us here or call us on +995595488753!
+
+        Coffee Berry
+        `
+
+        const adminMessage = `
+        New order was placed on coffeeberry.
+
+        Confirmation Number: ${newOrder._id}
+
+        Ordered items: 
+        ${boughtProducts.map((boughtProduct) => {
+            return `
+            Product name: ${boughtProduct.productName},
+            Product price: ${boughtProduct.price},
+            Product quantity: ${boughtProduct.quantity},
+            Product type: ${boughtProduct.coffeeType}
+            \n`
+        })}
+
+        Subtotal: ${newOrder.subTotal}
+        Shipping Price: ${newOrder.shippingPrice}
+        Total: ${newOrder.totalPrice}
+
+        userID: ${newOrder.userId},
+        username: ${customer.username},
+        email: ${customer.email},
+        Phone number: ${newOrder.phoneNumber} ,
+        Shipping address: ${newOrder.shippingAddress.address},
+        Shipping city: ${newOrder.shippingAddress.city},
+        ZIP code: ${newOrder.shippingAddress.zipCode},
+
+        Purchase date: ${newOrder.createdAt},
+        Estimated delivery period: ${newOrder.shippingAddress.city === "Tbilisi" ? "1 day" : "2-3 days"}
+        `
+        await sendEmail({
+            email: customer.email,
+            subject: 'Order Confirmation - Coffee Berry',
+            message
+        })
+
+        await sendEmail({
+            email: "infocoffeeberry@yahoo.com",
+            subject: 'New Order - Coffee Berry',
+            message: adminMessage
+        })
+
         res.status(201).json({
             success: true,
             newOrder: newOrder
         })
     }
     catch (err) {
-        res.status(400).json({message: err.message})
+        return res.status(400).json({message: err.message})
     }
 }
 
@@ -127,7 +182,7 @@ const getUserOrder = async (req, res) => {
 const getMyOrders = async (req,res) => {
     try{
         const orders = await order.find({userId: req.user.id})
-        // console.log(orders)
+
         if (orders == null) {
             return res.status(404).json("Orders not found")
         }
@@ -178,16 +233,14 @@ const getMyOrder = async (req,res) => {
     try{
         let orders = await order.find({userId: req.user.id})
         let myOrder = await order.findById(req.params.id)
-        // console.log(orders)
-        // console.log(myOrder)
         for (orderItem in orders){
             if(orders[orderItem].id == myOrder.id){
             return res.status(200).json({
                 success: true,
                 order: myOrder}) 
             }
-
         }
+        console.log(myOrder)
         return res.status(400).json({message: "User does not have access to this order"})
     }
     catch (err) {

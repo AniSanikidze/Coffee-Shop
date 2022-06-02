@@ -125,7 +125,11 @@ const orderSchema = new mongoose.Schema({
         city: {
             type: String,
             required: [true, "Please enter shipping city"]
-        } 
+        },
+        zipCode: {
+            type: String,
+            required: [true, "Please enter zip code"]
+        }
     },
     phoneNumber: {
         type: String,
