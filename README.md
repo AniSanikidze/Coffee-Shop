@@ -35,10 +35,16 @@ For admin panel:
 * Updating and deleteing an order and a user.
 
 ## Usage
-UI Flow for customers
+UI Flow - Customers
+
+https://user-images.githubusercontent.com/56120787/174856952-9f5a484a-14dd-48b5-8b4c-9dfbb13f4aa2.mp4
 
 
-https://user-images.githubusercontent.com/56120787/174856084-c9c6ce23-af0c-4579-bbcb-93411f186548.mp4
+UI Flow - Admin
+
+
+
+https://user-images.githubusercontent.com/56120787/174858083-53bfe977-f8ca-47bf-8eab-ac9799315a1a.mp4
 
 
 
