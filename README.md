@@ -2,6 +2,7 @@
 The developed application is a prototype of an e-commerce application designed for a company - Coffee Berry. 
 
 - [Functionality](#functionality)
+- [Usage](#usage)
 - [Running the application](#running-the-application)
 - [Deployment Information](#deployment-information)
 
@@ -32,6 +33,14 @@ For admin panel:
 * Product, Order and Customers Filtration, Sorting and Searching
 
 * Updating and deleteing an order and a user.
+
+## Usage
+UI Flow for customers
+
+
+https://user-images.githubusercontent.com/56120787/174856084-c9c6ce23-af0c-4579-bbcb-93411f186548.mp4
+
+
 
 ## Running the application
 
